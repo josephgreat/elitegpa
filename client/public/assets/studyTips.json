@@ -1,0 +1,76 @@
+{
+  "tips": {
+      "tip1": {
+          "id": 1,
+          "title": "Create a Study Schedule",
+          "description": "Plan your study sessions like a boss and watch your productivity soar.",
+          "image": "../images/study_plan.jpg"
+      },
+      "tip2": {
+          "id": 2,
+          "title": "Find a Quiet Study Space",
+          "description": "Discover the power of silence in boosting your concentration and retention.",
+          "image": "../images/quiet_space.jpg"
+      },
+      "tip3": {
+          "id": 3,
+          "title": "Take Study Breaks",
+          "description": "Refresh your mind and body with short breaks to keep the learning momentum going.",
+          "image": "../images/short_breaks.jpg"
+      },
+      "tip4": {
+          "id": 4,
+          "title": "Use Active Learning Techniques",
+          "description": "Engage your brain actively in learning to make knowledge stick like glue.",
+          "image": "../images/active_learning.jpg"
+      },
+      "tip5": {
+          "id": 5,
+          "title": "Stay Organized",
+          "description": "Master the art of organization and see how it transforms your study game.",
+          "image": "../images/organized.jpg"
+      },
+      "tip6": {
+          "id": 6,
+          "title": "Set Study Goals",
+          "description": "Define your study objectives clearly and pave the way for success.",
+          "image": "../images/goals.jpg"
+      },
+      "tip7": {
+          "id": 7,
+          "title": "Improve Note-Taking",
+          "description": "Transform your notes into a powerful learning tool that accelerates your understanding.",
+          "image": "../images/note.jpg"
+      },
+      "tip8": {
+          "id": 8,
+          "title": "Engage in Group Study",
+          "description": "Leverage the collective wisdom of group study sessions to deepen your understanding.",
+          "image": "../images/study-group.jpg"
+      },
+      "tip9": {
+          "id": 9,
+          "title": "Utilize Online Resources",
+          "description": "Harness the power of online tools to enhance your learning experience and broaden your knowledge horizons.",
+          "image": "../images/online-resources.jpg"
+      },
+      "tip10": {
+          "id": 10,
+          "title": "Maintain Healthy Habits",
+          "description": "Fuel your brain with healthy habits that support your academic journey and overall well-being.",
+          "image": "../images/healthy-habit.jpg"
+      },
+      "tip11": {
+          "id": 11,
+          "title": "Seek Academic Help",
+          "description": "Embrace the power of seeking help to overcome academic challenges and excel in your studies.",
+          "image": "../images/academic-help.jpg"
+      },
+      "tip12": {
+          "id": 12,
+          "title": "Reward Yourself",
+          "description": "Celebrate your study victories with well-deserved rewards that keep you motivated and energized.",
+          "image": "https://www.oxfordlearning.com/wp-content/uploads/2017/01/Reward-System-Tips.png"
+      }
+  }
+}

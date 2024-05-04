@@ -1,0 +1,15 @@
+select{
+  padding-bottom: 0;
+  height: auto;
+  
+}
+select.session{
+  /* padding-inline-end: 5px; */
+  width: unset;
+  padding-inline-start: 2px;
+  height: unset;
+}
+
+option:first-of-type {
+  color: #9e9e9e;
+}
