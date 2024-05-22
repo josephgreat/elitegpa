@@ -1,9 +1,8 @@
-select{
+select {
   padding-bottom: 0;
   height: auto;
-  
 }
-select.session{
+select.session {
   /* padding-inline-end: 5px; */
   width: unset;
   padding-inline-start: 2px;
@@ -12,4 +11,41 @@ select.session{
 
 option:first-of-type {
   color: #9e9e9e;
+}
+
+.cgpa_guage text {
+  font-size: 1.3rem !important;
+  font-family: "Raleway", sans-serif;
+  font-weight: bold;
+}
+
+.right-wavy-bg {
+  --mask: radial-gradient(
+        65.25px at calc(100% - 92.25px) 50%,
+        #000 99%,
+        #0000 101%
+      )
+      0 calc(50% - 90px) / 100% 180px,
+    radial-gradient(65.25px at calc(100% + 47.25px) 50%, #0000 99%, #000 101%)
+      calc(100% - 45px) 50%/100% 180px repeat-y;
+  -webkit-mask: var(--mask);
+  mask: var(--mask);
+}
+.right-wavy-border {
+  --mask: radial-gradient(
+        140.77px at 50% calc(100% + 101.2px),
+        #0000 calc(99% - 8px),
+        #000 calc(101% - 8px) 99%,
+        #0000 101%
+      )
+      calc(50% - 184px) calc(50% - 50px + 0.5px) / 368px 100px repeat-x,
+    radial-gradient(
+        140.77px at 50% -101.2px,
+        #0000 calc(99% - 8px),
+        #000 calc(101% - 8px) 99%,
+        #0000 101%
+      )
+      50% calc(50% + 50px) / 368px 100px repeat-x;
+  -webkit-mask: var(--mask);
+  mask: var(--mask);
 }

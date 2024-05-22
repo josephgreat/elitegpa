@@ -41,5 +41,45 @@ function deepEqual(obj1, obj2) {
     }
 }
 
-export  {generateTwoDigitNumbers, deepEqual}
+const getStudentClass = (cgpa) => {
+    let position;
+    let badgeColor;
+    if (cgpa >= 4.5) {
+      position = "First Class Honors";
+      badgeColor = "rgb(50, 205, 50)"
+    } else if (cgpa >= 3.5) {
+      badgeColor = "rgb(136, 221, 58)"
+      position = "Second Class Upper";
+    } else if (cgpa >= 2.5) {
+      badgeColor = "rgb(227, 235, 69)"
+      position = "Second Class Lower";
+    } else if (cgpa >= 1.5) {
+      badgeColor = "rgb(246, 175, 82)"
+      position = "Third Class";
+    } else {
+      badgeColor = "rgb(255, 111, 97)"
+      position = "Pass";
+    }
+    let studentClass = {position: position, badgeColor: badgeColor}
+    return  studentClass
+
+}
+
+function capitalize(str) {
+    return str.replace(/^\w/, (c) => c.toUpperCase());
+}
+
+function generateRandomColors(count) {
+    const randomColor = () => Math.floor(Math.random() * 256);
+    const colors = [];
+  
+    for (let i = 0; i < count; i++) {
+      const color = `rgb(${randomColor()}, ${randomColor()}, ${randomColor()})`;
+      colors.push(color);
+    }
+  
+    return colors;
+  }
+  
+export  {generateTwoDigitNumbers, deepEqual, getStudentClass, capitalize, generateRandomColors}
 // Test the function

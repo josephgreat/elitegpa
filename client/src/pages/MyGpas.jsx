@@ -18,19 +18,24 @@ import { FaEye } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import { LevelResult, ViewSession } from "../components";
 import axios from "axios";
-import { throwAppError } from "../utils";
+import { calculateCGPA, throwAppError } from "../utils";
+import { Pie, PieChart } from "recharts";
 
 const MyGpas = () => {
   const [savedResults, setSavedResults] = useState([]);
+  const [levelsData, setLevelsData] = useState([]);
   const [resultToBeViewed, setResultToBeViewed] = useState({});
   const [loading, setLoading] = useState(true);
   const toast = useToast({ position: "top-right", duration: 3000 });
-  // const getSavedResults = () => {
-  //   if (JSON.parse(localStorage.getItem("saved_results"))) {
-  //     let results = JSON.parse(localStorage.getItem("saved_results"));
-  //     setSavedResults(results);
-  //   }
-  // };
+  const getLevelsData = () => {
+    setLevelsData(() =>
+      savedResults.map((result) => ({
+        level: result.level,
+        cgpa: calculateCGPA(result.semesters),
+      }))
+    );
+    console.log(levelsData);
+  };
 
   const getResultsFromDB = async () => {
     try {
@@ -38,6 +43,7 @@ const MyGpas = () => {
       let response = await axios.get(
         `${import.meta.env.VITE_API_URL}/get-all-sessions`
       );
+      console.log(response.data);
       setSavedResults(response.data);
       setLoading(false);
     } catch (error) {
@@ -52,8 +58,7 @@ const MyGpas = () => {
         `${import.meta.env.VITE_API_URL}/delete-one-session/${index}`
       );
       getResultsFromDB();
-      
-      
+
       toast({
         title: `Result Deleted`,
         description: `Your ${level} result has been deleted`,
@@ -72,6 +77,10 @@ const MyGpas = () => {
     // getSavedResults();
     getResultsFromDB();
   }, []);
+  useEffect(() => {
+    // getSavedResults();
+    getLevelsData();
+  }, [savedResults]);
 
   return (
     <Container py="8" maxW="72rem" mx="auto">
@@ -127,6 +136,18 @@ const MyGpas = () => {
           setResult={setResultToBeViewed}
         />
       )}
+      {/* <PieChart width={700} height={400}>
+        <Pie
+          dataKey="cgpa"
+          isAnimationActive={false}
+          data={levelsData}
+          cx={200}
+          cy={200}
+          outerRadius={80}
+          fill="#8884d8"
+          
+        />
+      </PieChart> */}
     </Container>
   );
 };

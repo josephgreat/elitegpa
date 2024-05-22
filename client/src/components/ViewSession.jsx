@@ -4,6 +4,7 @@ import {
   Center,
   Flex,
   Heading,
+  HStack,
   List,
   ListItem,
   Stat,
@@ -21,6 +22,7 @@ import React from "react";
 import { FaPencilAlt, FaTimesCircle } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { calculateCGPA } from "../utils";
+import { FaChartLine } from "react-icons/fa6";
 
 const ViewSession = ({ result, setResult }) => {
   let { level, session, semesters, _id } = result;
@@ -56,141 +58,161 @@ const ViewSession = ({ result, setResult }) => {
           overflow={"auto"}
         >
           {/* {first_semester.gpa !== 0 && ( */}
-            <Box w="100%">
-              <Heading as="h6" fontSize={";.8rem"} textAlign={"center"}>
-                First Semester - {first_semester.gpa}
-              </Heading>
+          <Box w="100%">
+            <Heading as="h6" fontSize={";.8rem"} textAlign={"center"}>
+              First Semester - {first_semester.gpa}
+            </Heading>
 
-              <Table overflow={"hidden"} p="1" variant={"simple"} my="1">
-                <Thead>
-                  <Tr>
-                    <Th
-                      p="1"
-                      w="70%"
-                      textTransform={"capitalize"}
-                      fontSize={".8rem"}
-                    >
-                      Course
-                    </Th>
-                    <Th
-                      p="1"
-                      w="12%"
-                      textTransform={"capitalize"}
-                      fontSize={".8rem"}
-                      textAlign={"center"}
-                    >
-                      Credit Load
-                    </Th>
-                    <Th
-                      p="1"
-                      w="12%"
-                      textTransform={"capitalize"}
-                      fontSize={".8rem"}
-                      textAlign={"center"}
-                    >
-                      Grade
-                    </Th>
-                  </Tr>
-                </Thead>
-                <Tbody>
-                  {first_semester.courses.map(
-                    ({ course, course_code, grade, credit_load }, index) => (
-                      <Tr key={index}>
-                        <Td p="1" w="70%">
-                          {course ? course : course_code}
-                        </Td>
-                        <Td p="1" w="12%" textAlign={"center"}>
-                          {credit_load}
-                        </Td>
-                        <Td p="1" w="12%" textAlign={"center"}>
-                          {grade}
-                        </Td>
-                      </Tr>
-                    )
-                  )}
-                </Tbody>
-              </Table>
-            </Box>
+            <Table overflow={"hidden"} p="1" variant={"simple"} my="1">
+              <Thead>
+                <Tr>
+                  <Th
+                    p="1"
+                    w="70%"
+                    textTransform={"capitalize"}
+                    fontSize={".8rem"}
+                  >
+                    Course
+                  </Th>
+                  <Th
+                    p="1"
+                    w="12%"
+                    textTransform={"capitalize"}
+                    fontSize={".8rem"}
+                    textAlign={"center"}
+                  >
+                    Credit Load
+                  </Th>
+                  <Th
+                    p="1"
+                    w="12%"
+                    textTransform={"capitalize"}
+                    fontSize={".8rem"}
+                    textAlign={"center"}
+                  >
+                    Grade
+                  </Th>
+                </Tr>
+              </Thead>
+              <Tbody>
+                {first_semester.courses.map(
+                  ({ course, course_code, grade, credit_load }, index) => (
+                    <Tr key={index}>
+                      <Td p="1" w="70%">
+                        {course ? course : course_code}
+                      </Td>
+                      <Td p="1" w="12%" textAlign={"center"}>
+                        {credit_load}
+                      </Td>
+                      <Td p="1" w="12%" textAlign={"center"}>
+                        {grade}
+                      </Td>
+                    </Tr>
+                  )
+                )}
+              </Tbody>
+            </Table>
+          </Box>
           {/* )} */}
           {/* {second_semester.gpa !== 0 && ( */}
-            <Box w="100%">
-              <Heading as="h6" fontSize={";.8rem"} textAlign={"center"}>
-                Second Semester - {second_semester.gpa}
-              </Heading>
+          <Box w="100%">
+            <Heading as="h6" fontSize={";.8rem"} textAlign={"center"}>
+              Second Semester - {second_semester.gpa}
+            </Heading>
 
-              <Table overflow={"hidden"} p="1" variant={"simple"} my="1">
-                <Thead>
-                  <Tr>
-                    <Th
-                      p="1"
-                      w="70%"
-                      textTransform={"capitalize"}
-                      fontSize={".8rem"}
-                    >
-                      Course
-                    </Th>
-                    <Th
-                      p="1"
-                      w="12%"
-                      textTransform={"capitalize"}
-                      fontSize={".8rem"}
-                      textAlign={"center"}
-                    >
-                      Credit Load
-                    </Th>
-                    <Th
-                      p="1"
-                      w="12%"
-                      textTransform={"capitalize"}
-                      fontSize={".8rem"}
-                      textAlign={"center"}
-                    >
-                      Grade
-                    </Th>
-                  </Tr>
-                </Thead>
-                <Tbody>
-                  {second_semester.courses.map(
-                    ({ course, course_code, grade, credit_load }, index) => (
-                      <Tr key={index}>
-                        <Td p="1" w="70%">
-                          {course ? course : course_code}
-                        </Td>
-                        <Td p="1" w="12%" textAlign={"center"}>
-                          {credit_load}
-                        </Td>
-                        <Td p="1" w="12%" textAlign={"center"}>
-                          {grade}
-                        </Td>
-                      </Tr>
-                    )
-                  )}
-                </Tbody>
-              </Table>
-            </Box>
+            <Table overflow={"hidden"} p="1" variant={"simple"} my="1">
+              <Thead>
+                <Tr>
+                  <Th
+                    p="1"
+                    w="70%"
+                    textTransform={"capitalize"}
+                    fontSize={".8rem"}
+                  >
+                    Course
+                  </Th>
+                  <Th
+                    p="1"
+                    w="12%"
+                    textTransform={"capitalize"}
+                    fontSize={".8rem"}
+                    textAlign={"center"}
+                  >
+                    Credit Load
+                  </Th>
+                  <Th
+                    p="1"
+                    w="12%"
+                    textTransform={"capitalize"}
+                    fontSize={".8rem"}
+                    textAlign={"center"}
+                  >
+                    Grade
+                  </Th>
+                </Tr>
+              </Thead>
+              <Tbody>
+                {second_semester.courses.map(
+                  ({ course, course_code, grade, credit_load }, index) => (
+                    <Tr key={index}>
+                      <Td p="1" w="70%" textTransform={"capitalize"}>
+                        {course ? course : course_code.toUpperCase()}
+                      </Td>
+                      <Td p="1" w="12%" textAlign={"center"}>
+                        {credit_load}
+                      </Td>
+                      <Td p="1" w="12%" textAlign={"center"}>
+                        {grade}
+                      </Td>
+                    </Tr>
+                  )
+                )}
+              </Tbody>
+            </Table>
+          </Box>
           {/* )} */}
         </Flex>
 
         {/* Buttons */}
-        <Button
+        <HStack
           pos="absolute"
-          bottom={"-.5rem"}
-          p="1"
-          px="3"
+          bottom={"-.75rem"}
+        
           left={"50%"}
           transform={"translateX(-50%)"}
-          color={"secondary"}
-          h="unset"
-          gap="1"
-          fontWeight={"semibold"}
-          bg="accentVar"
-          boxShadow={"0 0 5px rgba(255,255,255,.8)"}
-          _hover={{bg: "secondary", color: "accentVar"}}
-          as={Link}
-          to={`/gpa-calc/${_id}`}
         >
-          <FaPencilAlt /> Edit
-        </Button>
+          <Button
+            color={"secondary"}
+            h="unset"
+            gap="1"
+            fontWeight={"semibold"}
+            bg="accentVar"
+            boxShadow={"0 0 5px rgba(255,255,255,.8)"}
+            _hover={{ bg: "secondary", color: "accentVar" }}
+            as={Link}
+            p="1"
+            px="2"
+            to={`/gpa-calc/${_id}`}
+          >
+            <FaPencilAlt /> Edit
+          </Button>
+          <Button
+            color={"accentVar"}
+            border={"1px solid"}
+            h="unset"
+            gap="1"
+            py="1"
+            px="2"
+            fontWeight={"semibold"}
+            bg="secondary"
+            boxShadow={"0 0 5px rgba(255,255,255,.8)"}
+            _hover={{ bg: "secondary", color: "accentVar" }}
+            as={Link}
+            to={`/overview/${_id}`}
+          >
+            <FaChartLine /> View Details
+          </Button>
+        </HStack>
         <Button
           pos="absolute"
           top={"-.5rem"}
@@ -204,7 +226,7 @@ const ViewSession = ({ result, setResult }) => {
           bg="secondary"
           rounded={"full"}
           roundedBottomRight={0}
-          _hover={{bg: "red", color: "secondary"}}
+          _hover={{ bg: "red", color: "secondary" }}
           onClick={() => setResult({})}
         >
           <FaTimesCircle />

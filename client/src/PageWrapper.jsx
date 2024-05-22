@@ -1,13 +1,15 @@
-import React from 'react'
-import { Navbar } from './components'
+import { useContext } from "react";
+import { Navbar } from "./components";
+import { UserContext } from "./App";
 
-const PageWrapper = ({Component}) => {
+const PageWrapper = ({ Component }) => {
+  const {userDetails} = useContext(UserContext)
   return (
     <>
-        <Navbar />
-        <Component />
+      <Navbar userDetails={userDetails} />
+      <Component userDetails={userDetails} />
     </>
-  )
-}
+  );
+};
 
-export default PageWrapper
+export default PageWrapper;

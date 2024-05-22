@@ -25,8 +25,11 @@ import {
   FaTimes,
   FaUserCog,
 } from "react-icons/fa";
+import { generateRandomColors } from "../utils";
 
-const Navbar = () => {
+let photoBgColor = generateRandomColors(1);
+const Navbar = ({ userDetails }) => {
+  const { displayName, photoURL } = userDetails;
   const [openSideNav, setOpenSideNav] = useState(false);
   return (
     <Container
@@ -69,12 +72,41 @@ const Navbar = () => {
           {/* <Img src="/images/graduation_cap.svg" pos="absolute" w="8" top="-4" left={"-1"} transform={"rotate(-25deg)"}  /> */}
         </Box>
         <Spacer />
-        <Box>
-          <Text>👋 Hi, Joseph</Text>
-        </Box>
+        <HStack>
+          <Text textTransform={"capitalize"}>
+            👋 Hi, {displayName ? displayName.split(" ")[0] : "user"}
+          </Text>
+          {photoURL ? (
+            <Img
+              src={photoURL}
+              rounded={"full"}
+              boxShadow={"0 0 5px rgba(200,200,200, .6)"}
+              w="3rem"
+            />
+          ) : displayName ? (
+            <Box
+              fontSize={"1.2rem"}
+              bg={photoBgColor}
+              rounded={"full"}
+              px=".8rem"
+              py="1"
+              textTransform={"capitalize"}
+              boxShadow={"0 0 5px rgba(200,200,200, .6)"}
+            >
+              {displayName[0]}
+            </Box>
+          ) : (
+            <Avatar size="sm" />
+          )}
+        </HStack>
       </HStack>
       {/* {openSideNav && ( */}
-      <SideNav setOpenSideNav={setOpenSideNav} openSideNav={openSideNav} />
+      <SideNav
+        displayName={displayName}
+        photoURL={photoURL}
+        setOpenSideNav={setOpenSideNav}
+        openSideNav={openSideNav}
+      />
       {/* )} */}
     </Container>
   );
@@ -82,7 +114,7 @@ const Navbar = () => {
 
 export default Navbar;
 
-const SideNav = ({ setOpenSideNav, openSideNav }) => {
+const SideNav = ({ displayName, photoURL, setOpenSideNav, openSideNav }) => {
   return (
     <Box
       pos="fixed"
@@ -115,8 +147,32 @@ const SideNav = ({ setOpenSideNav, openSideNav }) => {
             />
           </Flex>
           <Flex alignItems={"center"} gap="2">
-            <Avatar size={"sm"} />
-            <Text fontWeight={"semibold"}>Joseph</Text>
+            {photoURL ? (
+              <Img
+                src={photoURL}
+                rounded={"full"}
+                boxShadow={"0 0 5px rgba(200,200,200, .6)"}
+                w="3rem"
+              />
+            ) : displayName ? (
+              <Box
+                fontSize={"1.2rem"}
+                bg={photoBgColor}
+                rounded={"full"}
+                px=".7rem"
+                py="1"
+                backdropFilter={"contrast(0.5)"}
+              boxShadow={"0 0 5px rgba(200,200,200, .6)"}
+                textTransform={"capitalize"}
+              >
+                {displayName[0]}
+              </Box>
+            ) : (
+              <Avatar size="sm" />
+            )}
+            <Text fontWeight={"semibold"} textTransform={"capitalize"}>
+              {displayName ? displayName.split(" ")[0] : "user"}
+            </Text>
           </Flex>
         </Box>
         <VStack alignItems={"flex-start"} w="100%" gap="0">
@@ -132,7 +188,7 @@ const SideNav = ({ setOpenSideNav, openSideNav }) => {
             style={({ isActive }) => ({
               background: isActive && "rgba(255,255,255,.2)",
               borderLeft: isActive && "3px solid",
-              borderColor: "#FFD700"
+              borderColor: "#FFD700",
             })}
             onClick={() => setOpenSideNav(false)}
           >

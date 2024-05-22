@@ -20,6 +20,8 @@ import { FaUpload } from "react-icons/fa";
 import { NewSemester } from "../components";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+
+
 const GpaCalc = () => {
   let { resultId } = useParams();
   const toast = useToast({ position: "top-right", duration: 3000 });
