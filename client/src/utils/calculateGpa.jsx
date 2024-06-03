@@ -4,9 +4,10 @@ export const convertGradeToPoint = (grade) => {
 };
 
 export const calculateCourseGradePoint = (course) => {
-  let courseGradePoint = Number(course.credit_load) * convertGradeToPoint(course.grade);
-  return courseGradePoint;
-}
+  let courseGradePoint =
+    Number(course.credit_load) * convertGradeToPoint(course.grade);
+  return isNaN(courseGradePoint) ? 0 : courseGradePoint;
+};
 
 export const calculateTotalCreditLoad = (semester) => {
   let totalCreditLoad = semester.courses.reduce(
@@ -20,14 +21,11 @@ export const calculateTotalCreditLoad = (semester) => {
 export const calculateUserGradePoint = (semester) => {
   let userTotalGradePoint = semester.courses.reduce(
     (accumulator, currentCourse) =>
-      accumulator +
-      calculateCourseGradePoint(currentCourse),
+      accumulator + calculateCourseGradePoint(currentCourse),
     0
   );
   return userTotalGradePoint;
 };
-
-
 
 const calculateGpa = (courses) => {
   const allCourseGrades = courses.map((course) => ({

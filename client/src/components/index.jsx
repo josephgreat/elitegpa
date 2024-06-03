@@ -6,7 +6,9 @@ import LevelResult from "./LevelResult";
 import SemesterCoursesTable from "./SemesterCoursesTable";
 import SummaryCard from "./SummaryCard";
 import SessionTable from "./SessionTable";
-
+import SelectInstitution from "./SelectInstitution";
+import SelectGradeSystem from "./SelectGradeSystem";
+import SelectLevel from "./SelectLevel";
 export {
   Navbar,
   GraduationCap,
@@ -16,4 +18,7 @@ export {
   SummaryCard,
   SemesterCoursesTable,
   SessionTable,
+  SelectInstitution,
+  SelectGradeSystem,
+  SelectLevel
 };

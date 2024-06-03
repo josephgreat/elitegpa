@@ -30,11 +30,12 @@ import {
   capitalize,
   generateRandomColors,
   getStudentClass,
+  sortData,
 } from "../utils";
 import { Chart } from "chart.js";
 import { FaDownload } from "react-icons/fa";
 
-const Dashboard = () => {
+const Dashboard = ({userDetails}) => {
   const [allSessions, setAllSessions] = useState([]);
   const [loading, setLoading] = useState(true);
   // const sessionRef = useRef();
@@ -42,9 +43,10 @@ const Dashboard = () => {
   const getAllSessions = async () => {
     try {
       const sessions = await axios.get(
-        `${import.meta.env.VITE_API_URL}/get-all-sessions/`
+        `${import.meta.env.VITE_API_URL}/get-all-sessions/${userDetails.uid}`
       );
-      setAllSessions(sessions.data);
+      setAllSessions(sortData(sessions));
+    console.log(sortData(sessions))
       setLoading(false);
     } catch (error) {
       console.error("Error fetching result:", error);

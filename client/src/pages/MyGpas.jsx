@@ -18,10 +18,10 @@ import { FaEye } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import { LevelResult, ViewSession } from "../components";
 import axios from "axios";
-import { calculateCGPA, throwAppError } from "../utils";
+import { calculateCGPA, sortData, throwAppError } from "../utils";
 import { Pie, PieChart } from "recharts";
 
-const MyGpas = () => {
+const MyGpas = ({ userDetails }) => {
   const [savedResults, setSavedResults] = useState([]);
   const [levelsData, setLevelsData] = useState([]);
   const [resultToBeViewed, setResultToBeViewed] = useState({});
@@ -41,10 +41,10 @@ const MyGpas = () => {
     try {
       setLoading(true);
       let response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/get-all-sessions`
+        `${import.meta.env.VITE_API_URL}/get-all-sessions/${userDetails.uid}`
       );
-      console.log(response.data);
-      setSavedResults(response.data);
+      
+      setSavedResults(sortData(response));
       setLoading(false);
     } catch (error) {
       console.log(error);

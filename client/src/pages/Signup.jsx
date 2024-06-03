@@ -15,6 +15,7 @@ import {
   InputGroup,
   InputLeftAddon,
   InputRightAddon,
+  Link,
   Spinner,
   Text,
   useToast,
@@ -31,11 +32,11 @@ import {
   FaUserPlus,
 } from "react-icons/fa6";
 import { emailSignUp, googleSignUp } from "../../firebase";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link as RouteLink } from "react-router-dom";
 import { UserContext } from "../App";
 
 const Signup = () => {
-  const { setUserDetails } = useContext(UserContext);
+  const { setUserDetails, toast } = useContext(UserContext);
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showCPassword, setShowCPassword] = useState(false);
@@ -45,8 +46,6 @@ const Signup = () => {
   const confirmPasswordRef = useRef();
   const usernameRef = useRef();
   const navigate = useNavigate();
-
-  const toast = useToast({ position: "top-right", duration: 3000 });
 
   const handleFormError = (from, message) => {
     setFormError({ from: from, message: message });
@@ -129,7 +128,7 @@ const Signup = () => {
               eliteGPA
             </Heading>
             <Box w="clamp(12rem, 25vw, 25rem)" mx="auto" my="10">
-              <Img src="/images/student.png" />
+              <Img src="/images/signup.png" minH="15rem" />
             </Box>
             <Text
               px="10"
@@ -342,9 +341,22 @@ const Signup = () => {
                 h="1.5rem"
                 alt="google_logo"
               />{" "}
-              Sign up with Google
+              Sign in with Google
             </Button>
           </VStack>
+          <Box textAlign={"center"} mt="4">
+            <Link
+              as={RouteLink}
+              to="/login"
+              color="secondary"
+              opacity={".7"}
+              _hover={{ opacity: "1", textDecor: "unset" }}
+              transition={"all .3s ease"}
+              textDecor={"underline"}
+            >
+              Already an elite? Login
+            </Link>
+          </Box>
         </Box>
       </Flex>
       {loading && (

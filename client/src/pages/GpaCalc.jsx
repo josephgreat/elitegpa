@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Container,
   Heading,
@@ -15,29 +15,36 @@ import {
   VStack,
   useToast,
 } from "@chakra-ui/react";
-import { deepEqual, generateTwoDigitNumbers, throwAppError } from "../utils";
+import {
+  calculateCGPA,
+  deepEqual,
+  generateTwoDigitNumbers,
+  throwAppError,
+} from "../utils";
 import { FaUpload } from "react-icons/fa";
 import { NewSemester } from "../components";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-
+import { UserContext } from "../App";
 
 const GpaCalc = () => {
   let { resultId } = useParams();
-  const toast = useToast({ position: "top-right", duration: 3000 });
+  const { userDetails, toast } = useContext(UserContext);
   const navigate = useNavigate();
   const sessionYears = generateTwoDigitNumbers();
   const [beginSessionYear, setBeginSessionYear] = useState(sessionYears[0]);
   const [coursesFirstSemester, setCoursesFirstSemester] = useState([
-    { course: "", course_code: "", credit_load: "", grade: "" },
+    { course: "", course_code: "", credit_load: "0", grade: "" },
   ]);
+
   const [coursesSecondSemester, setCoursesSecondSemester] = useState([
-    { course: "", course_code: "", credit_load: "", grade: "" },
+    { course: "", course_code: "", credit_load: "0", grade: "" },
   ]);
+
   const [gpaFirstSemester, setGpaFirstSemester] = useState(0);
   const [gpaSecondSemester, setGpaSecondSemester] = useState(0);
   const [loading, setLoading] = useState(false);
-
+  console.log(userDetails.uid);
   const [semesterDetails, setSemesterDetails] = useState({
     level: "",
     session: `${beginSessionYear}/${Number(beginSessionYear) + 1}`,
@@ -53,9 +60,11 @@ const GpaCalc = () => {
         gpa: gpaSecondSemester,
       },
     ],
+    uid: userDetails.uid,
   });
   const [initialSemesterDetails, setInitialSemesterDetails] = useState(null);
   const [updatesAvailable, setUpdatesAvailable] = useState(false);
+
   const updateSemesterDetails = ({
     detail,
     sub_detail,
@@ -80,14 +89,6 @@ const GpaCalc = () => {
       setSemesterDetails({ ...semesterDetails, [detail]: detail_new_value });
   };
 
-  useEffect(() => {
-    if (initialSemesterDetails !== null) {
-      if (!deepEqual(semesterDetails, initialSemesterDetails)) {
-        setUpdatesAvailable(true);
-      } else setUpdatesAvailable(false);
-    }
-  }, [semesterDetails]);
-
   const fillResultInCalculator = async () => {
     try {
       const singleData = await axios.get(
@@ -104,10 +105,22 @@ const GpaCalc = () => {
     } catch (error) {}
   };
 
-  useEffect(() => {
-    resultId && fillResultInCalculator();
-    setInitialSemesterDetails(semesterDetails);
-  }, []);
+  const levelList = () => {
+    let levels = [];
+    if (userDetails.setup.program_type === "Diploma Program")
+      levels = ["ND1", "ND2", "HND1", "HND2"];
+    else {
+      for (
+        let currentLevel = 1;
+        currentLevel <= userDetails.setup.years_of_study;
+        currentLevel++
+      ) {
+        levels.push(`${currentLevel}00 level`);
+      }
+    }
+    console.log(levels);
+    return levels;
+  };
 
   const resetCalculator = () => {
     setBeginSessionYear(sessionYears[0]);
@@ -140,6 +153,7 @@ const GpaCalc = () => {
   const saveNewData = async () => {
     try {
       setLoading(true);
+      console.log(semesterDetails);
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/save-session-detail`,
         semesterDetails
@@ -152,7 +166,7 @@ const GpaCalc = () => {
         status: "success",
       });
       resetCalculator();
-      setTimeout(() => navigate("/my-gpas"), 4000);
+      navigate("/my-gpas");
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -189,6 +203,19 @@ const GpaCalc = () => {
     } else saveNewData();
   };
 
+  useEffect(() => {
+    if (initialSemesterDetails !== null) {
+      if (!deepEqual(semesterDetails, initialSemesterDetails)) {
+        setUpdatesAvailable(true);
+      } else setUpdatesAvailable(false);
+    }
+  }, [semesterDetails]);
+
+  useEffect(() => {
+    resultId && fillResultInCalculator();
+    setInitialSemesterDetails(semesterDetails);
+  }, []);
+
   return (
     <Container py="8" maxW="72rem" mx="auto">
       {loading && (
@@ -215,6 +242,8 @@ const GpaCalc = () => {
         gap="2"
         fontSize={".8rem"}
         flexDir={{ base: "column", sm: "row" }}
+        justifyContent={{md: "space-between"}}
+        alignItems={"center"}
       >
         <HStack>
           <Text>Level:</Text>
@@ -230,25 +259,15 @@ const GpaCalc = () => {
               })
             }
           >
-            {[
-              "100 level",
-              "200 level",
-              "300 level",
-              "400 level",
-              "500 level",
-              "600 level",
-              "ND1",
-              "ND2",
-              "HND1",
-              "HND2",
-            ].map((level) => (
+            {levelList().map((level) => (
               <option key={level} value={`${level}`}>
                 {level}
               </option>
             ))}
           </Select>
         </HStack>
-        <Spacer />
+        {/* <Spacer /> */}
+        <Text fontFamily={"heading"} fontWeight={"bold"} fontSize={"1rem"}>CGPA: {calculateCGPA(semesterDetails.semesters)}</Text>
         <HStack>
           <Text>Session:</Text>
           <HStack>

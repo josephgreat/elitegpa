@@ -11,14 +11,17 @@ import {
   Signup,
   StudyMaterials,
   StudyTips,
+  UserSetup,
 } from "./pages";
 import "./App.css";
 import PageWrapper from "./PageWrapper";
+import { useToast } from "@chakra-ui/react";
 
 export const UserContext = createContext({ userDetails: {} });
 
 function App() {
   const [userDetails, setUserDetails] = useState({});
+  const toast = useToast({ position: "top-right", duration: 3000 });
 
   const router = createBrowserRouter([
     {
@@ -33,7 +36,10 @@ function App() {
       path: "/login",
       element: <Login />,
     },
-
+    {
+      path: "/user-setup",
+      element: <UserSetup />,
+    },
     {
       path: "/overview/:resultId",
       element: <PageWrapper Component={SessionDashboard} />,
@@ -63,9 +69,14 @@ function App() {
       element: <PageWrapper Component={StudyTips} />,
     },
   ]);
+
   return (
     <UserContext.Provider
-      value={{ userDetails: userDetails, setUserDetails: setUserDetails }}
+      value={{
+        userDetails: userDetails,
+        setUserDetails: setUserDetails,
+        toast: toast,
+      }}
     >
       <RouterProvider router={router} />
     </UserContext.Provider>

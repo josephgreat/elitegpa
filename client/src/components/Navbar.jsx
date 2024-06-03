@@ -12,7 +12,7 @@ import {
   Spacer,
   Avatar,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { NavLink } from "react-router-dom";
 import {
   FaBookOpen,
@@ -26,9 +26,12 @@ import {
   FaUserCog,
 } from "react-icons/fa";
 import { generateRandomColors } from "../utils";
+import { logOut } from "../../firebase";
+import { UserContext } from "../App";
 
 let photoBgColor = generateRandomColors(1);
-const Navbar = ({ userDetails }) => {
+const Navbar = ({ userDetails, navigate }) => {
+  const { toast } = useContext(UserContext);
   const { displayName, photoURL } = userDetails;
   const [openSideNav, setOpenSideNav] = useState(false);
   return (
@@ -106,6 +109,8 @@ const Navbar = ({ userDetails }) => {
         photoURL={photoURL}
         setOpenSideNav={setOpenSideNav}
         openSideNav={openSideNav}
+        navigate={navigate}
+        toast={toast}
       />
       {/* )} */}
     </Container>
@@ -114,7 +119,14 @@ const Navbar = ({ userDetails }) => {
 
 export default Navbar;
 
-const SideNav = ({ displayName, photoURL, setOpenSideNav, openSideNav }) => {
+const SideNav = ({
+  displayName,
+  photoURL,
+  setOpenSideNav,
+  openSideNav,
+  toast,
+  navigate,
+}) => {
   return (
     <Box
       pos="fixed"
@@ -162,7 +174,7 @@ const SideNav = ({ displayName, photoURL, setOpenSideNav, openSideNav }) => {
                 px=".7rem"
                 py="1"
                 backdropFilter={"contrast(0.5)"}
-              boxShadow={"0 0 5px rgba(200,200,200, .6)"}
+                boxShadow={"0 0 5px rgba(200,200,200, .6)"}
                 textTransform={"capitalize"}
               >
                 {displayName[0]}
@@ -303,7 +315,12 @@ const SideNav = ({ displayName, photoURL, setOpenSideNav, openSideNav }) => {
             px="6"
             alignItems={"center"}
             gap="2"
-            onClick={() => setOpenSideNav(false)}
+            cursor="pointer"
+            _hover={{textDecor: "underline"}}
+            onClick={() => {
+              logOut(toast, navigate);
+              setOpenSideNav(false);
+            }}
           >
             <FaSignOutAlt />
             Log Out

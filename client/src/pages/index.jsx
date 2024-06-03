@@ -7,7 +7,7 @@ import Dashboard from "./Dashboard";
 import SessionDashboard from "./SessionDashboard";
 import Signup from "./Signup";
 import Login from "./Login";
-
+import UserSetup from "./UserSetup";
 export {
   GpaCalc,
   StudyTips,
@@ -18,4 +18,5 @@ export {
   SessionDashboard,
   Signup,
   Login,
+  UserSetup
 };

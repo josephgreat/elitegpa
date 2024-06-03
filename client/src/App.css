@@ -49,3 +49,12 @@ option:first-of-type {
   -webkit-mask: var(--mask);
   mask: var(--mask);
 }
+
+.wavy {
+  --mask: radial-gradient(75.15px at 50% 101.5px, #000 99%, #0000 101%)
+      calc(50% - 70px) 0/140px 100%,
+    radial-gradient(75.15px at 50% -66.5px, #0000 99%, #000 101%) 50% 35px/140px
+      100% repeat-x;
+  -webkit-mask: var(--mask);
+  mask: var(--mask);
+}

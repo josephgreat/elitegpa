@@ -4,6 +4,7 @@ import {
   getStudentClass,
   capitalize,
   generateRandomColors,
+  sortData,
 } from "./appLogics.js";
 import calculateGpa, {
   calculateCGPA,
@@ -16,6 +17,7 @@ import calculateGpa, {
 } from "./calculateGpa.jsx";
 import throwAppError from "./error.js";
 import { sessionDataToExcel } from "./datatoexcel.js";
+import { setCookie, getCookie, eraseCookie } from "./cookie.js";
 
 export {
   generateTwoDigitNumbers,
@@ -32,5 +34,9 @@ export {
   calculateUserGradePoint,
   calculateTotalCreditLoad,
   calculateCourseGradePoint,
-  sessionDataToExcel
+  sessionDataToExcel,
+  sortData,
+  setCookie,
+  getCookie,
+  eraseCookie,
 };

@@ -17,6 +17,7 @@ const levelSchema = new mongoose.Schema({
     semesters: [semesterSchema],
     level: {type: String, required: true},
     session: {type: String},
+    uid: {type: String, required: true}
 });
 
 // const gpaSchema = new mongoose.Schema({

@@ -7,16 +7,16 @@ const LevelModel = require("../models/gpaSchema");
 const router = express.Router();
 
 router.post("/save-session-detail", async (req, res) => {
-  const { level, session, semesters } = req.body;
+  const { level, session, semesters, uid } = req.body;
   const data = new LevelModel({
     level,
     session,
     semesters,
+    uid
   });
 
   try {
-    const existingData = await LevelModel.findOne({ level: data.level });
-
+    const existingData = await LevelModel.findOne({ level: data.level, uid: data.uid });
     if (existingData) {
       return res.status(409).json({
         error: "Duplicate Data",
@@ -32,9 +32,9 @@ router.post("/save-session-detail", async (req, res) => {
 });
 
 //Get all Method
-router.get("/get-all-sessions", async (req, res) => {
+router.get("/get-all-sessions/:uid", async (req, res) => {
   try {
-    const data = await LevelModel.find();
+    const data = await LevelModel.find({uid: req.params.uid});
     res.json(data);
   } catch (error) {
     res.status(500).json({ message: error.message });

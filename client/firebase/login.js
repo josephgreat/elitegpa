@@ -1,22 +1,17 @@
+import { doc, getDoc, getFirestore } from "firebase/firestore";
 import app from "./init";
 import {
-  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
   getAuth,
   GoogleAuthProvider,
   signInWithPopup,
 } from "firebase/auth";
-import {
-  addDoc,
-  collection,
-  doc,
-  getFirestore,
-  setDoc,
-} from "firebase/firestore";
-
+import { setCookie } from "../src/utils"
 const auth = getAuth(app);
 auth.languageCode = "it";
+const db = getFirestore(app);
 
-export const googleSignUp = async (
+export const googleSignIn = async (
   setUserDetails,
   setLoading,
   navigate,
@@ -30,21 +25,23 @@ export const googleSignUp = async (
       const credential = GoogleAuthProvider.credentialFromResult(
         userCredentials
       );
+
       const token = credential.accessToken;
       // The signed-in user info.
-      const { email, uid, displayName, photoURL } = userCredentials.user;
+      let { uid } = userCredentials.user;
       //   console.log(user);
-      let user_details = { email, uid, photoURL, displayName };
-      console.log(user_details);
-      saveUserDetails(user_details);
-      setUserDetails(user_details);
+      setCookie("uid", uid, 10);
+      let docRef = doc(db, "users", uid);
+      let docSnap = getDoc(docRef);
+      console.log(docSnap.data());
+      setUserDetails(docSnap.data());
 
       toast({
-        title: `Almost there`,
-        description: `Just a few steps left`,
+        title: `Welcome back Elite`,
+        description: `Keep cruising in your elite mode`,
         status: "success",
       });
-      navigate("/user-setup");
+      setTimeout(() => navigate("/my-gpas"), 2000);
 
       // IdP data available using getAdditionalUserInfo(result)
       // ...
@@ -60,7 +57,6 @@ export const googleSignUp = async (
       //   const email = error.customData.email;
       // The AuthCredential type that was used.
       const credential = GoogleAuthProvider.credentialFromError(error);
-      console.log(error);
       toast({
         title: `${errorCode}`,
         description: `${errorMessage}`,
@@ -70,7 +66,7 @@ export const googleSignUp = async (
     });
 };
 
-export const emailSignUp = async ({
+export const emailSignIn = async ({
   setUserDetails,
   setLoading,
   navigate,
@@ -80,21 +76,22 @@ export const emailSignUp = async ({
   name,
 }) => {
   setLoading(true);
-  await createUserWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
+  await signInWithEmailAndPassword(auth, email, password)
+    .then(async (userCredential) => {
       // Signed up
       const user = userCredential.user;
-      let { email, uid, photoURL } = user;
-      let user_details = { email, uid, photoURL, displayName: name };
-      console.log(user_details);
-      saveUserDetails(user_details);
-      setUserDetails(user_details);
-      toast({
-        title: `Almost there`,
-        description: `Just a few steps left`,
+      let { uid } = user;
+      setCookie("uid", uid, 10);
+      let docRef = doc(db, "users", uid);
+      let docSnap = await getDoc(docRef);
+      console.log(docSnap.data());
+      setUserDetails(docSnap.data());
+      await toast({
+        title: `Welcome back Elite`,
+        description: `Keep cruising in your elite mode`,
         status: "success",
       });
-      navigate("/user-setup");
+      navigate("/my-gpas");
       setLoading(false);
       // ...
     })
@@ -103,23 +100,18 @@ export const emailSignUp = async ({
 
       const errorCode = error.code;
       const errorMessage = error.message;
-      toast({
-        title: `${errorCode}`,
-        description: `${errorMessage}`,
-        status: "error",
-      });
+      if (errorCode === "auth/invalid-credential") {
+        toast({
+          title: `Incorrect Details`,
+          description: `Check your login details properly`,
+          status: "error",
+        });
+      } else
+        toast({
+          title: `${errorCode}`,
+          description: `${errorMessage}`,
+          status: "error",
+        });
       // ..
     });
-};
-
-const saveUserDetails = async (user) => {
-  const db = getFirestore(app);
-
-  try {
-    const newUserRef = doc(collection(db, "users"), user.uid);
-    await setDoc(newUserRef, user);
-    console.log("saved");
-  } catch (error) {
-    console.log(error);
-  }
 };
