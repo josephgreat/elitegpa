@@ -1,7 +1,7 @@
 import GpaCalc from "./GpaCalc";
 import StudyTips from "./StudyTips";
 import StudyMaterials from "./StudyMaterials";
-import AiChat from "./AiChat";
+import GpaAssistant from "./GpaAssistant";
 import MyGpas from "./MyGpas";
 import Dashboard from "./Dashboard";
 import SessionDashboard from "./SessionDashboard";
@@ -12,7 +12,7 @@ export {
   GpaCalc,
   StudyTips,
   StudyMaterials,
-  AiChat,
+  GpaAssistant,
   MyGpas,
   Dashboard,
   SessionDashboard,

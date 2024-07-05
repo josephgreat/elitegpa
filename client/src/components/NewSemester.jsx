@@ -22,6 +22,7 @@ const NewSemester = ({
   gpa,
   setGpa,
   updateSemesterDetails,
+  gradeList,
 }) => {
   const [showCourses, setShowCourses] = useState(true);
 
@@ -81,7 +82,7 @@ const NewSemester = ({
   }, [courses, semester, setGpa, updateSemesterDetails]);
 
   return (
-    <Box my="4" w={{ base: "100%", sm: "65%", md: "45%" }}>
+    <Box my="4" w={{ base: "100%", sm: "80%", md: "45%" }}>
       <Flex gap="2" alignItems={"center"} mb="2">
         <Icon
           as={showCourses ? FaCircleChevronUp : FaCircleChevronDown}
@@ -111,6 +112,7 @@ const NewSemester = ({
               handleInputChange={handleInputChange}
               handleCourseRemoval={() => handleCourseRemoval(index)}
               handleGpaUpdate={handleGpaUpdate}
+              gradeList={gradeList}
             />
           ))}
         </VStack>
@@ -144,6 +146,7 @@ const NewCourse = ({
   handleInputChange,
   handleCourseRemoval,
   handleGpaUpdate,
+  gradeList,
 }) => {
   return (
     <Flex gap="2" alignItems={"center"} w="100%">
@@ -190,7 +193,7 @@ const NewCourse = ({
           placeholder="Grade"
           color={(value) => (value === "Grade" ? "#9e9e9e" : "black")}
         >
-          {["A", "B", "C", "D", "E", "F"].map((grade) => (
+          {gradeList().map((grade) => (
             <option key={grade} value={grade}>
               {grade}
             </option>

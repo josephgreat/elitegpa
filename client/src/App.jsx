@@ -2,7 +2,7 @@ import { createContext, useState } from "react";
 import { Navbar } from "./components";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import {
-  AiChat,
+  GpaAssistant,
   Dashboard,
   GpaCalc,
   Login,
@@ -22,6 +22,7 @@ export const UserContext = createContext({ userDetails: {} });
 function App() {
   const [userDetails, setUserDetails] = useState({});
   const toast = useToast({ position: "top-right", duration: 3000 });
+  
 
   const router = createBrowserRouter([
     {
@@ -57,8 +58,8 @@ function App() {
       element: <PageWrapper Component={MyGpas} />,
     },
     {
-      path: "/ai-chat",
-      element: <PageWrapper Component={AiChat} />,
+      path: "/gpa-assistant",
+      element: <PageWrapper Component={GpaAssistant} />,
     },
     {
       path: "/study-materials",

@@ -77,7 +77,7 @@ const Navbar = ({ userDetails, navigate }) => {
         <Spacer />
         <HStack>
           <Text textTransform={"capitalize"}>
-            👋 Hi, {displayName ? displayName.split(" ")[0] : "user"}
+            👋 Hi, <Text as="span" display={{base: "none", sm: "inline-block"}}>{displayName ? displayName.split(" ")[0] : "user"}</Text>
           </Text>
           {photoURL ? (
             <Img
@@ -199,8 +199,8 @@ const SideNav = ({
             as={NavLink}
             style={({ isActive }) => ({
               background: isActive && "rgba(255,255,255,.2)",
-              borderLeft: isActive && "3px solid",
-              borderColor: "#FFD700",
+              borderLeft: isActive && "3px solid #FFD700",
+              // borderColor: "#FFD700",
             })}
             onClick={() => setOpenSideNav(false)}
           >
@@ -286,7 +286,7 @@ const SideNav = ({
             alignItems={"center"}
             gap="2"
             as={NavLink}
-            to="/ai-chat"
+            to="/gpa-assistant"
             style={({ isActive }) => ({
               background: isActive && "rgba(255,255,255,.2)",
               borderLeft: isActive && "3px solid #FFD700",
@@ -294,7 +294,7 @@ const SideNav = ({
             onClick={() => setOpenSideNav(false)}
           >
             <FaRobot />
-            Chat with Ai
+            GPA Assistant
           </Link>
         </VStack>
         <Spacer />

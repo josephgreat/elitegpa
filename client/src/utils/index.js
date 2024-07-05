@@ -5,6 +5,8 @@ import {
   capitalize,
   generateRandomColors,
   sortData,
+  setSessionGradingSystem,
+  getSessionGradingSystem,
 } from "./appLogics.js";
 import calculateGpa, {
   calculateCGPA,
@@ -30,6 +32,8 @@ export {
   getStudentClass,
   convertGradeToPoint,
   capitalize,
+  setSessionGradingSystem,
+  getSessionGradingSystem,
   generateRandomColors,
   calculateUserGradePoint,
   calculateTotalCreditLoad,

@@ -16,12 +16,11 @@ export const setupAccount = async (
     const accountSetupRef = doc(collection(db, "users"), userDetails.uid);
     setUserDetails({ ...userDetails, setup: accountSetup });
     await updateDoc(accountSetupRef, { setup: accountSetup });
-    toast({
+    await toast({
       title: `Welcome Elite`,
       description: `Your account has been setup Successfully!`,
       status: "success",
     });
-    navigate("/gpa-calc");
     setLoading(false);
   } catch (error) {
     setLoading(false);

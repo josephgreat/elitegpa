@@ -44,7 +44,6 @@ const GpaCalc = () => {
   const [gpaFirstSemester, setGpaFirstSemester] = useState(0);
   const [gpaSecondSemester, setGpaSecondSemester] = useState(0);
   const [loading, setLoading] = useState(false);
-  console.log(userDetails.uid);
   const [semesterDetails, setSemesterDetails] = useState({
     level: "",
     session: `${beginSessionYear}/${Number(beginSessionYear) + 1}`,
@@ -108,7 +107,7 @@ const GpaCalc = () => {
   const levelList = () => {
     let levels = [];
     if (userDetails.setup.program_type === "Diploma Program")
-      levels = ["ND1", "ND2", "HND1", "HND2"];
+      levels = ["OND1", "OND2", "HND1", "HND2"];
     else {
       for (
         let currentLevel = 1;
@@ -120,6 +119,19 @@ const GpaCalc = () => {
     }
     console.log(levels);
     return levels;
+  };
+
+  const gradeList = () => {
+    let grades = [];
+    if (
+      userDetails.setup.grading_system ===
+      "Four Point (A, AB, B, BC, C, CD, D, E, F)"
+    ) {
+      grades = ["A", "AB", "B", "BC", "C", "CD", "D", "E", "F"];
+    } else {
+      grades = ["A", "B", "C", "D", "E", "F"];
+    }
+    return grades
   };
 
   const resetCalculator = () => {
@@ -214,6 +226,7 @@ const GpaCalc = () => {
   useEffect(() => {
     resultId && fillResultInCalculator();
     setInitialSemesterDetails(semesterDetails);
+    console.log(userDetails.setup.grading_system);
   }, []);
 
   return (
@@ -242,8 +255,9 @@ const GpaCalc = () => {
         gap="2"
         fontSize={".8rem"}
         flexDir={{ base: "column", sm: "row" }}
-        justifyContent={{md: "space-between"}}
+        justifyContent={{ sm: "space-between" }}
         alignItems={"center"}
+        w="100%"
       >
         <HStack>
           <Text>Level:</Text>
@@ -267,7 +281,9 @@ const GpaCalc = () => {
           </Select>
         </HStack>
         {/* <Spacer /> */}
-        <Text fontFamily={"heading"} fontWeight={"bold"} fontSize={"1rem"}>CGPA: {calculateCGPA(semesterDetails.semesters)}</Text>
+        <Text fontFamily={"heading"} fontWeight={"bold"} fontSize={"1rem"}>
+          CGPA: {calculateCGPA(semesterDetails.semesters)}
+        </Text>
         <HStack>
           <Text>Session:</Text>
           <HStack>
@@ -306,7 +322,7 @@ const GpaCalc = () => {
       <Flex
         flexDir={{ base: "column", md: "row" }}
         justifyContent={"center"}
-        alignItems={"flex-start"}
+        alignItems={{base: "center",md: "flex-start"}}
         gap={"4"}
       >
         <NewSemester
@@ -316,6 +332,7 @@ const GpaCalc = () => {
           setCourses={setCoursesFirstSemester}
           gpa={gpaFirstSemester}
           setGpa={setGpaFirstSemester}
+          gradeList={gradeList}
         />
         <Center height={{ base: ".5rem", md: "100%" }}>
           <Divider orientation={"horizontal"} />
@@ -327,6 +344,8 @@ const GpaCalc = () => {
           gpa={gpaSecondSemester}
           updateSemesterDetails={updateSemesterDetails}
           setGpa={setGpaSecondSemester}
+          gradeList={gradeList}
+
         />
       </Flex>
       <Flex justifyContent={"center"} my="4">

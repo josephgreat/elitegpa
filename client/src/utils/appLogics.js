@@ -44,21 +44,38 @@ function deepEqual(obj1, obj2) {
 const getStudentClass = (cgpa) => {
   let position;
   let badgeColor;
-  if (cgpa >= 4.5) {
+  let gradePointRate = getSessionGradingSystem().split(" ")[0].toLowerCase();
+  console.log(gradePointRate);
+  if (
+    (cgpa >= 4.5 && gradePointRate === "five") ||
+    (cgpa >= 3.5 && gradePointRate === "four")
+  ) {
     position = "First Class Honors";
     badgeColor = "rgb(50, 205, 50)";
-  } else if (cgpa >= 3.5) {
+  } else if (
+    (cgpa >= 3.5 && gradePointRate === "five") ||
+    (cgpa >= 2.5 && gradePointRate === "four")
+  ) {
     badgeColor = "rgb(136, 221, 58)";
     position = "Second Class Upper";
-  } else if (cgpa >= 2.5) {
+  } else if (
+    (cgpa >= 2.5 && gradePointRate === "five") ||
+    (cgpa >= 1.5 && gradePointRate === "four")
+  ) {
     badgeColor = "rgb(227, 235, 69)";
     position = "Second Class Lower";
-  } else if (cgpa >= 1.5) {
+  } else if (cgpa >= 1.5 && gradePointRate === "five") {
     badgeColor = "rgb(246, 175, 82)";
     position = "Third Class";
-  } else {
+  } else if (
+    (cgpa >= 0.5 && gradePointRate === "five") ||
+    (cgpa >= 1.5 && gradePointRate === "four")
+  ) {
     badgeColor = "rgb(255, 111, 97)";
     position = "Pass";
+  } else {
+    badgeColor = "rgb(255, 111, 97)";
+    position = "Fail";
   }
   let studentClass = { position: position, badgeColor: badgeColor };
   return studentClass;
@@ -87,6 +104,21 @@ function sortData(response) {
   return sortedData;
 }
 
+function setSessionGradingSystem(grading_system) {
+  const storedGradingSystem = sessionStorage.getItem("gradingSystem");
+  if (!storedGradingSystem) {
+    sessionStorage.setItem("gradingSystem", JSON.stringify(grading_system));
+  }
+}
+function getSessionGradingSystem() {
+  const storedGradingSystem = sessionStorage.getItem("gradingSystem");
+  if (storedGradingSystem) {
+    const gradingSystem = JSON.parse(storedGradingSystem);
+    return gradingSystem;
+  }
+  return;
+}
+
 export {
   generateTwoDigitNumbers,
   deepEqual,
@@ -94,5 +126,7 @@ export {
   capitalize,
   generateRandomColors,
   sortData,
+  setSessionGradingSystem,
+  getSessionGradingSystem,
 };
 // Test the function

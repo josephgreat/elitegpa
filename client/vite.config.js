@@ -12,4 +12,7 @@ export default defineConfig({
   //   // Add more variables as needed
   // },
   plugins: [svgr(), react()],
+  worker: {
+    format: 'es', // This is important for using ES modules in workers
+  },
 });

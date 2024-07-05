@@ -9,65 +9,71 @@ import {
   addDoc,
   collection,
   doc,
+  getDoc,
   getFirestore,
   setDoc,
 } from "firebase/firestore";
+import { setCookie } from "../src/utils";
 
 const auth = getAuth(app);
 auth.languageCode = "it";
+const db = getFirestore(app);
 
-export const googleSignUp = async (
+export const googleAuth = async (
   setUserDetails,
   setLoading,
   navigate,
   toast
 ) => {
   const provider = new GoogleAuthProvider();
+  setLoading(true);
+  try {
+    const userCredentials = await signInWithPopup(auth, provider);
+    const credential = GoogleAuthProvider.credentialFromResult(userCredentials);
+    const token = credential.accessToken;
+    const { uid } = userCredentials.user;
 
-  signInWithPopup(auth, provider)
-    .then((userCredentials) => {
-      setLoading(true);
-      const credential = GoogleAuthProvider.credentialFromResult(
-        userCredentials
-      );
-      const token = credential.accessToken;
-      // The signed-in user info.
+    setCookie("uid", uid, 10);
+
+    const docRef = doc(db, "users", uid);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      setUserDetails(docSnap.data());
+
+      toast({
+        title: "Welcome back Elite",
+        description: "Keep cruising in your elite mode",
+        status: "success",
+      });
+
+      navigate("/my-gpas")
+    } else {
       const { email, uid, displayName, photoURL } = userCredentials.user;
       //   console.log(user);
       let user_details = { email, uid, photoURL, displayName };
       console.log(user_details);
       saveUserDetails(user_details);
       setUserDetails(user_details);
-
       toast({
         title: `Almost there`,
         description: `Just a few steps left`,
         status: "success",
       });
       navigate("/user-setup");
+    }
+  } catch (error) {
+    const errorCode = error.code;
+    const errorMessage = error.message;
 
-      // IdP data available using getAdditionalUserInfo(result)
-      // ...
-      setLoading(false);
-    })
-    .catch((error) => {
-      // Handle Errors here.
-      setLoading(false);
-      const errorCode = error.code;
-      const errorMessage = error.message;
-
-      // The email of the user's account used.
-      //   const email = error.customData.email;
-      // The AuthCredential type that was used.
-      const credential = GoogleAuthProvider.credentialFromError(error);
-      console.log(error);
-      toast({
-        title: `${errorCode}`,
-        description: `${errorMessage}`,
-        status: "error",
-      });
-      // ...
+    toast({
+      title: `${errorCode}`,
+      description: `${errorMessage}`,
+      status: "error",
     });
+  } finally {
+    setLoading(false);
+  }
 };
 
 export const emailSignUp = async ({
@@ -99,15 +105,30 @@ export const emailSignUp = async ({
       // ...
     })
     .catch((error) => {
-      setLoading(false);
 
       const errorCode = error.code;
       const errorMessage = error.message;
-      toast({
-        title: `${errorCode}`,
-        description: `${errorMessage}`,
-        status: "error",
-      });
+      if (errorCode === "auth/invalid-credential") {
+        toast({
+          title: "Incorrect Details",
+          description: "Check your login details properly",
+          status: "error",
+        });
+      } else if (errorCode === "auth/network-request-failed") {
+        toast({
+          title: "Network Error",
+          description: "Check your Internet connection",
+          status: "error",
+        });
+      } else {
+        toast({
+          title: errorCode,
+          description: errorMessage,
+          status: "error",
+        });
+      }
+      setLoading(false);
+
       // ..
     });
 };

@@ -34,7 +34,6 @@ const MyGpas = ({ userDetails }) => {
         cgpa: calculateCGPA(result.semesters),
       }))
     );
-    console.log(levelsData);
   };
 
   const getResultsFromDB = async () => {

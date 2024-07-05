@@ -58,6 +58,7 @@ const UserSetup = () => {
       toast,
       navigate
     );
+    navigate("/login")
   };
   steps = [
     {

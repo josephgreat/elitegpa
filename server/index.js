@@ -10,6 +10,12 @@ const app = express();
 const PORT = process.env.PORT || 6000;
 app.use(cors());
 app.use(bodyParser.json());
+// Set COOP and COEP headers
+app.use((req, res, next) => {
+  res.setHeader("Cross-Origin-Opener-Policy", "same-origin-allow-popups");
+  res.setHeader("Cross-Origin-Embedder-Policy", "require-corp");
+  next();
+});
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header(

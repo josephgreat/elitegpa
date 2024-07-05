@@ -31,7 +31,7 @@ import {
   FaUserLock,
   FaUserPlus,
 } from "react-icons/fa6";
-import { emailSignUp, googleSignUp } from "../../firebase";
+import { emailSignUp, googleAuth } from "../../firebase";
 import { useNavigate, Link as RouteLink } from "react-router-dom";
 import { UserContext } from "../App";
 
@@ -331,7 +331,7 @@ const Signup = () => {
               }}
               border={"1px solid transparent"}
               onClick={() =>
-                googleSignUp(setUserDetails, setLoading, navigate, toast)
+                googleAuth(setUserDetails, setLoading, navigate, toast)
               }
             >
               <Icon

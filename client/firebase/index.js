@@ -1,14 +1,14 @@
-import { googleSignUp, emailSignUp } from "./signup";
-import { googleSignIn, emailSignIn } from "./login";
+import { googleAuth, emailSignUp } from "./signup";
+import {  emailSignIn } from "./login";
 import { setupAccount } from "./usersetup";
-import { checkAuth, logOut } from "./auth";
+import { checkAuth, logOut, savePreviousLocation } from "./auth";
 
 export {
-  googleSignUp,
+  googleAuth,
   emailSignUp,
   setupAccount,
-  googleSignIn,
   emailSignIn,
   checkAuth,
   logOut,
+  savePreviousLocation
 };

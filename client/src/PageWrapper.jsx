@@ -1,14 +1,22 @@
 import { useContext, useEffect } from "react";
 import { Navbar } from "./components";
 import { UserContext } from "./App";
-import { useNavigate } from "react-router-dom";
-import { checkAuth } from "../firebase";
+import { useLocation, useNavigate } from "react-router-dom";
+import { checkAuth, savePreviousLocation } from "../firebase";
+import { setSessionGradingSystem } from "./utils";
 
 const PageWrapper = ({ Component }) => {
   const { userDetails, setUserDetails, toast } = useContext(UserContext);
   const navigate = useNavigate();
+  const location = useLocation();
+
   useEffect(() => {
-    checkAuth(setUserDetails, toast, navigate)
+    savePreviousLocation(location);
+  }, [location]);
+
+  useEffect(() => {
+    checkAuth(setUserDetails, toast, navigate);
+    userDetails.uid && setSessionGradingSystem(userDetails.setup.grading_system);
     // !userDetails.uid && ;
   }, []);
   if (userDetails.uid) {

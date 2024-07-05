@@ -6,7 +6,8 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
 } from "firebase/auth";
-import { setCookie } from "../src/utils"
+import { setCookie } from "../src/utils";
+
 const auth = getAuth(app);
 auth.languageCode = "it";
 const db = getFirestore(app);
@@ -18,52 +19,44 @@ export const googleSignIn = async (
   toast
 ) => {
   const provider = new GoogleAuthProvider();
+  setLoading(true);
 
-  signInWithPopup(auth, provider)
-    .then((userCredentials) => {
-      setLoading(true);
-      const credential = GoogleAuthProvider.credentialFromResult(
-        userCredentials
-      );
+  try {
+    const userCredentials = await signInWithPopup(auth, provider);
+    const credential = GoogleAuthProvider.credentialFromResult(userCredentials);
+    const token = credential.accessToken;
+    const { uid } = userCredentials.user;
 
-      const token = credential.accessToken;
-      // The signed-in user info.
-      let { uid } = userCredentials.user;
-      //   console.log(user);
-      setCookie("uid", uid, 10);
-      let docRef = doc(db, "users", uid);
-      let docSnap = getDoc(docRef);
-      console.log(docSnap.data());
+    setCookie("uid", uid, 10);
+
+    const docRef = doc(db, "users", uid);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
       setUserDetails(docSnap.data());
 
       toast({
-        title: `Welcome back Elite`,
-        description: `Keep cruising in your elite mode`,
+        title: "Welcome back Elite",
+        description: "Keep cruising in your elite mode",
         status: "success",
       });
+
       setTimeout(() => navigate("/my-gpas"), 2000);
+    } else {
+      throw new Error("No such document!");
+    }
+  } catch (error) {
+    const errorCode = error.code;
+    const errorMessage = error.message;
 
-      // IdP data available using getAdditionalUserInfo(result)
-      // ...
-      setLoading(false);
-    })
-    .catch((error) => {
-      // Handle Errors here.
-      setLoading(false);
-      const errorCode = error.code;
-      const errorMessage = error.message;
-
-      // The email of the user's account used.
-      //   const email = error.customData.email;
-      // The AuthCredential type that was used.
-      const credential = GoogleAuthProvider.credentialFromError(error);
-      toast({
-        title: `${errorCode}`,
-        description: `${errorMessage}`,
-        status: "error",
-      });
-      // ...
+    toast({
+      title: `${errorCode}`,
+      description: `${errorMessage}`,
+      status: "error",
     });
+  } finally {
+    setLoading(false);
+  }
 };
 
 export const emailSignIn = async ({
@@ -73,45 +66,59 @@ export const emailSignIn = async ({
   toast,
   email,
   password,
-  name,
 }) => {
   setLoading(true);
-  await signInWithEmailAndPassword(auth, email, password)
-    .then(async (userCredential) => {
-      // Signed up
-      const user = userCredential.user;
-      let { uid } = user;
-      setCookie("uid", uid, 10);
-      let docRef = doc(db, "users", uid);
-      let docSnap = await getDoc(docRef);
-      console.log(docSnap.data());
+
+  try {
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    const { user } = userCredential;
+    const { uid } = user;
+
+    setCookie("uid", uid, 10);
+
+    const docRef = doc(db, "users", uid);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
       setUserDetails(docSnap.data());
-      await toast({
-        title: `Welcome back Elite`,
-        description: `Keep cruising in your elite mode`,
+
+      toast({
+        title: "Welcome back Elite",
+        description: "Keep cruising in your elite mode",
         status: "success",
       });
-      navigate("/my-gpas");
-      setLoading(false);
-      // ...
-    })
-    .catch((error) => {
-      setLoading(false);
 
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      if (errorCode === "auth/invalid-credential") {
-        toast({
-          title: `Incorrect Details`,
-          description: `Check your login details properly`,
-          status: "error",
-        });
-      } else
-        toast({
-          title: `${errorCode}`,
-          description: `${errorMessage}`,
-          status: "error",
-        });
-      // ..
-    });
+      navigate("/my-gpas");
+    } else {
+      throw new Error("No such document!");
+    }
+  } catch (error) {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    if (errorCode === "auth/invalid-credential") {
+      toast({
+        title: "Incorrect Details",
+        description: "Check your login details properly",
+        status: "error",
+      });
+    } else if (errorCode === "auth/network-request-failed" || errorCode === "auth/internal-error") {
+      toast({
+        title: "Network Error",
+        description: "Check your Internet connection",
+        status: "error",
+      });
+    } else {
+      toast({
+        title: errorCode,
+        description: errorMessage,
+        status: "error",
+      });
+    }
+  } finally {
+    setLoading(false);
+  }
 };

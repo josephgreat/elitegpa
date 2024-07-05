@@ -31,7 +31,7 @@ import {
   FaUserLock,
   FaUserPlus,
 } from "react-icons/fa6";
-import { emailSignIn, googleSignIn } from "../../firebase";
+import { emailSignIn, googleAuth } from "../../firebase";
 import { useNavigate, Link as RouteLink } from "react-router-dom";
 import { UserContext } from "../App";
 
@@ -39,12 +39,10 @@ const Login = () => {
   const { setUserDetails, toast } = useContext(UserContext);
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [showCPassword, setShowCPassword] = useState(false);
   const [formError, setFormError] = useState({ from: "", message: "" });
   const emailRef = useRef();
   const passwordRef = useRef();
-  const confirmPasswordRef = useRef();
-  const usernameRef = useRef();
+
   const navigate = useNavigate();
 
   const handleFormError = (from, message) => {
@@ -117,7 +115,7 @@ const Login = () => {
               eliteGPA
             </Heading>
             <Box w="clamp(15rem, 40vw, 25rem)" mx="auto" my="10">
-              <Img src="/images/login.png"  />
+              <Img src="/images/login.png" />
             </Box>
             <Text
               px="10"
@@ -265,7 +263,7 @@ const Login = () => {
               }}
               border={"1px solid transparent"}
               onClick={() =>
-                googleSignIn(setUserDetails, setLoading, navigate, toast)
+                googleAuth(setUserDetails, setLoading, navigate, toast)
               }
             >
               <Icon

@@ -190,7 +190,7 @@ function SessionDashboard() {
           <Spinner />
         </Grid>
       ) : (
-        <Flex flexDir={{ base: "column", md: "row" }} justify={"space-between"}>
+        <Flex flexDir={{ base: "column", md: "row" }} flexWrap={"wrap"} justify={"space-between"}>
           <Box mb={4} flex={{ base: 1, md: 0.6 }}>
             <Heading mb={2} fontSize={"clamp(1.3rem, 4vw, 1.6rem)"} textAlign={"center"}>
               {level} Academic Performance
