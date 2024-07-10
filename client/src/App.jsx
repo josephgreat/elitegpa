@@ -12,6 +12,7 @@ import {
   StudyMaterials,
   StudyTips,
   UserSetup,
+  Settings,
 } from "./pages";
 import "./App.css";
 import PageWrapper from "./PageWrapper";
@@ -22,7 +23,6 @@ export const UserContext = createContext({ userDetails: {} });
 function App() {
   const [userDetails, setUserDetails] = useState({});
   const toast = useToast({ position: "top-right", duration: 3000 });
-  
 
   const router = createBrowserRouter([
     {
@@ -68,6 +68,10 @@ function App() {
     {
       path: "/study-tips",
       element: <PageWrapper Component={StudyTips} />,
+    },
+    {
+      path: "/settings",
+      element: <PageWrapper Component={Settings} />,
     },
   ]);
 

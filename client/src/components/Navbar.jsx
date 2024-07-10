@@ -77,7 +77,10 @@ const Navbar = ({ userDetails, navigate }) => {
         <Spacer />
         <HStack>
           <Text textTransform={"capitalize"}>
-            👋 Hi, <Text as="span" display={{base: "none", sm: "inline-block"}}>{displayName ? displayName.split(" ")[0] : "user"}</Text>
+            👋 Hi,{" "}
+            <Text as="span" display={{ base: "none", sm: "inline-block" }}>
+              {displayName ? displayName.split(" ")[0] : "user"}
+            </Text>
           </Text>
           {photoURL ? (
             <Img
@@ -306,6 +309,12 @@ const SideNav = ({
             display="flex"
             alignItems={"center"}
             gap="2"
+            as={NavLink}
+            to="/settings"
+            style={({ isActive }) => ({
+              background: isActive && "rgba(255,255,255,.2)",
+              borderLeft: isActive && "3px solid #FFD700",
+            })}
             onClick={() => setOpenSideNav(false)}
           >
             <FaUserCog /> Settings
@@ -316,7 +325,7 @@ const SideNav = ({
             alignItems={"center"}
             gap="2"
             cursor="pointer"
-            _hover={{textDecor: "underline"}}
+            _hover={{ textDecor: "underline" }}
             onClick={() => {
               logOut(toast, navigate);
               setOpenSideNav(false);

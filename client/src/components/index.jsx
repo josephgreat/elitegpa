@@ -9,6 +9,9 @@ import SessionTable from "./SessionTable";
 import SelectInstitution from "./SelectInstitution";
 import SelectGradeSystem from "./SelectGradeSystem";
 import SelectLevel from "./SelectLevel";
+import GpaPredictor from "./GpaPredictor";
+import GradePredictor from "./GradePredictor";
+
 export {
   Navbar,
   GraduationCap,
@@ -20,5 +23,7 @@ export {
   SessionTable,
   SelectInstitution,
   SelectGradeSystem,
-  SelectLevel
+  SelectLevel,
+  GpaPredictor,
+  GradePredictor,
 };

@@ -90,6 +90,7 @@ const Dashboard = ({userDetails}) => {
   let studentClass = "Pass";
 
   if (allSessions.length) {
+    console.log(allSessions)
     cgpa = calculateTotalCGPA(allSessions).cgpa;
     totalCourses = calculateTotalNoOfCourses(allSessions);
     totalCreditLoad = calculateCreditLoad(allSessions);

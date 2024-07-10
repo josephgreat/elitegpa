@@ -10,6 +10,22 @@ export const convertGradeToPoint = (grade) => {
   return gradeValues[grade];
 };
 
+export const convertPointToGrade = (points) => {
+  const gradeValues = gradingSystem[getSessionGradingSystem()];
+  console.log(gradeValues);
+  let closestGrade = null;
+  let minDifference = Infinity;
+  for (const [grade, gradePoints] of Object.entries(gradeValues)) {
+    const difference = gradePoints - points;
+    if (difference === 0) {
+      minDifference = difference;
+      closestGrade = grade;
+    }
+  }
+
+  return closestGrade;
+};
+
 export const calculateCourseGradePoint = (course) => {
   let courseGradePoint =
     Number(course.credit_load) * convertGradeToPoint(course.grade);

@@ -117,7 +117,6 @@ const GpaCalc = () => {
         levels.push(`${currentLevel}00 level`);
       }
     }
-    console.log(levels);
     return levels;
   };
 
@@ -165,7 +164,6 @@ const GpaCalc = () => {
   const saveNewData = async () => {
     try {
       setLoading(true);
-      console.log(semesterDetails);
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/save-session-detail`,
         semesterDetails
@@ -183,7 +181,6 @@ const GpaCalc = () => {
     } catch (error) {
       setLoading(false);
 
-      console.log(error);
       throwAppError(toast, error);
     }
   };
@@ -226,7 +223,6 @@ const GpaCalc = () => {
   useEffect(() => {
     resultId && fillResultInCalculator();
     setInitialSemesterDetails(semesterDetails);
-    console.log(userDetails.setup.grading_system);
   }, []);
 
   return (

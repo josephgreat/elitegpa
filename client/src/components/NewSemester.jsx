@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
   Box,
   Button,
@@ -10,6 +10,7 @@ import {
   Text,
   VStack,
   Select,
+  useToast,
 } from "@chakra-ui/react";
 import { FaPlusCircle, FaTimesCircle } from "react-icons/fa";
 import { FaCircleChevronDown, FaCircleChevronUp } from "react-icons/fa6";
@@ -25,7 +26,8 @@ const NewSemester = ({
   gradeList,
 }) => {
   const [showCourses, setShowCourses] = useState(true);
-
+  const toast = useToast({ position: "top-right" });
+  const coursesContainerRef = useRef();
   const handleInputChange = useCallback(
     (e, index, field) => {
       const newCourses = [...courses];
@@ -57,17 +59,33 @@ const NewSemester = ({
   );
 
   const handleAddCourse = useCallback(() => {
-    const updatedCourses = [
-      ...courses,
-      { course: "", course_code: "", credit_load: "", grade: "" },
-    ];
-    setCourses(updatedCourses);
-    updateSemesterDetails({
-      detail: `semesters`,
-      sub_detail: "courses",
-      detail_index: semester,
-      detail_new_value: updatedCourses,
-    });
+    const lastCourse = courses[courses.length - 1];
+    if (
+      (lastCourse.course || lastCourse.course_code) &&
+      lastCourse.credit_load &&
+      lastCourse.grade
+    ) {
+      const updatedCourses = [
+        ...courses,
+        { course: "", course_code: "", credit_load: "", grade: "" },
+      ];
+      setCourses(updatedCourses);
+      updateSemesterDetails({
+        detail: `semesters`,
+        sub_detail: "courses",
+        detail_index: semester,
+        detail_new_value: updatedCourses,
+      });
+    } else {
+      toast({
+        title: "Incomplete Course",
+        description:
+          "Fill out the current course details before adding a new one.",
+        status: "warning",
+        duration: 3000,
+        isClosable: true,
+      });
+    }
   }, [courses, semester, setCourses, updateSemesterDetails]);
 
   const handleGpaUpdate = useCallback(() => {
@@ -81,8 +99,19 @@ const NewSemester = ({
     });
   }, [courses, semester, setGpa, updateSemesterDetails]);
 
+  useEffect(() => {
+    if (coursesContainerRef.current) {
+      coursesContainerRef.current.scrollTop =
+        coursesContainerRef.current.scrollHeight;
+    }
+  }, [courses]);
   return (
-    <Box my="4" w={{ base: "100%", sm: "80%", md: "45%" }}>
+    <Box
+      my="4"
+      w={{ base: "100%", sm: "80%", md: "45%" }}
+      maxH="65vh"
+      overflowY={"auto"}
+    >
       <Flex gap="2" alignItems={"center"} mb="2">
         <Icon
           as={showCourses ? FaCircleChevronUp : FaCircleChevronDown}
@@ -103,7 +132,7 @@ const NewSemester = ({
         overflow={"hidden"}
         transition={"height .3s linear"}
       >
-        <VStack gap={{ base: "6", md: "4" }}>
+        <VStack gap={{ base: "6", md: "4" }} ref={coursesContainerRef}>
           {courses.map((course, index) => (
             <NewCourse
               key={index}
