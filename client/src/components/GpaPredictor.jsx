@@ -94,12 +94,10 @@ const toast = useToast({position: "top-right"});
       <Flex
         flexDir={{ base: "column", md: "row" }}
         gap={{ base: "4", md: "12" }}
-        //  alignItems={"center"}
         justifyContent={"center"}
       >
         <Box
           w={{ md: "25%" }}
-          // borderRight={{ md: "1px solid" }}
           py={{ md: "4" }}
           px={{ md: "4" }}
           boxShadow={{ md: "2px 0px 0px 0px rgba(100,100,100,.3)" }}

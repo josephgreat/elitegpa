@@ -1,12 +1,13 @@
 import {
   generateTwoDigitNumbers,
   deepEqual,
+  getSessionGradingSystem,
   getStudentClass,
   capitalize,
   generateRandomColors,
   sortData,
   setSessionGradingSystem,
-  getSessionGradingSystem,
+  deleteSessionGradingSystem,
 } from "./appLogics.js";
 import calculateGpa, {
   calculateCGPA,
@@ -16,7 +17,7 @@ import calculateGpa, {
   convertPointToGrade,
   calculateUserGradePoint,
   calculateTotalCreditLoad,
-  calculateCourseGradePoint,
+  calculateCourseGradePoint, gradingSystem
 } from "./calculateGpa.jsx";
 import throwAppError from "./error.js";
 import { sessionDataToExcel } from "./datatoexcel.js";
@@ -30,13 +31,15 @@ export {
   deepEqual,
   calculateSessionCreditLoad,
   calculateSessionCourses,
+  getSessionGradingSystem,
   getStudentClass,
   convertGradeToPoint,
   convertPointToGrade,
   capitalize,
   setSessionGradingSystem,
-  getSessionGradingSystem,
+  deleteSessionGradingSystem,
   generateRandomColors,
+  gradingSystem,
   calculateUserGradePoint,
   calculateTotalCreditLoad,
   calculateCourseGradePoint,
@@ -45,4 +48,5 @@ export {
   setCookie,
   getCookie,
   eraseCookie,
+  
 };

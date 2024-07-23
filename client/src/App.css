@@ -58,3 +58,25 @@ option:first-of-type {
   -webkit-mask: var(--mask);
   mask: var(--mask);
 }
+
+/* Apply styles to all scrollbars */
+::-webkit-scrollbar {
+  width: 5 px; /* Width of the scrollbar */
+  height: 5 px; /* Width of the scrollbar */
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent; /* Make the track transparent */
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(45deg, #191970, #008080); /* Gradient background */
+  border-radius: 6px; /* Rounded corners for the handle */
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(45deg, #191970, #008080); /* Same gradient on hover */
+}

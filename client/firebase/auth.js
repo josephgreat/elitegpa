@@ -2,16 +2,17 @@
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import app from "./init";
 import { doc, getDoc, getFirestore } from "firebase/firestore";
-import { eraseCookie, getCookie } from "../src/utils";
+import { deleteSessionGradingSystem, eraseCookie, getCookie } from "../src/utils";
 
 const auth = getAuth(app);
 
-export const checkAuth = (setUserDetails, toast, navigate) => {
+export const checkAuth = (setUserDetails, toast, navigate, setLoginMode) => {
   const db = getFirestore(app);
   const previousLocation = localStorage.getItem("previousLocation");
 
   onAuthStateChanged(auth, async (user) => {
     if (user) {
+      setLoginMode(user.providerData[0].providerId)
       try {
         const uid = getCookie("uid");
         if (!uid) {
@@ -59,6 +60,7 @@ export const logOut = (toast, navigate) => {
   signOut(auth)
     .then(() => {
       eraseCookie("uid");
+      deleteSessionGradingSystem();
       navigate("/login");
       toast({
         title: `Goodbye Elite`,

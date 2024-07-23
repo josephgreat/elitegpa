@@ -9,6 +9,7 @@ import {
   HStack,
 } from "@chakra-ui/react";
 import GaugeChart from "react-gauge-chart";
+import { getSessionGradingSystem } from "../utils";
 
 const SummaryCard = ({
   small_screen,
@@ -17,6 +18,11 @@ const SummaryCard = ({
   totalCreditLoad,
   totalCourses,
 }) => {
+  const guageUtils = () => {
+    let gradePointRate = getSessionGradingSystem().split(" ")[0].toLowerCase();
+    if (gradePointRate === "five") return {totalPercent: 5,  arcLengthPoints: [0.2, 0.2, 0.1, 0.2, 0.2, 0.1]};
+    else return {totalPercent: 4, arcLengthPoints: [0.25, 0.125, 0.25, 0.25, 0.125]};
+  };
   return (
     <Flex
       display={{
@@ -33,10 +39,9 @@ const SummaryCard = ({
       p="4"
       px="6"
       rounded=".5rem"
-      // maxW={{ base: "90%" }}
       mx="auto"
       mb="8"
-      mt={{md: "8"}}
+      mt={{ md: "8" }}
     >
       <Heading size="xs" mb={2}>
         CGPA Summary
@@ -52,11 +57,11 @@ const SummaryCard = ({
       <GaugeChart
         id="cgpaGauge"
         // nrOfLevels={5}
-        arcsLength={[0.3, 0.2, 0.2, 0.2, 0.1]}
+        arcsLength={guageUtils().arcLengthPoints}
         colors={["#FF6F61", "#32CD32"]}
         cornerRadius={3}
-        percent={cgpa / 5}
-        formatTextValue={(val) => cgpa}
+        percent={cgpa / guageUtils().totalPercent}
+        formatTextValue={(val) => cgpa.toFixed(2)}
         arcPadding={0.01}
         needleColor="white"
         neddleBaseColor="white"

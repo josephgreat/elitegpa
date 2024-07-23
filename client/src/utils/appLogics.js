@@ -40,12 +40,28 @@ function deepEqual(obj1, obj2) {
     return obj1 === obj2;
   }
 }
+function getSessionGradingSystem() {
+  const storedGradingSystem = sessionStorage.getItem("gradingSystem");
+  if (storedGradingSystem) {
+    return JSON.parse(storedGradingSystem);
+  }
+  return null; // Return null if no grading system is found
+}
 
 const getStudentClass = (cgpa) => {
   let position;
   let badgeColor;
-  let gradePointRate = getSessionGradingSystem().split(" ")[0].toLowerCase();
-  console.log(gradePointRate);
+  let gradingSystem = getSessionGradingSystem();
+
+  if (!gradingSystem) {
+
+    console.warn("No grading system found in session storage. Using default.");
+    // You can either throw an error here or set a default value for gradingSystem.
+    // Here, we'll set a default grading system:
+  }
+
+  const gradePointRate = gradingSystem.split(" ")[0].toLowerCase();
+
   if (
     (cgpa >= 4.5 && gradePointRate === "five") ||
     (cgpa >= 3.5 && gradePointRate === "four")
@@ -64,12 +80,12 @@ const getStudentClass = (cgpa) => {
   ) {
     badgeColor = "rgb(227, 235, 69)";
     position = "Second Class Lower";
-  } else if (cgpa >= 1.5 && gradePointRate === "five") {
+  } else if (cgpa >= 2.0 && gradePointRate === "five") {
     badgeColor = "rgb(246, 175, 82)";
     position = "Third Class";
   } else if (
-    (cgpa >= 0.5 && gradePointRate === "five") ||
-    (cgpa >= 1.5 && gradePointRate === "four")
+    (cgpa >= 1.0 && gradePointRate === "five") ||
+    (cgpa >= 1.0 && gradePointRate === "four")
   ) {
     badgeColor = "rgb(255, 111, 97)";
     position = "Pass";
@@ -77,9 +93,11 @@ const getStudentClass = (cgpa) => {
     badgeColor = "rgb(255, 111, 97)";
     position = "Fail";
   }
+
   let studentClass = { position: position, badgeColor: badgeColor };
   return studentClass;
 };
+
 
 function capitalize(str) {
   return str.replace(/^\w/, (c) => c.toUpperCase());
@@ -110,14 +128,13 @@ function setSessionGradingSystem(grading_system) {
     sessionStorage.setItem("gradingSystem", JSON.stringify(grading_system));
   }
 }
-function getSessionGradingSystem() {
+function deleteSessionGradingSystem() {
   const storedGradingSystem = sessionStorage.getItem("gradingSystem");
   if (storedGradingSystem) {
-    const gradingSystem = JSON.parse(storedGradingSystem);
-    return gradingSystem;
+    sessionStorage.removeItem("gradingSystem");
   }
-  return;
 }
+
 
 export {
   generateTwoDigitNumbers,
@@ -128,5 +145,6 @@ export {
   sortData,
   setSessionGradingSystem,
   getSessionGradingSystem,
+  deleteSessionGradingSystem
 };
 // Test the function

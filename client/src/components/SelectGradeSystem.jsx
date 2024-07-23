@@ -1,5 +1,6 @@
 import { Box, Button, Select } from "@chakra-ui/react";
 import React from "react";
+import { gradingSystem } from "../utils";
 
 const SelectGradeSystem = ({
   accountSetup,
@@ -7,11 +8,11 @@ const SelectGradeSystem = ({
   handleAccountSetupSubmit,
   
 }) => {
-  const gradingSystem = [
-    "Five Point (A, B, C, D, E, F)",
-    "Four Point (A, B, C, D, E, F)",
-    "Four Point (A, AB, B, BC, C, CD, D, E, F)",
-  ];
+  // const gradingSystem = [
+  //   "Five Point (A, B, C, D, E, F)",
+  //   "Four Point (A, B, C, D, E, F)",
+  //   "Four Point (A, AB, B, BC, C, CD, D, E, F)",
+  // ];
   return (
     <Box mt="4">
       <Select
@@ -21,7 +22,7 @@ const SelectGradeSystem = ({
         }
         value={accountSetup.grading_system}
       >
-        {gradingSystem.map((system, index) => (
+        {Object.keys(gradingSystem).map((system, index) => (
           <option key={index} value={system}>
             {system}
           </option>

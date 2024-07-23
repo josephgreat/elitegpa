@@ -13,6 +13,8 @@ import {
   StudyTips,
   UserSetup,
   Settings,
+  Error,
+  NotFound,
 } from "./pages";
 import "./App.css";
 import PageWrapper from "./PageWrapper";
@@ -23,7 +25,7 @@ export const UserContext = createContext({ userDetails: {} });
 function App() {
   const [userDetails, setUserDetails] = useState({});
   const toast = useToast({ position: "top-right", duration: 3000 });
-
+  const [error, setError] = useState({ title: "", message: "" });
   const router = createBrowserRouter([
     {
       path: "/",
@@ -73,6 +75,14 @@ function App() {
       path: "/settings",
       element: <PageWrapper Component={Settings} />,
     },
+    {
+      path: "/error",
+      element: <Error />,
+    },
+    {
+      path: "*",
+      element: <NotFound />,
+    },
   ]);
 
   return (
@@ -80,6 +90,8 @@ function App() {
       value={{
         userDetails: userDetails,
         setUserDetails: setUserDetails,
+        error: error,
+        setError: setError,
         toast: toast,
       }}
     >

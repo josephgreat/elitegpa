@@ -34,6 +34,7 @@ import {
 import { emailSignUp, googleAuth } from "../../firebase";
 import { useNavigate, Link as RouteLink } from "react-router-dom";
 import { UserContext } from "../App";
+import { Loader } from "../components";
 
 const Signup = () => {
   const { setUserDetails, toast } = useContext(UserContext);
@@ -359,23 +360,7 @@ const Signup = () => {
           </Box>
         </Box>
       </Flex>
-      {loading && (
-        <Grid
-          pos="fixed"
-          zIndex={"2"}
-          inset="0"
-          bg="rgba(20,20,20,.5)"
-          backdropFilter={"blur(5px)"}
-          placeItems="center"
-        >
-          <VStack>
-            <Spinner size="xl" borderWidth={"3px"} color={"white"} />
-            <Text color={"white"} fontWeight="bold" letterSpacing=".3rem">
-              Loading...
-            </Text>
-          </VStack>
-        </Grid>
-      )}
+      {loading && <Loader text={"Signing Up.."} />}
     </Container>
   );
 };

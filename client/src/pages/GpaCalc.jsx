@@ -248,7 +248,7 @@ const GpaCalc = () => {
       </Heading>
       <Flex
         py="4"
-        gap="2"
+        gap="4"
         fontSize={".8rem"}
         flexDir={{ base: "column", sm: "row" }}
         justifyContent={{ sm: "space-between" }}
@@ -277,7 +277,7 @@ const GpaCalc = () => {
           </Select>
         </HStack>
         {/* <Spacer /> */}
-        <Text fontFamily={"heading"} fontWeight={"bold"} fontSize={"1rem"}>
+        <Text order={{base: 3, md: 2}} fontFamily={"heading"} fontWeight={"bold"} fontSize={"1rem"}>
           CGPA: {calculateCGPA(semesterDetails.semesters)}
         </Text>
         <HStack>

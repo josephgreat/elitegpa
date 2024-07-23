@@ -46,7 +46,6 @@ const Dashboard = ({userDetails}) => {
         `${import.meta.env.VITE_API_URL}/get-all-sessions/${userDetails.uid}`
       );
       setAllSessions(sortData(sessions));
-    console.log(sortData(sessions))
       setLoading(false);
     } catch (error) {
       console.error("Error fetching result:", error);
@@ -80,7 +79,6 @@ const Dashboard = ({userDetails}) => {
       (acc, session) => (acc += calculateSessionCreditLoad(session.semesters)),
       0
     );
-    console.log(creditLoads);
     return creditLoads;
   };
 
@@ -89,8 +87,7 @@ const Dashboard = ({userDetails}) => {
   let totalCreditLoad = 0;
   let studentClass = "Pass";
 
-  if (allSessions.length) {
-    console.log(allSessions)
+  if (allSessions.length > 0) {
     cgpa = calculateTotalCGPA(allSessions).cgpa;
     totalCourses = calculateTotalNoOfCourses(allSessions);
     totalCreditLoad = calculateCreditLoad(allSessions);
@@ -283,14 +280,6 @@ const Dashboard = ({userDetails}) => {
     }
   }, [allSessions]);
 
-  const data = [
-    { name: "Group A", value: 400 },
-    { name: "Group B", value: 300 },
-    { name: "Group C", value: 300 },
-    { name: "Group D", value: 200 },
-    { name: "Group E", value: 278 },
-    { name: "Group F", value: 189 },
-  ];
   return (
     <Container py="8" maxW="72rem" mx="auto">
       <Heading textAlign="center" fontSize="clamp(1.5rem, 3vw, 2.5rem)">

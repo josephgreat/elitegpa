@@ -11,6 +11,7 @@ import SelectGradeSystem from "./SelectGradeSystem";
 import SelectLevel from "./SelectLevel";
 import GpaPredictor from "./GpaPredictor";
 import GradePredictor from "./GradePredictor";
+import Loader from "./Loader";
 
 export {
   Navbar,
@@ -26,4 +27,5 @@ export {
   SelectLevel,
   GpaPredictor,
   GradePredictor,
+  Loader
 };

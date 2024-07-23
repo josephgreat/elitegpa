@@ -27,7 +27,7 @@ import {
 } from "@chakra-ui/react";
 import React, { useEffect, useRef, useState } from "react";
 import GradeAssistantWorker from "../utils/gradeAssistant?worker";
-import { convertPointToGrade } from "../utils";
+import { convertPointToGrade, getSessionGradingSystem } from "../utils";
 
 const GradePredictor = ({ loading, savedResults, userDetails, maxGPA }) => {
   const [calculating, setCalculating] = useState(false);
@@ -106,22 +106,15 @@ const GradePredictor = ({ loading, savedResults, userDetails, maxGPA }) => {
 
     worker.onmessage = function (e) {
       const { targetGPA, combinations } = e.data;
-      console.log(
-        `To achieve a GPA of ${targetGPA} for this semester, here are some possible combinations of grades for the courses:`
-      );
       setGradeCombinations(combinations);
-      combinations.forEach((combination, index) => {
-        console.log(`Combination ${index + 1}:`);
-        combination.combination.forEach((course) => {
-          console.log(course.grade);
-          console.log(
-            `Course: ${course.course}, Grade: ${course.grade}, Credits: ${course.credits}`
-          );
-        });
-        console.log(`Average GPA: ${combination.averageGPA}`);
-      });
     };
-    let stepGap = 0.5;
+    let stepGap = 1;
+
+    if (
+      getSessionGradingSystem() === "Four Point (A, AB, B, BC, C, CD, D, E, F)"
+    ) {
+      stepGap = 0.5;
+    }
     worker.postMessage({ targetGPA, maxGPA, courses, stepGap });
     setCalculating(false);
   };
@@ -188,6 +181,7 @@ const GradePredictor = ({ loading, savedResults, userDetails, maxGPA }) => {
                     <Select
                       name="credits"
                       w="10rem"
+                      ml="4"
                       placeholder="Credit"
                       value={course.credits}
                       onChange={(e) => updateCourse(index, e)}

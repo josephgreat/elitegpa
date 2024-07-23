@@ -29,7 +29,7 @@ import { generateRandomColors } from "../utils";
 import { logOut } from "../../firebase";
 import { UserContext } from "../App";
 
-let photoBgColor = generateRandomColors(1);
+export let photoBgColor = generateRandomColors(1);
 const Navbar = ({ userDetails, navigate }) => {
   const { toast } = useContext(UserContext);
   const { displayName, photoURL } = userDetails;
@@ -94,12 +94,14 @@ const Navbar = ({ userDetails, navigate }) => {
               fontSize={"1.2rem"}
               bg={photoBgColor}
               rounded={"full"}
-              px=".8rem"
-              py="1"
+              px=".7rem"
+              py=".5rem"
               textTransform={"capitalize"}
+              textShadow={"0 0 2px rgba(100,100,100,.7)"}
               boxShadow={"0 0 5px rgba(200,200,200, .6)"}
             >
               {displayName[0]}
+              {displayName[1]}
             </Box>
           ) : (
             <Avatar size="sm" />
@@ -175,12 +177,13 @@ const SideNav = ({
                 bg={photoBgColor}
                 rounded={"full"}
                 px=".7rem"
-                py="1"
-                backdropFilter={"contrast(0.5)"}
-                boxShadow={"0 0 5px rgba(200,200,200, .6)"}
+                py=".5rem"
                 textTransform={"capitalize"}
+                textShadow={"0 0 2px rgba(100,100,100,.7)"}
+                backdropFilter={"contrast(0.5)"}
               >
-                {displayName[0]}
+              {displayName[0]}
+              {displayName[1]}
               </Box>
             ) : (
               <Avatar size="sm" />

@@ -9,6 +9,8 @@ import Signup from "./Signup";
 import Login from "./Login";
 import UserSetup from "./UserSetup";
 import Settings from "./Settings";
+import Error from "./Error";
+import NotFound from "./404";
 export {
   GpaCalc,
   StudyTips,
@@ -19,5 +21,8 @@ export {
   SessionDashboard,
   Signup,
   Login,
-  UserSetup, Settings
+  UserSetup,
+  Settings,
+  Error,
+  NotFound,
 };

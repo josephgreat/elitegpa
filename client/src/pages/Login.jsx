@@ -34,6 +34,7 @@ import {
 import { emailSignIn, googleAuth } from "../../firebase";
 import { useNavigate, Link as RouteLink } from "react-router-dom";
 import { UserContext } from "../App";
+import { Loader } from "../components";
 
 const Login = () => {
   const { setUserDetails, toast } = useContext(UserContext);
@@ -96,8 +97,8 @@ const Login = () => {
             bg={{ md: "rgba(255,255,255,1)" }}
             top="-10%"
             boxShadow={"inset 0 0 25px rgba(100,100,100,.6)"}
-            left="-10%"
-            w="120%"
+            left="-12%"
+            w="125%"
             h="120%"
             transform={"rotate(-10deg)"}
             borderRadius={"2rem"}
@@ -291,23 +292,7 @@ const Login = () => {
           </Box>
         </Box>
       </Flex>
-      {loading && (
-        <Grid
-          pos="fixed"
-          zIndex={"2"}
-          inset="0"
-          bg="rgba(20,20,20,.5)"
-          backdropFilter={"blur(5px)"}
-          placeItems="center"
-        >
-          <VStack>
-            <Spinner size="xl" borderWidth={"3px"} color={"white"} />
-            <Text color={"white"} fontWeight="bold" letterSpacing=".3rem">
-              Loading...
-            </Text>
-          </VStack>
-        </Grid>
-      )}
+      {loading && <Loader text={"Logging In..."} />}
     </Container>
   );
 };
