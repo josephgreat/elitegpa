@@ -5,7 +5,9 @@ const express = require("express");
 const LevelModel = require("../models/gpaSchema");
 
 const router = express.Router();
-
+router.get('/', (req, res) => {
+  res.send("Hello World!");
+})
 router.post("/save-session-detail", async (req, res) => {
   const { level, session, semesters, uid } = req.body;
   const data = new LevelModel({
