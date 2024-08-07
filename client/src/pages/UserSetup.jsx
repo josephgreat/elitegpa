@@ -29,7 +29,7 @@ import {
 } from "../components";
 import { setupAccount } from "../../firebase";
 import { UserContext } from "../App";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const UserSetup = () => {
   let steps = [];
@@ -99,22 +99,32 @@ const UserSetup = () => {
   if (userDetails.uid) {
     return (
       <Container maxW={"unset"} minH="100vh" p="0">
-        <Flex flexDir={{ base: "column", md: "row" }} gap="4" minH="100vh">
+        <Flex flexDir={{ base: "column", md: "row" }} alignItems={{md: "center"}} gap="4" minH="100vh">
           <Box
             bgGradient={"linear(to-br, primary, accentVar)"}
             flex={{ md: "1" }}
             order={{ md: 2 }}
+            display={"flex"}
+            flexDir={"column"}
+            justifyContent={"center"}
+            minH={{ md: "100vh" }}
           >
-            <Heading
-              fontSize={"1.3rem"}
-              color={"secondary"}
-              textAlign={"center"}
-              py="4"
-            >
-              eliteGPA
-            </Heading>
-            <Box w="clamp(12rem, 45vw, 30rem)" mx="auto" my="10">
-              <Img src="/images/steps.png" minH="15rem" />
+           <Heading
+            w={"clamp(5rem, 10vw, 6rem)"}
+            mx={"auto"}
+            fontSize={"clamp(1.2rem, 3vw, 1.5rem)"}
+            mt="5"
+            mb={{md: "5"}}
+            py="4"
+            // color={{ base: "secondary" }}
+            as={Link}
+            to="/"
+            display={"block"}
+          >
+            <Img alt="eliteGPA" w="100%" src={`/images/4x/logoalt.png`} />
+          </Heading>
+            <Box w="clamp(12rem, 45vw, 30rem)"  mx="auto" my="10">
+              <Img src="/images/steps.png" />
             </Box>
           </Box>
           <Box
@@ -143,6 +153,7 @@ const UserSetup = () => {
                         "[data-status=complete] &": {
                           background: "primary",
                           borderColor: "accent",
+                          color: "secondary"
                         },
                         "[data-status=active] &": {
                           background: "accentVar",
@@ -152,6 +163,7 @@ const UserSetup = () => {
                         "[data-status=incomplete] &": {
                           background: "secondary",
                           borderColor: "accentVar",
+                          color: "primary"
                         },
                       }}
                       onClick={() => activeStep > index && setActiveStep(index)}

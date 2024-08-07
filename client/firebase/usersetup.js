@@ -17,7 +17,7 @@ export const setupAccount = async (
     setUserDetails({ ...userDetails, setup: accountSetup });
     await updateDoc(accountSetupRef, { setup: accountSetup });
     await toast({
-      title: `Welcome Elite`,
+      title: `Hello Elite`,
       description: `Your account has been setup Successfully!`,
       status: "success",
     });

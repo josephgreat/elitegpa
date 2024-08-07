@@ -1,0 +1,48 @@
+@keyframes headinganim {
+  0% {
+    letter-spacing: 0;
+    opacity: 1;
+    transform: scale(1);
+  }
+  30% {
+    letter-spacing: 0.2rem;
+    opacity: 0.5;
+    transform: scale(1);
+    filter: blur(2px);
+  }
+  50% {
+    letter-spacing: 0.5rem;
+    opacity: 0.2;
+    transform: scale(1.5);
+    filter: blur(0px);
+  }
+  100% {
+    letter-spacing: 0.1rem;
+    opacity: 0.8;
+    transform: scale(1);
+    filter: blur(0px);
+  }
+}
+.fa-gradient {
+  background: -webkit-gradient(
+    linear,
+    left top,
+    left bottom,
+    from(#f00),
+    to(#333)
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+@keyframes gradient-border {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+  

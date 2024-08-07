@@ -11,10 +11,11 @@ import {
   Stack,
   Text,
   useToast,
+  VStack,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { FaPlusCircle, FaTrashAlt } from "react-icons/fa";
-import { FaEye } from "react-icons/fa6";
+import { FaEye, FaSchoolCircleXmark } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import { LevelResult, ViewSession } from "../components";
 import axios from "axios";
@@ -42,7 +43,7 @@ const MyGpas = ({ userDetails }) => {
       let response = await axios.get(
         `${import.meta.env.VITE_API_URL}/get-all-sessions/${userDetails.uid}`
       );
-      
+
       setSavedResults(sortData(response));
       setLoading(false);
     } catch (error) {
@@ -97,6 +98,18 @@ const MyGpas = ({ userDetails }) => {
           <Grid placeItems={"center"} minH={"15rem"}>
             <Spinner />
           </Grid>
+        ) : savedResults.length === 0 ? (
+          <Grid minH="50vh" placeItems={"center"} opacity={".7"}>
+            <VStack>
+              <FaSchoolCircleXmark
+                fontSize={"clamp(4rem, 15vw, 15rem)"}
+                fill="#008080"
+              />
+              <Text fontSize={"clamp(1.2rem, 3vw, 3rem)"}>
+                No Academic Session Recorded
+              </Text>
+            </VStack>
+          </Grid>
         ) : (
           savedResults.map((result) => (
             <LevelResult
@@ -126,7 +139,7 @@ const MyGpas = ({ userDetails }) => {
           }}
         >
           <FaPlusCircle />
-          New Level
+          Add Session
         </Button>
       </Flex>
       {Object.keys(resultToBeViewed).length !== 0 && (

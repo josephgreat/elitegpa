@@ -60,20 +60,25 @@ const Navbar = ({ userDetails, navigate }) => {
       />
 
       <HStack maxW="72rem" mx="auto">
-        <VStack
-          gap={"1"}
-          alignItems={"flex-start"}
-          onClick={() => setOpenSideNav(true)}
-        >
-          <Box w="1.5rem" h=".2rem" bg="accent" rounded={".5rem"} />
-          <Box w=".8rem" h=".2rem" bg="accent" rounded={".5rem"} />
-        </VStack>
-        <Box pos="relative">
-          <Heading fontSize={"1rem"} zIndex={"2"}>
-            EliteGpa
+        <Flex gap="2" alignItems={"flex-end"} pos="relative">
+          <VStack
+            gap={"1"}
+            mb="2"
+            alignItems={"flex-start"}
+            onClick={() => setOpenSideNav(true)}
+          >
+            <Box w="1.5rem" h=".2rem" bg="accent" rounded={".5rem"} />
+            <Box w=".8rem" h=".2rem" bg="accent" rounded={".5rem"} />
+          </VStack>
+          <Heading
+            as={NavLink}
+            to="/"
+            w={"clamp(5rem, 10vw, 6rem)"}
+            fontSize={"clamp(1.2rem, 3vw, 1.5rem)"}
+          >
+            <Img alt="eliteGPA" w="100%" src="/images/4x/logoalt.png" />
           </Heading>
-          {/* <Img src="/images/graduation_cap.svg" pos="absolute" w="8" top="-4" left={"-1"} transform={"rotate(-25deg)"}  /> */}
-        </Box>
+        </Flex>
         <Spacer />
         <HStack>
           <Text textTransform={"capitalize"}>
@@ -182,8 +187,8 @@ const SideNav = ({
                 textShadow={"0 0 2px rgba(100,100,100,.7)"}
                 backdropFilter={"contrast(0.5)"}
               >
-              {displayName[0]}
-              {displayName[1]}
+                {displayName[0]}
+                {displayName[1]}
               </Box>
             ) : (
               <Avatar size="sm" />
@@ -201,7 +206,7 @@ const SideNav = ({
             display="flex"
             alignItems={"center"}
             gap="2"
-            to="/"
+            to="/overview"
             as={NavLink}
             style={({ isActive }) => ({
               background: isActive && "rgba(255,255,255,.2)",

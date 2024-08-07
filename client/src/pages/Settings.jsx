@@ -211,7 +211,6 @@ const Settings = ({ userDetails, toast, loginMode, setUserDetails }) => {
           <Box w="20%">
             <Heading
               mb="4"
-              color="primary"
               fontSize="clamp(1rem, 1.7vw, 1.7rem)"
             >
               Quick Links

@@ -1,4 +1,4 @@
-import { Box, Button, Divider, Flex, Stack, Text } from "@chakra-ui/react";
+import { Box, Button, Divider, Flex, Stack, Text, useColorModeValue } from "@chakra-ui/react";
 import React from "react";
 import { FaTrashAlt } from "react-icons/fa";
 import { FaEye } from "react-icons/fa6";
@@ -12,11 +12,14 @@ const LevelResult = ({
   setResultToBeViewed,
 }) => {
   let { level, semesters } = result;
+  const bgColor = useColorModeValue("secondary", "#1a202c");
+  const shadowColor = useColorModeValue("rgba(50,50,50, .3)", "rgba(200,200,200, .3)");
+
   return (
     <Box
       py="6"
       px="4"
-      boxShadow={"inset 0 0 5px rgba(50,50,50, .3)"}
+      boxShadow={`inset 0 0 5px ${shadowColor}`}
       rounded="1rem"
       pos="relative"
       key={index}
@@ -51,7 +54,7 @@ const LevelResult = ({
       </Flex>
       <Flex
         pos={"absolute"}
-        bg="white"
+        bg={bgColor}
         bottom={"-.5rem"}
         fontSize={".8rem"}
         gap="4"

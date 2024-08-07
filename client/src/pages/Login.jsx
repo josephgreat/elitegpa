@@ -18,6 +18,7 @@ import {
   Link,
   Spinner,
   Text,
+  useColorModeValue,
   useToast,
   VStack,
 } from "@chakra-ui/react";
@@ -43,6 +44,8 @@ const Login = () => {
   const [formError, setFormError] = useState({ from: "", message: "" });
   const emailRef = useRef();
   const passwordRef = useRef();
+  const bgColor = useColorModeValue("secondary", "#1a202c");
+  const logo = useColorModeValue("logo.png", "logoalt.png");
 
   const navigate = useNavigate();
 
@@ -87,14 +90,15 @@ const Login = () => {
       >
         <Box
           h={{ md: "100vh" }}
-          display={{ base: "none", md: "block" }}
+          display={{ base: "none", md: "grid" }}
           pos="relative"
           w={{ md: "45%" }}
+          placeItems={"center"}
         >
           <Box
             pos="absolute"
             inset="0"
-            bg={{ md: "rgba(255,255,255,1)" }}
+            bg={{ md: bgColor }}
             top="-10%"
             boxShadow={"inset 0 0 25px rgba(100,100,100,.6)"}
             left="-12%"
@@ -107,13 +111,16 @@ const Login = () => {
             <Box className="right-wavy-border" />
           </Box>
           <Box pos="relative" py="8">
-            <Heading
-              fontSize={"clamp(1.2rem, 3vw, 1.5rem)"}
+          <Heading
+              w={"clamp(5rem, 10vw, 6rem)"}
               mb="10"
-              textAlign={"center"}
-              color={{ base: "primary" }}
+              display={"block"}
+              mx="auto"
+              // color={{ base: "secondary" }}
+              as={RouteLink}
+              to="/"
             >
-              eliteGPA
+              <Img alt="eliteGPA" w="100%" src={`/images/4x/${logo}`} />
             </Heading>
             <Box w="clamp(15rem, 40vw, 25rem)" mx="auto" my="10">
               <Img src="/images/login.png" />
@@ -133,14 +140,15 @@ const Login = () => {
         </Box>
         <Box alignSelf={"center"} py="10" px="4" maxW="32rem" mx="auto">
           <Heading
+            w={"clamp(5rem, 10vw, 6rem)"}
+            display={{ base: "block", md: "none" }}
             fontSize={"clamp(1.2rem, 3vw, 1.5rem)"}
-            mb="5"
-            textAlign={"center"}
-            color={{ base: "secondary" }}
-            display={{ md: "none" }}
-            as="h1"
+            mb="10"
+            // color={{ base: "secondary" }}
+            as={RouteLink}
+            to="/"
           >
-            eliteGPA
+            <Img alt="eliteGPA" w="100%" src={`/images/4x/logoalt.png`} />
           </Heading>
           <Heading
             fontSize={"clamp(1.5rem, 5vw, 2rem)"}
@@ -186,7 +194,7 @@ const Login = () => {
                     type="email"
                     autoComplete="username"
                     placeholder="Email"
-                    bg="white"
+                    bg={bgColor}
                     ref={emailRef}
                   />
                 </InputGroup>
@@ -210,13 +218,13 @@ const Login = () => {
                     type={showPassword ? "text" : "password"}
                     autoComplete="new-password"
                     placeholder="Password"
-                    bg="white"
+                    bg={bgColor}
                     ref={passwordRef}
                   />
                   <InputRightAddon
                     as={!showPassword ? FaEyeSlash : FaEye}
                     w="3rem"
-                    bg="white"
+                    bg={bgColor}
                     onClick={() => setShowPassword(!showPassword)}
                     _hover={{ bg: "rgba(200,200,200,1)" }}
                     cursor="pointer"

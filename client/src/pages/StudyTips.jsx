@@ -9,6 +9,7 @@ import {
   ListIcon,
   Text,
   Link,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import {FaCheck} from "react-icons/fa"
 const StudyTips = () => {
@@ -49,6 +50,7 @@ const StudyTips = () => {
 
     fetchData();
   }, []);
+  const colorValue = useColorModeValue("primary", "accentVar");
 
   return (
     <Container py="8" maxW="72rem" mx="auto">
@@ -76,13 +78,13 @@ const StudyTips = () => {
             pos={"relative"}
             alignItems={"center"}
           >
-            <Box flex={"1"} p="4" px="6" order={tip.id % 2 == 0 ? "0" : "1"}>
+            <Box flex={"1"} p="4" px="6" textAlign={tip.id % 2 != 0 ? "left" : "right"} order={tip.id % 2 == 0 ? "0" : "1"}>
               <Heading
                 as="h5"
                 fontSize={"1.1rem"}
                 display="flex"
                 flexDir={"column"}
-                color={"primary"}
+                color={colorValue}
               >
                 {tip.title}
               </Heading>

@@ -133,7 +133,6 @@ const GradePredictor = ({ loading, savedResults, userDetails, maxGPA }) => {
         fontSize="clamp(1.1rem, 2vw, 1.3rem)"
         textAlign={{ md: "center" }}
         mb="4"
-        color={"primary"}
       >
         Predicting Your Grades to Hit Your Target GPA
       </Heading>
@@ -315,7 +314,7 @@ const GradePredictor = ({ loading, savedResults, userDetails, maxGPA }) => {
                               <Text
                                 fontWeight="bold"
                                 fontSize={{ base: "xs", md: "sm" }}
-                                color="primary"
+                                color="accentVar"
                                 mt="2"
                               >
                                 Average GPA = {combination.averageGPA}

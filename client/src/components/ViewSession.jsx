@@ -17,6 +17,7 @@ import {
   Th,
   Thead,
   Tr,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import React from "react";
 import { FaPencilAlt, FaTimesCircle } from "react-icons/fa";
@@ -27,12 +28,14 @@ import { FaChartLine } from "react-icons/fa6";
 const ViewSession = ({ result, setResult }) => {
   let { level, session, semesters, _id } = result;
   let [first_semester, second_semester] = semesters;
+  const bgColor = useColorModeValue("secondary", "#1a202c");
+  const shadowColor = useColorModeValue("rgba(50,50,50, .3)", "rgba(200,200,200, .3)");
   return (
     <Center pos="fixed" inset={"0"}>
       <Box pos="absolute" inset={"0"} bg="rgba(0,0,0,.5)" />
       <Box
         p="6"
-        bg="secondary"
+        bg={bgColor}
         pos="relative"
         rounded={".5rem"}
         w="90vw"
@@ -187,7 +190,7 @@ const ViewSession = ({ result, setResult }) => {
             gap="1"
             fontWeight={"semibold"}
             bg="accentVar"
-            boxShadow={"0 0 5px rgba(255,255,255,.8)"}
+            boxShadow={`0 0 5px ${shadowColor}`}
             _hover={{ bg: "secondary", color: "accentVar" }}
             as={Link}
             p="1"
@@ -204,8 +207,8 @@ const ViewSession = ({ result, setResult }) => {
             py="1"
             px="2"
             fontWeight={"semibold"}
-            bg="secondary"
-            boxShadow={"0 0 5px rgba(255,255,255,.8)"}
+            bg={bgColor}
+            boxShadow={`0 0 5px ${shadowColor}`}
             _hover={{ bg: "secondary", color: "accentVar" }}
             as={Link}
             to={`/overview/${_id}`}
@@ -223,7 +226,7 @@ const ViewSession = ({ result, setResult }) => {
           h="unset"
           w="unset"
           fontWeight={"semibold"}
-          bg="secondary"
+          bg={bgColor}
           rounded={"full"}
           roundedBottomRight={0}
           _hover={{ bg: "red", color: "secondary" }}

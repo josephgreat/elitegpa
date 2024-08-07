@@ -70,7 +70,7 @@ const SummaryCard = ({
         animateDuration={5000}
       />
       <Text mb={1}>
-        <Badge bg={studentClass.badgeColor}>{studentClass.position}</Badge>
+        <Badge bg={studentClass.badgeColor} color="black">{studentClass.position}</Badge>
       </Text>
       <HStack gap="3">
         <VStack gap="1">

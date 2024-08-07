@@ -68,6 +68,7 @@ export const emailSignIn = async ({
   password,
 }) => {
   setLoading(true);
+  const previousLocation = localStorage.getItem("previousLocation");
 
   try {
     const userCredential = await signInWithEmailAndPassword(
@@ -86,15 +87,20 @@ export const emailSignIn = async ({
     if (docSnap.exists()) {
       setUserDetails(docSnap.data());
 
-      toast({
-        title: "Welcome back Elite",
-        description: "Keep cruising in your elite mode",
-        status: "success",
-      });
-
-      navigate("/my-gpas");
-    } else {
-      throw new Error("No such document!");
+      if (docSnap.data().setup) {
+        await toast({
+          title: `Welcome back Elite`,
+          description: `Keep cruising in your elite mode`,
+          status: "success",
+        });
+        if (previousLocation) {
+          navigate(previousLocation);
+        } else {
+          navigate("/my-gpas");
+        }
+      } else {
+        navigate("/user-setup");
+      }
     }
   } catch (error) {
     const errorCode = error.code;
@@ -105,7 +111,10 @@ export const emailSignIn = async ({
         description: "Check your login details properly",
         status: "error",
       });
-    } else if (errorCode === "auth/network-request-failed" || errorCode === "auth/internal-error") {
+    } else if (
+      errorCode === "auth/network-request-failed" ||
+      errorCode === "auth/internal-error"
+    ) {
       toast({
         title: "Network Error",
         description: "Check your Internet connection",

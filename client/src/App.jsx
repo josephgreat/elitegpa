@@ -1,5 +1,5 @@
 import { createContext, useState } from "react";
-import { Navbar } from "./components";
+import { Navbar, ThemeToggleBtn } from "./components";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import {
   GpaAssistant,
@@ -15,10 +15,11 @@ import {
   Settings,
   Error,
   NotFound,
+  LandingPage,
 } from "./pages";
 import "./App.css";
 import PageWrapper from "./PageWrapper";
-import { useToast } from "@chakra-ui/react";
+import { useColorModeValue, useToast } from "@chakra-ui/react";
 
 export const UserContext = createContext({ userDetails: {} });
 
@@ -26,9 +27,14 @@ function App() {
   const [userDetails, setUserDetails] = useState({});
   const toast = useToast({ position: "top-right", duration: 3000 });
   const [error, setError] = useState({ title: "", message: "" });
+  // export {error, setError}
   const router = createBrowserRouter([
     {
       path: "/",
+      element: <LandingPage />,
+    },
+    {
+      path: "/overview",
       element: <PageWrapper Component={Dashboard} />,
     },
     {
@@ -84,7 +90,10 @@ function App() {
       element: <NotFound />,
     },
   ]);
+  // const { toggleColorMode } = useColorMode()
 
+  // const bg = useColorModeValue('red.500', 'red.200')
+  // const color = useColorModeValue('white', 'gray.800')
   return (
     <UserContext.Provider
       value={{
@@ -95,7 +104,9 @@ function App() {
         toast: toast,
       }}
     >
+      <ThemeToggleBtn />
       <RouterProvider router={router} />
+      
     </UserContext.Provider>
   );
 }

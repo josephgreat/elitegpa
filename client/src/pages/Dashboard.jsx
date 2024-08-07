@@ -13,6 +13,7 @@ import {
   TableContainer,
   Tbody,
   Td,
+  Text,
   Th,
   Thead,
   Tr,
@@ -33,9 +34,11 @@ import {
   sortData,
 } from "../utils";
 import { Chart } from "chart.js";
-import { FaDownload } from "react-icons/fa";
+import { FaDownload, FaHistory, FaPlusCircle } from "react-icons/fa";
+import { FaBan, FaRecordVinyl, FaSchoolCircleXmark } from "react-icons/fa6";
+import { Link } from "react-router-dom";
 
-const Dashboard = ({userDetails}) => {
+const Dashboard = ({ userDetails }) => {
   const [allSessions, setAllSessions] = useState([]);
   const [loading, setLoading] = useState(true);
   // const sessionRef = useRef();
@@ -282,69 +285,104 @@ const Dashboard = ({userDetails}) => {
 
   return (
     <Container py="8" maxW="72rem" mx="auto">
-      <Heading textAlign="center" fontSize="clamp(1.5rem, 3vw, 2.5rem)">
-        Dashboard
+      <Heading mb="6" textAlign="center" fontSize="clamp(1.5rem, 3vw, 2.5rem)">
+        Overview
       </Heading>
-      {loading ? (
+      {totalCourses === 0 ? (
+        <Grid minH="50vh" placeItems={"center"} opacity={".7"}>
+          <VStack>
+            <FaSchoolCircleXmark
+              fontSize={"clamp(4rem, 15vw, 15rem)"}
+              fill="#008080"
+            />
+            <Text fontSize={"clamp(1.2rem, 3vw, 3rem)"}>
+              No Academic Session Recorded
+            </Text>
+            <Button
+              gap="2"
+              rounded={"1rem"}
+              fontWeight={"semibold"}
+              bg="accentVar"
+              as={Link}
+              to="/gpa-calc"
+              color={"white"}
+              _hover={{
+                bg: "transparent",
+                border: "1px solid",
+                borderColor: "accentVar",
+                color: "accentVar",
+              }}
+            >
+              <FaPlusCircle />
+              Add Session
+            </Button>
+          </VStack>
+        </Grid>
+      ) : loading ? (
         <Grid placeItems={"center"} minH={"15rem"}>
           <Spinner />
         </Grid>
       ) : (
-        <Flex flexDir={{ base: "column", md: "row" }} justify={"space-between"}>
-          <Box mb={4} flex={{ base: 1, md: 0.6 }}>
-            <SummaryCard
-              cgpa={cgpa}
-              small_screen={true}
-              studentClass={studentClass}
-              totalCreditLoad={totalCreditLoad}
-              totalCourses={totalCourses}
-            />
-            <SimpleGrid spacing={8}>
-              <Center height={{ base: "200px", md: "300px" }}>
-                <canvas id="gpaChart"></canvas>
-              </Center>
-            </SimpleGrid>
-            <Heading fontSize={"clamp(1.2rem, 2vw, 1.4rem)"} mb="2">
-              Session Details
-            </Heading>
-            {allSessions.map((session) => (
-              <SessionTable key={session._id} session={session} />
-            ))}
-          </Box>
-          <VStack flex={{ base: 1, md: 0.35 }}>
-            <SummaryCard
-              cgpa={cgpa}
-              small_screen={false}
-              studentClass={studentClass}
-              totalCreditLoad={totalCreditLoad}
-              totalCourses={totalCourses}
-            />
-            <Box>
-              <Center flexDir={"column"} gap="8">
-                <canvas id="semester1Chart" height={"300px"}></canvas>
-                <canvas id="semester2Chart" height={"300px"}></canvas>
-              </Center>
+        <>
+          <Flex
+            flexDir={{ base: "column", md: "row" }}
+            justify={"space-between"}
+          >
+            <Box mb={4} flex={{ base: 1, md: 0.6 }}>
+              <SummaryCard
+                cgpa={cgpa}
+                small_screen={true}
+                studentClass={studentClass}
+                totalCreditLoad={totalCreditLoad}
+                totalCourses={totalCourses}
+              />
+              <SimpleGrid spacing={8}>
+                <Center height={{ base: "200px", md: "300px" }}>
+                  <canvas id="gpaChart"></canvas>
+                </Center>
+              </SimpleGrid>
+              <Heading fontSize={"clamp(1.2rem, 2vw, 1.4rem)"} mb="2">
+                Session Details
+              </Heading>
+              {allSessions.map((session) => (
+                <SessionTable key={session._id} session={session} />
+              ))}
             </Box>
-          </VStack>
-        </Flex>
+            <VStack flex={{ base: 1, md: 0.35 }}>
+              <SummaryCard
+                cgpa={cgpa}
+                small_screen={false}
+                studentClass={studentClass}
+                totalCreditLoad={totalCreditLoad}
+                totalCourses={totalCourses}
+              />
+              <Box>
+                <Center flexDir={"column"} gap="8">
+                  <canvas id="semester1Chart" height={"300px"}></canvas>
+                  <canvas id="semester2Chart" height={"300px"}></canvas>
+                </Center>
+              </Box>
+            </VStack>
+          </Flex>
+          <Flex justifyContent={"center"}>
+            <Button
+              color={"secondary"}
+              border={"1px solid"}
+              h="unset"
+              gap="1"
+              py="1"
+              px="2"
+              fontWeight={"semibold"}
+              bg="primary"
+              boxShadow={"0 0 5px rgba(255,255,255,.8)"}
+              _hover={{ bg: "secondary", color: "primary" }}
+              // onClick={() => exportComponentAsJPEG(sessionRef)}
+            >
+              <FaDownload /> Download all sessions
+            </Button>
+          </Flex>
+        </>
       )}
-      <Flex justifyContent={"center"}>
-        <Button
-          color={"secondary"}
-          border={"1px solid"}
-          h="unset"
-          gap="1"
-          py="1"
-          px="2"
-          fontWeight={"semibold"}
-          bg="primary"
-          boxShadow={"0 0 5px rgba(255,255,255,.8)"}
-          _hover={{ bg: "secondary", color: "primary" }}
-          // onClick={() => exportComponentAsJPEG(sessionRef)}
-        >
-          <FaDownload /> Download all sessions
-        </Button>
-      </Flex>
     </Container>
   );
 };

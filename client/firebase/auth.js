@@ -35,7 +35,9 @@ export const checkAuth = (setUserDetails, toast, navigate, setLoginMode) => {
               navigate("/my-gpas");
             }
           } else {
+            alert("nvaigating")
             navigate("/user-setup");
+          
           }
         } else {
           console.error("No such document!");

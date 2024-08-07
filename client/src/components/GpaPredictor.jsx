@@ -124,7 +124,7 @@ const toast = useToast({position: "top-right"});
               overflowX={{ base: "auto", md: "unset" }}
               whiteSpace={{ base: "nowrap", md: "unset" }}
             >
-              {savedResults[0].level ? savedResults.map(({ level, semesters }, index) => (
+              {savedResults[0] ? savedResults.map(({ level, semesters }, index) => (
                 <ListItem
                   // py="2"
                   _notLast={{
@@ -145,7 +145,7 @@ const toast = useToast({position: "top-right"});
                     left="50%"
                     fontSize="clamp(1rem, 1.3vw, 1.3rem)"
                     display={"flex"}
-                    color="primary"
+                    // color="primary"
                     flexDir={"row"}
                     // justifyContent={"flex-start"}
                     gap="2"

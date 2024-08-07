@@ -54,7 +54,7 @@ const getStudentClass = (cgpa) => {
   let gradingSystem = getSessionGradingSystem();
 
   if (!gradingSystem) {
-
+    window.location.replace("/login")
     console.warn("No grading system found in session storage. Using default.");
     // You can either throw an error here or set a default value for gradingSystem.
     // Here, we'll set a default grading system:

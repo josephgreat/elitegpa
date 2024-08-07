@@ -18,6 +18,7 @@ import {
   Link,
   Spinner,
   Text,
+  useColorModeValue,
   useToast,
   VStack,
 } from "@chakra-ui/react";
@@ -47,6 +48,8 @@ const Signup = () => {
   const confirmPasswordRef = useRef();
   const usernameRef = useRef();
   const navigate = useNavigate();
+  const logo = useColorModeValue("logo.png", "logoalt.png");
+  const bgColor = useColorModeValue("secondary", "#1a202c");
 
   const handleFormError = (from, message) => {
     setFormError({ from: from, message: message });
@@ -107,7 +110,7 @@ const Signup = () => {
           <Box
             pos="absolute"
             inset="0"
-            bg={{ md: "rgba(255,255,255,1)" }}
+            bg={{ md: bgColor }}
             top="-10%"
             boxShadow={"inset 0 0 25px rgba(100,100,100,.6)"}
             left="-10%"
@@ -121,12 +124,15 @@ const Signup = () => {
           </Box>
           <Box pos="relative" py="8">
             <Heading
-              fontSize={"clamp(1.2rem, 3vw, 1.5rem)"}
+              w={"clamp(5rem, 10vw, 6rem)"}
               mb="10"
-              textAlign={"center"}
-              color={{ base: "primary" }}
+              display={"block"}
+              mx="auto"
+              // color={{ base: "secondary" }}
+              as={RouteLink}
+              to="/"
             >
-              eliteGPA
+              <Img alt="eliteGPA" w="100%" src={`/images/4x/${logo}`} />
             </Heading>
             <Box w="clamp(12rem, 25vw, 25rem)" mx="auto" my="10">
               <Img src="/images/signup.png" minH="15rem" />
@@ -146,14 +152,16 @@ const Signup = () => {
         </Box>
         <Box alignSelf={"center"} py="10" px="4" maxW="32rem" mx="auto">
           <Heading
+            w={"clamp(5rem, 10vw, 6rem)"}
+            display={{ base: "block", md: "none" }}
+            // mx={"auto"}
             fontSize={"clamp(1.2rem, 3vw, 1.5rem)"}
-            mb="5"
-            textAlign={"center"}
-            color={{ base: "secondary" }}
-            display={{ md: "none" }}
-            as="h1"
+            mb="10"
+            // color={{ base: "secondary" }}
+            as={RouteLink}
+            to="/"
           >
-            eliteGPA
+            <Img alt="eliteGPA" w="100%" src={`/images/4x/logoalt.png`} />
           </Heading>
           <Heading
             fontSize={"clamp(1.5rem, 5vw, 2rem)"}
@@ -199,7 +207,7 @@ const Signup = () => {
                     type="text"
                     ref={usernameRef}
                     placeholder="Username"
-                    bg="white"
+                    bg={bgColor}
                   />
                 </InputGroup>
 
@@ -223,7 +231,7 @@ const Signup = () => {
                     type="email"
                     autoComplete="username"
                     placeholder="Email"
-                    bg="white"
+                    bg={bgColor}
                     ref={emailRef}
                   />
                 </InputGroup>
@@ -247,13 +255,13 @@ const Signup = () => {
                     type={showPassword ? "text" : "password"}
                     autoComplete="new-password"
                     placeholder="Password"
-                    bg="white"
+                    bg={bgColor}
                     ref={passwordRef}
                   />
                   <InputRightAddon
                     as={!showPassword ? FaEyeSlash : FaEye}
                     w="3rem"
-                    bg="white"
+                    bg={bgColor}
                     onClick={() => setShowPassword(!showPassword)}
                     _hover={{ bg: "rgba(200,200,200,1)" }}
                     cursor="pointer"
@@ -278,14 +286,14 @@ const Signup = () => {
                   <Input
                     type={showCPassword ? "text" : "password"}
                     placeholder="Confirm password"
-                    bg="white"
+                    bg={bgColor}
                     autoComplete="new-password"
                     ref={confirmPasswordRef}
                   />
                   <InputRightAddon
                     as={!showCPassword ? FaEyeSlash : FaEye}
                     w="3rem"
-                    bg="white"
+                    bg={bgColor}
                     onClick={() => setShowCPassword(!showCPassword)}
                     _hover={{ bg: "rgba(200,200,200,1)" }}
                     cursor="pointer"

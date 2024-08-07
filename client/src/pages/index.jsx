@@ -11,6 +11,7 @@ import UserSetup from "./UserSetup";
 import Settings from "./Settings";
 import Error from "./Error";
 import NotFound from "./404";
+import LandingPage from "./LandingPage";
 export {
   GpaCalc,
   StudyTips,
@@ -25,4 +26,5 @@ export {
   Settings,
   Error,
   NotFound,
+  LandingPage
 };
