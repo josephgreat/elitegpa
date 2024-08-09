@@ -10,7 +10,6 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import React from "react";
-import { Blob1 } from "../../../public/images/jsxImgs";
 
 const HowItWorksSection = () => (
   <Container maxW="container.lg" py={20} id="howitworks">
