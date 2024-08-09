@@ -10,6 +10,7 @@ import {
   Th,
   Thead,
   Tr,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import React from "react";
 import {
@@ -23,6 +24,8 @@ import { Link } from "react-router-dom";
 
 const SessionTable = ({ session }) => {
   let { semesters, level, _id } = session;
+  const bgColor = useColorModeValue("secondary", "secondaryAlt");
+  const shadowColor = useColorModeValue("rgba(50,50,50, .3)", "rgba(100,100,100, .3)");
   return (
     <Box mb="8">
       <Box overflowX="auto">
@@ -64,7 +67,8 @@ const SessionTable = ({ session }) => {
           px="2"
           fontWeight={"semibold"}
           bg="transparent"
-          boxShadow={"0 0 5px rgba(255,255,255,.8)"}
+          mt="2"
+          boxShadow={`0 0 5px ${shadowColor}`}
           _hover={{ bg: "accentVar", color: "secondary" }}
           as={Link}
           to={`/overview/${_id}`}

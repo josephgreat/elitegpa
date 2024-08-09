@@ -20,23 +20,31 @@ import {
   calculateUserGradePoint,
 } from "../utils";
 
-const SemesterCoursesTable = ({ semester, title }) => {
+const SemesterCoursesTable = ({ semester, title, downloadable }) => {
   return (
     <Box flex="1" w="100%" mb="4">
       <Heading size="sm" mb={2}>
         {title}
       </Heading>
       <TableContainer
-        maxW={{ base: "calc(100vw - 2rem)", md: "unset" }}
+        maxW={{ base: !downloadable && "calc(100vw - 2rem)", md: "unset" }}
         overflowX="auto"
       >
-        <Table variant="striped" size={"sm"}>
-          <Thead>
+        <Table variant="simple" size={"sm"}>
+          <Thead bg="accentVar" color={"secondary"}>
             <Tr>
-              <Th>Course Title</Th>
-              <Th>Course Code</Th>
-              <Th>Credit Load</Th>
-              <Th>Grade</Th>
+              <Th pb={downloadable && "4"} color={"secondary"}>
+                Course Title
+              </Th>
+              <Th pb={downloadable && "4"} color={"secondary"}>
+                Course Code
+              </Th>
+              <Th pb={downloadable && "4"} color={"secondary"}>
+                Credit Load
+              </Th>
+              <Th pb={downloadable && "4"} color={"secondary"}>
+                Grade
+              </Th>
             </Tr>
           </Thead>
           <Tbody>
@@ -51,7 +59,14 @@ const SemesterCoursesTable = ({ semester, title }) => {
           </Tbody>
         </Table>
       </TableContainer>
-      <Flex flexWrap={"wrap"} gap="2" my="2" justifyContent={"center"}>
+      <Flex
+        flexWrap={"wrap"}
+        gap="4"
+        alignItems={"center"}
+        flexDir={{ base: "column", sm: "row" }}
+        my="2"
+        justifyContent={"center"}
+      >
         <Text fontFamily={"heading"} fontSize={"sm"} fontWeight={"semibold"}>
           Total Credit Load: {calculateTotalCreditLoad(semester)}
         </Text>
@@ -59,10 +74,18 @@ const SemesterCoursesTable = ({ semester, title }) => {
         <Text fontFamily={"heading"} fontSize={"sm"} fontWeight={"semibold"}>
           Your Total Grade Point: {calculateUserGradePoint(semester)}
         </Text>
-        <Text fontFamily={"heading"} fontSize={"sm"} fontWeight={"semibold"}>
-          Grade Point Average (GPA): {calculateGpa(semester.courses)}
-        </Text>
       </Flex>
+      <Text
+        textAlign={"center"}
+        fontFamily={"heading"}
+        fontSize={"md"}
+        fontWeight={"bold"}
+      >
+        Grade Point Average (GPA):{" "}
+        <Text as="span" fontSize={"xl"}>
+          {calculateGpa(semester.courses).toFixed(1)}
+        </Text>
+      </Text>
     </Box>
   );
 };

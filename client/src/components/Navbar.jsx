@@ -11,6 +11,7 @@ import {
   Text,
   Spacer,
   Avatar,
+  Grid,
 } from "@chakra-ui/react";
 import React, { useContext, useState } from "react";
 import { NavLink } from "react-router-dom";
@@ -93,14 +94,17 @@ const Navbar = ({ userDetails, navigate }) => {
               rounded={"full"}
               boxShadow={"0 0 5px rgba(200,200,200, .6)"}
               w="3rem"
+              h="3rem"
             />
           ) : displayName ? (
             <Box
               fontSize={"1.2rem"}
               bg={photoBgColor}
               rounded={"full"}
-              px=".7rem"
-              py=".5rem"
+              w="3rem"
+              h="3rem"
+              as={Grid}
+              placeItems={"center"}
               textTransform={"capitalize"}
               textShadow={"0 0 2px rgba(100,100,100,.7)"}
               boxShadow={"0 0 5px rgba(200,200,200, .6)"}
@@ -175,14 +179,17 @@ const SideNav = ({
                 rounded={"full"}
                 boxShadow={"0 0 5px rgba(200,200,200, .6)"}
                 w="3rem"
+                h="3rem"
               />
             ) : displayName ? (
               <Box
                 fontSize={"1.2rem"}
                 bg={photoBgColor}
                 rounded={"full"}
-                px=".7rem"
-                py=".5rem"
+                w="3rem"
+                h="3rem"
+                as={Grid}
+                placeItems={"center"}
                 textTransform={"capitalize"}
                 textShadow={"0 0 2px rgba(100,100,100,.7)"}
                 backdropFilter={"contrast(0.5)"}

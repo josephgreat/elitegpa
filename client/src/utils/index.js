@@ -7,7 +7,7 @@ import {
   generateRandomColors,
   sortData,
   setSessionGradingSystem,
-  deleteSessionGradingSystem,
+  deleteSessionGradingSystem,removeSpecialCharacters
 } from "./appLogics.js";
 import calculateGpa, {
   calculateCGPA,
@@ -48,5 +48,5 @@ export {
   setCookie,
   getCookie,
   eraseCookie,
-  
+  removeSpecialCharacters
 };

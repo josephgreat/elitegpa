@@ -32,6 +32,8 @@ const PageWrapper = ({ Component }) => {
     // if(!userDetails.setup.grading_system){
     //   navigate("/user-setup")
     // }
+    console.log(userDetails);
+    
     userDetails.uid &&
       setSessionGradingSystem(userDetails.setup.grading_system);
     // !userDetails.uid && ;

@@ -40,14 +40,18 @@ export const checkAuth = (setUserDetails, toast, navigate, setLoginMode) => {
           
           }
         } else {
+          alert("hmm")
           console.error("No such document!");
           navigate("/login");
         }
       } catch (error) {
+        alert("error12")
         console.error("Error fetching user details:", error);
         navigate("/login");
       }
     } else {
+      alert("error123")
+
       navigate("/login");
     }
   });

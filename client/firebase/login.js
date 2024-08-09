@@ -6,7 +6,7 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
 } from "firebase/auth";
-import { setCookie } from "../src/utils";
+import { deleteSessionGradingSystem, eraseCookie, setCookie } from "../src/utils";
 
 const auth = getAuth(app);
 auth.languageCode = "it";
@@ -78,7 +78,8 @@ export const emailSignIn = async ({
     );
     const { user } = userCredential;
     const { uid } = user;
-
+    // eraseCookie("uid");
+    // deleteSessionGradingSystem();
     setCookie("uid", uid, 10);
 
     const docRef = doc(db, "users", uid);

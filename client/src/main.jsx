@@ -7,7 +7,7 @@ const styles = {
   global: props => ({
     body: {
       color: mode('gray.800', 'whiteAlpha.900')(props),
-      bg: mode('gray.50', '#0d0d0d')(props),
+      bg: mode('white', '#0d0d0d')(props),
     },
   }),
 };
@@ -17,7 +17,7 @@ const components = {
     // setup light/dark mode component defaults
     baseStyle: props => ({
       dialog: {
-        bg: mode('white', '#0d0d0d')(props),
+        bg: mode('gray.50', '#0d0d0d')(props),
       },
     }),
   },
@@ -27,6 +27,7 @@ const theme = extendTheme({
     primary: "#191970",
     accent: "#FFD700",
     secondary: "#ffffff",
+    secondaryAlt: "#0d0d0d",
     accentVar: "#008080",
   },
   fonts: {

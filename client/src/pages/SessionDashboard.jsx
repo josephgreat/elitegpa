@@ -15,6 +15,7 @@ import {
   Spinner,
   Button,
   VStack,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import {
   calculateCGPA,
@@ -25,15 +26,24 @@ import {
   calculateCourseGradePoint,
   calculateTotalCreditLoad,
   calculateGpa,
-  getStudentClass, sessionDataToExcel
+  getStudentClass,
+  sessionDataToExcel,
 } from "../utils";
-import { SemesterCoursesTable, SummaryCard } from "../components";
-
+import { Result, SemesterCoursesTable, SummaryCard } from "../components";
+import { usePDF } from "react-to-pdf";
+import { FaFileImage, FaFilePdf } from "react-icons/fa6";
 function SessionDashboard() {
   const [sessionResult, setSessionResult] = useState({});
   const [loading, setLoading] = useState(true);
   const { resultId } = useParams();
-  const sessionRef = useRef();
+  const { toPDF, targetRef } = usePDF({ filename: "Session Result" });
+  let sessionRef = useRef();
+  sessionRef = targetRef;
+  const bgColor = useColorModeValue("secondary", "secondaryAlt");
+  const shadowColor = useColorModeValue(
+    "rgba(50,50,50, .3)",
+    "rgba(100,100,100, .3)"
+  );
 
   const getResult = async () => {
     try {
@@ -85,7 +95,7 @@ function SessionDashboard() {
                 pointRadius: 4,
                 pointHoverRadius: 6,
                 fill: false,
-                tension: 3
+                tension: 3,
               },
             ],
           },
@@ -121,7 +131,13 @@ function SessionDashboard() {
         return { courses, gradePoints };
       };
 
-      const renderChart = (elementId, semester, semesterCourses, semesterGradePoints, label) => {
+      const renderChart = (
+        elementId,
+        semester,
+        semesterCourses,
+        semesterGradePoints,
+        label
+      ) => {
         return new Chart(document.getElementById(elementId), {
           type: "doughnut",
           data: {
@@ -155,11 +171,29 @@ function SessionDashboard() {
         });
       };
 
-      const { courses: firstSemesterCourses, gradePoints: firstSemesterGradePoints } = generateChartData(first_semester);
-      const { courses: secondSemesterCourses, gradePoints: secondSemesterGradePoints } = generateChartData(second_semester);
+      const {
+        courses: firstSemesterCourses,
+        gradePoints: firstSemesterGradePoints,
+      } = generateChartData(first_semester);
+      const {
+        courses: secondSemesterCourses,
+        gradePoints: secondSemesterGradePoints,
+      } = generateChartData(second_semester);
 
-      const semester1Chart = renderChart("semester1Chart", first_semester, firstSemesterCourses, firstSemesterGradePoints, "First Semester");
-      const semester2Chart = renderChart("semester2Chart", second_semester, secondSemesterCourses, secondSemesterGradePoints, "Second Semester");
+      const semester1Chart = renderChart(
+        "semester1Chart",
+        first_semester,
+        firstSemesterCourses,
+        firstSemesterGradePoints,
+        "First Semester"
+      );
+      const semester2Chart = renderChart(
+        "semester2Chart",
+        second_semester,
+        secondSemesterCourses,
+        secondSemesterGradePoints,
+        "Second Semester"
+      );
 
       return () => {
         if (gpaChart) gpaChart.destroy();
@@ -173,7 +207,7 @@ function SessionDashboard() {
   let totalCreditLoad = 21;
   let totalCourses = 6;
   let studentClass = { position: "", badgeColor: "white" };
-  
+
   let { semesters, level } = {};
   if (sessionResult) {
     ({ semesters, level } = sessionResult);
@@ -184,45 +218,74 @@ function SessionDashboard() {
   }
 
   return (
-    <Container ref={sessionRef} py="8" maxW="72rem" mx="auto" px="1rem">
+    <Container
+      py="8"
+      maxW="72rem"
+      mx="auto"
+      px="1rem"
+      pos="relative"
+      bg={bgColor}
+      minH={"100vh"}
+    >
       {loading ? (
         <Grid placeItems={"center"} minH={"15rem"}>
           <Spinner />
         </Grid>
       ) : (
-        <Flex flexDir={{ base: "column", md: "row" }} flexWrap={"wrap"} justify={"space-between"}>
-          <Box mb={4} flex={{ base: 1, md: 0.6 }}>
-            <Heading mb={2} fontSize={"clamp(1.3rem, 4vw, 1.6rem)"} textAlign={"center"}>
+        <Flex
+          flexDir={{ base: "column", md: "row" }}
+          flexWrap={"wrap"}
+          justify={"space-between"}
+        >
+          <Box mb={4} flex={{ base: 1, lg: 0.6 }}>
+            <Heading
+              mb={2}
+              fontSize={"clamp(1.3rem, 4vw, 1.6rem)"}
+              textAlign={"center"}
+            >
               {level} Academic Performance
             </Heading>
-            <SummaryCard
-              cgpa={cgpa}
-              small_screen={true}
-              studentClass={studentClass}
-              totalCreditLoad={totalCreditLoad}
-              totalCourses={totalCourses}
-            />
-            <SimpleGrid spacing={8}>
-              <Center height={{ base: "200px", md: "300px" }}>
-                <canvas id="gpaChart"></canvas>
-              </Center>
-              <Box>
-                <Heading size="md" mb={4}>
-                  Semester Courses
-                </Heading>
-                <VStack gap="8" w="100%">
-                  {semesters.map((semester, index) => (
-                    <SemesterCoursesTable
-                      key={index}
-                      semester={semester}
-                      title={semester.semester === 1 ? "First Semester" : "Second Semester"}
-                    />
-                  ))}
-                </VStack>
-              </Box>
-            </SimpleGrid>
+            <Flex
+              justifyContent="space-between"
+              mb="8"
+              gap="8"
+              flexWrap="wrap"
+              flexDir={{ base: "column", sm: "row-reverse" }}
+            >
+              <SummaryCard
+                cgpa={cgpa}
+                small_screen={true}
+                studentClass={studentClass}
+                totalCreditLoad={totalCreditLoad}
+                totalCourses={totalCourses}
+              />
+              <SimpleGrid spacing={8} flex="1">
+                <Center height={{ base: "200px", md: "300px" }}>
+                  <canvas id="gpaChart"></canvas>
+                </Center>
+              </SimpleGrid>
+            </Flex>
+
+            <Box>
+              <Heading size="md" mb={4}>
+                Semester Courses
+              </Heading>
+              <VStack gap="8" w="100%">
+                {semesters.map((semester, index) => (
+                  <SemesterCoursesTable
+                    key={index}
+                    semester={semester}
+                    title={
+                      semester.semester === 1
+                        ? "First Semester"
+                        : "Second Semester"
+                    }
+                  />
+                ))}
+              </VStack>
+            </Box>
           </Box>
-          <VStack flex={{ base: 1, md: 0.35 }}>
+          <VStack flex={{ base: 1, lg: 0.35 }}>
             <SummaryCard
               cgpa={cgpa}
               small_screen={false}
@@ -234,44 +297,49 @@ function SessionDashboard() {
               <Heading size="md" mb={4}>
                 Grades by Semester
               </Heading>
-              <Flex flexDir={"column"} gap="8">
-                <canvas id="semester1Chart"></canvas>
-                <canvas id="semester2Chart"></canvas>
+              <Flex flexWrap={"wrap"} gap="8" alignItems={"center"}>
+                <Box>
+                  <canvas id="semester1Chart"></canvas>
+                </Box>
+                <Box>
+                  <canvas id="semester2Chart"></canvas>
+                </Box>
               </Flex>
             </Box>
           </VStack>
         </Flex>
       )}
       <Flex gap="4" justifyContent={"center"} my="8">
-        <Button
+        {/* <Button
           color={"secondary"}
-          border={"1px solid"}
+          // border={"1px solid"}
           h="unset"
           gap="1"
           py="1"
           px="2"
           fontWeight={"semibold"}
           bg="primary"
-          boxShadow={"0 0 5px rgba(255,255,255,.8)"}
+          boxShadow={`0 0 5px ${shadowColor}`}
           _hover={{ bg: "secondary", color: "primary" }}
           onClick={() => exportComponentAsJPEG(sessionRef)}
         >
-          <FaDownload /> Download
-        </Button>
+          <FaFileImage /> Download
+        </Button> */}
         <Button
           color={"secondary"}
-          border={"1px solid"}
+          // border={"1px solid"}
+
           h="unset"
           gap="1"
           py="1"
           px="2"
           fontWeight={"semibold"}
           bg="primary"
-          boxShadow={"0 0 5px rgba(255,255,255,.8)"}
+          boxShadow={`0 0 5px ${shadowColor}`}
           _hover={{ bg: "secondary", color: "primary" }}
-          onClick={() => sessionDataToExcel(sessionResult, "result")}
+          onClick={() => toPDF()}
         >
-          <FaDownload /> Download
+          <FaFilePdf /> Download
         </Button>
         <Button
           color={"secondary"}
@@ -279,7 +347,7 @@ function SessionDashboard() {
           gap="1"
           fontWeight={"semibold"}
           bg="accentVar"
-          boxShadow={"0 0 5px rgba(255,255,255,.8)"}
+          boxShadow={`0 0 5px ${shadowColor}`}
           _hover={{ bg: "secondary", color: "accentVar" }}
           as={Link}
           p="1"
@@ -289,6 +357,18 @@ function SessionDashboard() {
           <FaPencilAlt /> Edit
         </Button>
       </Flex>
+      <Box
+        ref={targetRef}
+        position={"absolute"}
+        top={"-9999px"} // Move it off-screen
+        left={"-9999px"} // Move it off-screen
+        // visibility={"hidden"}  // Hide visibility
+        minH={"50rem"}
+        minW={"62rem"}
+        py="8"
+      >
+        <Result sessionResult={sessionResult} />
+      </Box>
     </Container>
   );
 }

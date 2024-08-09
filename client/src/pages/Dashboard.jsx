@@ -17,12 +17,13 @@ import {
   Th,
   Thead,
   Tr,
+  useColorModeValue,
   VStack,
 } from "@chakra-ui/react";
 import { Pie, PieChart } from "recharts";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { SessionTable, SummaryCard } from "../components";
+import { Result, SessionTable, SummaryCard } from "../components";
 import {
   calculateCGPA,
   calculateSessionCourses,
@@ -34,15 +35,19 @@ import {
   sortData,
 } from "../utils";
 import { Chart } from "chart.js";
-import { FaDownload, FaHistory, FaPlusCircle } from "react-icons/fa";
-import { FaBan, FaRecordVinyl, FaSchoolCircleXmark } from "react-icons/fa6";
+import { FaPlusCircle } from "react-icons/fa";
+import { FaSchoolCircleXmark } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 
 const Dashboard = ({ userDetails }) => {
   const [allSessions, setAllSessions] = useState([]);
   const [loading, setLoading] = useState(true);
   // const sessionRef = useRef();
-
+  const bgColor = useColorModeValue("secondary", "secondaryAlt");
+  const shadowColor = useColorModeValue(
+    "rgba(50,50,50, .3)",
+    "rgba(100,100,100, .3)"
+  );
   const getAllSessions = async () => {
     try {
       const sessions = await axios.get(
@@ -328,19 +333,27 @@ const Dashboard = ({ userDetails }) => {
             flexDir={{ base: "column", md: "row" }}
             justify={"space-between"}
           >
-            <Box mb={4} flex={{ base: 1, md: 0.6 }}>
-              <SummaryCard
-                cgpa={cgpa}
-                small_screen={true}
-                studentClass={studentClass}
-                totalCreditLoad={totalCreditLoad}
-                totalCourses={totalCourses}
-              />
-              <SimpleGrid spacing={8}>
-                <Center height={{ base: "200px", md: "300px" }}>
-                  <canvas id="gpaChart"></canvas>
-                </Center>
-              </SimpleGrid>
+            <Box mb={4} flex={{ base: 1, lg: 0.58 }}>
+              <Flex
+                justifyContent="space-between"
+                gap="4"
+                mb="8"
+                flexWrap="wrap"
+                flexDir={{ base: "column", sm: "row-reverse" }}
+              >
+                <SummaryCard
+                  cgpa={cgpa}
+                  small_screen={true}
+                  studentClass={studentClass}
+                  totalCreditLoad={totalCreditLoad}
+                  totalCourses={totalCourses}
+                />
+                <SimpleGrid spacing={8} flex="1">
+                  <Center height={{ base: "200px", md: "300px" }}>
+                    <canvas id="gpaChart"></canvas>
+                  </Center>
+                </SimpleGrid>
+              </Flex>
               <Heading fontSize={"clamp(1.2rem, 2vw, 1.4rem)"} mb="2">
                 Session Details
               </Heading>
@@ -348,7 +361,7 @@ const Dashboard = ({ userDetails }) => {
                 <SessionTable key={session._id} session={session} />
               ))}
             </Box>
-            <VStack flex={{ base: 1, md: 0.35 }}>
+            <VStack flex={{ base: 1, lg: 0.35 }}>
               <SummaryCard
                 cgpa={cgpa}
                 small_screen={false}
@@ -364,7 +377,7 @@ const Dashboard = ({ userDetails }) => {
               </Box>
             </VStack>
           </Flex>
-          <Flex justifyContent={"center"}>
+          {/* <Flex justifyContent={"center"} mt="4">
             <Button
               color={"secondary"}
               border={"1px solid"}
@@ -372,15 +385,16 @@ const Dashboard = ({ userDetails }) => {
               gap="1"
               py="1"
               px="2"
+             
               fontWeight={"semibold"}
               bg="primary"
-              boxShadow={"0 0 5px rgba(255,255,255,.8)"}
+              boxShadow={`0 0 5px ${shadowColor}`}
               _hover={{ bg: "secondary", color: "primary" }}
               // onClick={() => exportComponentAsJPEG(sessionRef)}
             >
               <FaDownload /> Download all sessions
             </Button>
-          </Flex>
+          </Flex> */}
         </>
       )}
     </Container>

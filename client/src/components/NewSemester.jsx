@@ -14,7 +14,7 @@ import {
 } from "@chakra-ui/react";
 import { FaPlusCircle, FaTimesCircle } from "react-icons/fa";
 import { FaCircleChevronDown, FaCircleChevronUp } from "react-icons/fa6";
-import { calculateGpa } from "../utils";
+import { calculateGpa, removeSpecialCharacters } from "../utils";
 
 const NewSemester = ({
   semester,
@@ -184,7 +184,10 @@ const NewCourse = ({
           type="text"
           value={course.course}
           textTransform={"capitalize"}
-          onChange={(e) => handleInputChange(e, index, "course")}
+          onChange={(e) => {
+            removeSpecialCharacters(e);
+            handleInputChange(e, index, "course");
+          }}
           w="65%"
           placeholder="course"
         />
@@ -194,7 +197,10 @@ const NewCourse = ({
           placeholder={"course code"}
           w="35%"
           textTransform={"uppercase"}
-          onChange={(e) => handleInputChange(e, index, "course_code")}
+          onChange={(e) => {
+            removeSpecialCharacters(e);
+            handleInputChange(e, index, "course_code");
+          }}
         />
         <Select
           type="number"
@@ -220,7 +226,7 @@ const NewCourse = ({
           }}
           flex="1"
           placeholder="Grade"
-          color={(value) => (value === "Grade" ? "#9e9e9e" : "black")}
+          // color={(value) => (value === "Grade" ? "#9e9e9e" : "black")}
         >
           {gradeList().map((grade) => (
             <option key={grade} value={grade}>

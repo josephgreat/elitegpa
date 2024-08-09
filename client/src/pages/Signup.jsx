@@ -57,14 +57,10 @@ const Signup = () => {
 
   const handleUserSignUp = () => {
     const emailRegxPattern = /\S+@\S+\.\S+/;
-    if (
-      usernameRef.current.value.length <= 2 ||
-      usernameRef.current.value.length >= 15
-    ) {
-      handleFormError(
-        "username",
-        "Username should be between 2 and 15 characters"
-      );
+    if (usernameRef.current.value.length <= 2) {
+      handleFormError("username", "Username should be more than 3 characters");
+    } else if (usernameRef.current.value.trim().split(" ").length > 3) {
+      handleFormError("username", "Username should not be more than 3 words");
     } else if (emailRef.current.value.length === 0)
       handleFormError("email", "Email is required");
     else if (!emailRegxPattern.test(emailRef.current.value))

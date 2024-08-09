@@ -40,6 +40,16 @@ function deepEqual(obj1, obj2) {
     return obj1 === obj2;
   }
 }
+
+function removeSpecialCharacters(e) {
+  const regex = /^[a-zA-Z0-9 ]*$/;
+
+  // If the current input value contains any character not in the regex, remove it
+  if (!regex.test(e.target.value)) {
+    e.target.value = e.target.value.replace(/[^a-zA-Z0-9 ]/g, "");
+  }
+}
+
 function getSessionGradingSystem() {
   const storedGradingSystem = sessionStorage.getItem("gradingSystem");
   if (storedGradingSystem) {
@@ -54,13 +64,13 @@ const getStudentClass = (cgpa) => {
   let gradingSystem = getSessionGradingSystem();
 
   if (!gradingSystem) {
-    window.location.replace("/login")
+    window.location.replace("/login");
     console.warn("No grading system found in session storage. Using default.");
     // You can either throw an error here or set a default value for gradingSystem.
     // Here, we'll set a default grading system:
   }
 
-  const gradePointRate = gradingSystem.split(" ")[0].toLowerCase();
+  const gradePointRate = gradingSystem && gradingSystem.split(" ")[0].toLowerCase();
 
   if (
     (cgpa >= 4.5 && gradePointRate === "five") ||
@@ -98,7 +108,6 @@ const getStudentClass = (cgpa) => {
   return studentClass;
 };
 
-
 function capitalize(str) {
   return str.replace(/^\w/, (c) => c.toUpperCase());
 }
@@ -135,7 +144,6 @@ function deleteSessionGradingSystem() {
   }
 }
 
-
 export {
   generateTwoDigitNumbers,
   deepEqual,
@@ -145,6 +153,7 @@ export {
   sortData,
   setSessionGradingSystem,
   getSessionGradingSystem,
-  deleteSessionGradingSystem
+  deleteSessionGradingSystem,
+  removeSpecialCharacters
 };
 // Test the function

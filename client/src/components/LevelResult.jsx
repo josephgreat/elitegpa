@@ -12,7 +12,7 @@ const LevelResult = ({
   setResultToBeViewed,
 }) => {
   let { level, semesters } = result;
-  const bgColor = useColorModeValue("secondary", "#1a202c");
+  const bgColor = useColorModeValue("secondary", "secondaryAlt");
   const shadowColor = useColorModeValue("rgba(50,50,50, .3)", "rgba(200,200,200, .3)");
 
   return (
@@ -31,7 +31,7 @@ const LevelResult = ({
         <Flex alignItems={"flex-end"} gap="1" fontWeight={"semibold"}>
           <Text fontSize={".8rem"}>CGPA:</Text>
           <Text as="span" fontSize={"1.2rem"} fontFamily={"heading"}>
-            {calculateCGPA(semesters)}
+            {calculateCGPA(semesters).toFixed(2)}
           </Text>
         </Flex>
       </Flex>
@@ -39,7 +39,7 @@ const LevelResult = ({
         <Stack direction="row">
           <Text>
             {semesters[0].semester === 1 ? "First" : "Second"} Semester:{" "}
-            {semesters[0].gpa}
+            {parseFloat(semesters[0].gpa).toFixed(2)}
           </Text>
           <Divider
             orientation="vertical"
@@ -48,7 +48,7 @@ const LevelResult = ({
           />
           <Text>
             {semesters[1].semester === 1 ? "First" : "Second"} Semester:{" "}
-            {semesters[1].gpa}
+            {parseFloat(semesters[1].gpa).toFixed(2)}
           </Text>
         </Stack>
       </Flex>

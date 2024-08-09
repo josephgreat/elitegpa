@@ -27,7 +27,7 @@ const SummaryCard = ({
     <Flex
       display={{
         base: small_screen ? "flex" : "none",
-        md: small_screen ? "none" : "flex",
+        lg: small_screen ? "none" : "flex",
       }}
       bgGradient={"linear(to-br, primary, accentVar)"}
       alignItems={"center"}
@@ -37,6 +37,7 @@ const SummaryCard = ({
       flexDir={"column"}
       gap="2"
       p="4"
+      maxW={{base: "max(20rem, 80%)", md: "unset"}}
       px="6"
       rounded=".5rem"
       mx="auto"
@@ -44,7 +45,7 @@ const SummaryCard = ({
       mt={{ md: "8" }}
     >
       <Heading size="xs" mb={2}>
-        CGPA Summary
+        CGPA Summary - {cgpa.toFixed(2)}
       </Heading>
       <Text
         mb={1}

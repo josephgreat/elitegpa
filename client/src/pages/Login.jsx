@@ -22,7 +22,7 @@ import {
   useToast,
   VStack,
 } from "@chakra-ui/react";
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { FaUserAlt, FaUserCircle } from "react-icons/fa";
 import {
   FaEnvelope,
@@ -36,6 +36,7 @@ import { emailSignIn, googleAuth } from "../../firebase";
 import { useNavigate, Link as RouteLink } from "react-router-dom";
 import { UserContext } from "../App";
 import { Loader } from "../components";
+import { eraseCookie } from "../utils";
 
 const Login = () => {
   const { setUserDetails, toast } = useContext(UserContext);
@@ -52,7 +53,9 @@ const Login = () => {
   const handleFormError = (from, message) => {
     setFormError({ from: from, message: message });
   };
-
+// useEffect(() => {
+//   eraseCookie("uid");
+// }, [])
   const handleUserSignUp = () => {
     const emailRegxPattern = /\S+@\S+\.\S+/;
     if (emailRef.current.value.length === 0)

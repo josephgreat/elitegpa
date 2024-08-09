@@ -12,6 +12,7 @@ import SelectLevel from "./SelectLevel";
 import GpaPredictor from "./GpaPredictor";
 import GradePredictor from "./GradePredictor";
 import Loader from "./Loader";
+import Result from "./Result";
 import ThemeToggleBtn from "./ThemeToggleBtn";
 export {
   Navbar,
@@ -27,5 +28,5 @@ export {
   SelectLevel,
   GpaPredictor,
   GradePredictor,
-  Loader, ThemeToggleBtn
+  Loader, ThemeToggleBtn, Result
 };

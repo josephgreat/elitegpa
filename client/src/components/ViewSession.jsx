@@ -28,8 +28,8 @@ import { FaChartLine } from "react-icons/fa6";
 const ViewSession = ({ result, setResult }) => {
   let { level, session, semesters, _id } = result;
   let [first_semester, second_semester] = semesters;
-  const bgColor = useColorModeValue("secondary", "#1a202c");
-  const shadowColor = useColorModeValue("rgba(50,50,50, .3)", "rgba(200,200,200, .3)");
+  const bgColor = useColorModeValue("secondary", "secondaryAlt");
+  const shadowColor = useColorModeValue("rgba(50,50,50, .3)", "rgba(100,100,100, .3)");
   return (
     <Center pos="fixed" inset={"0"}>
       <Box pos="absolute" inset={"0"} bg="rgba(0,0,0,.5)" />
