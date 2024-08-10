@@ -16,7 +16,9 @@ select.session {
   padding-inline-start: 2px;
   height: unset;
 }
-
+.chakra-modal__content-container .chakra-modal__content{
+  width: 85%;
+}
 option:first-of-type {
   color: #9e9e9e;
 }

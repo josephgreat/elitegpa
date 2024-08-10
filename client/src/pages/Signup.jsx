@@ -146,7 +146,7 @@ const Signup = () => {
             </Text>
           </Box>
         </Box>
-        <Box alignSelf={"center"} py="10" px="4" maxW="32rem" mx="auto">
+        <Box alignSelf={{md:"center"}} py="10" px="4" maxW="32rem" mx="auto">
           <Heading
             w={"clamp(5rem, 10vw, 6rem)"}
             display={{ base: "block", md: "none" }}

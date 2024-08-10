@@ -392,6 +392,7 @@ const Settings = ({ userDetails, toast, loginMode, setUserDetails }) => {
                   placeholder="Select Your Institution's Grading System"
                   onChange={(e) => handleDetailsChange(e, true)}
                   name="grading_system"
+                  disabled
                   value={newUserDetails.setup.grading_system}
                 >
                   {Object.keys(gradingSystem).map((system, index) => (
@@ -407,6 +408,7 @@ const Settings = ({ userDetails, toast, loginMode, setUserDetails }) => {
                   placeholder="Select Your Program Type"
                   onChange={(e) => handleDetailsChange(e, true)}
                   name="program_type"
+                  disabled
                   value={newUserDetails.setup.program_type}
                 >
                   {programs.map((program, index) => (

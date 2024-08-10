@@ -92,6 +92,7 @@ const MyGpas = ({ userDetails }) => {
         flexDir={{ base: "column", md: "row" }}
         flexWrap={"wrap"}
         justifyContent={"space-around"}
+        alignContent={"center"}
         gap="8"
       >
         {loading ? (

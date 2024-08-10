@@ -1,9 +1,30 @@
-import { Box, Button, Divider, Flex, Stack, Text, useColorModeValue } from "@chakra-ui/react";
-import React from "react";
+import {
+  Badge,
+  Box,
+  Button,
+  Divider,
+  Flex,
+  FormControl,
+  FormErrorMessage,
+  FormHelperText,
+  FormLabel,
+  Input,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Stack,
+  Text,
+  useColorModeValue,
+  useDisclosure,
+} from "@chakra-ui/react";
+import React, { useState } from "react";
 import { FaTrashAlt } from "react-icons/fa";
 import { FaEye } from "react-icons/fa6";
 import { calculateCGPA } from "../utils";
-
 
 const LevelResult = ({
   result,
@@ -13,7 +34,22 @@ const LevelResult = ({
 }) => {
   let { level, semesters } = result;
   const bgColor = useColorModeValue("secondary", "secondaryAlt");
-  const shadowColor = useColorModeValue("rgba(50,50,50, .3)", "rgba(200,200,200, .3)");
+  const shadowColor = useColorModeValue(
+    "rgba(50,50,50, .3)",
+    "rgba(200,200,200, .3)"
+  );
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [levelInput, setLevelInput] = useState("");
+  const [levelMismatch, setLevelMismatch] = useState(false);
+
+  const deleteResult = () => {
+    if (levelInput.trim().toLowerCase() !== level.toLowerCase()) {
+      setLevelMismatch(true);
+      return;
+    }
+    deleteASavedResult(index, level);
+    onClose();
+  };
 
   return (
     <Box
@@ -23,7 +59,7 @@ const LevelResult = ({
       rounded="1rem"
       pos="relative"
       key={index}
-      w={{ base: "", md: "35%" }}
+      w={{ base: "", sm: "45%",md: "35%" }}
     >
       <Flex justifyContent={"space-between"} mb="2">
         <Text>{level}</Text>
@@ -87,12 +123,61 @@ const LevelResult = ({
           bg="transparent"
           fontSize={".8rem"}
           _hover={{ opacity: 0.6 }}
-          onClick={() => deleteASavedResult(index, level)}
+          onClick={onOpen}
         >
           <FaTrashAlt />
           Delete
         </Button>
       </Flex>
+      <Modal
+        isCentered
+        onClose={onClose}
+        isOpen={isOpen}
+        motionPreset="slideInBottom"
+        w="85%"
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Delete Result</ModalHeader>
+          <ModalBody>
+            <Text mb="2">
+              Are you certain you want to permanently delete {level} result?
+            </Text>
+            <Text mb="2" color="red.500" fontWeight={"bold"}>
+              This action is irreversible
+            </Text>
+            <Box mb="2">
+              <FormControl isInvalid={levelMismatch}>
+                <FormLabel fontStyle={"italic"}>
+                  Type the level to confirm: <Badge>{level}</Badge>
+                </FormLabel>
+                <Input
+                  type="text"
+                  value={levelInput}
+                  onChange={(e) => setLevelInput(e.target.value)}
+                />
+
+                <FormErrorMessage>Incorrect Level</FormErrorMessage>
+              </FormControl>
+            </Box>
+          </ModalBody>
+          <ModalFooter gap="2">
+            <Button
+              _hover={{ bg: "transparent", color: "red.500" }}
+              border="1px solid"
+              borderColor={"red.500"}
+              bg="red.500"
+              color="secondary"
+              onClick={deleteResult}
+            >
+              Delete
+            </Button>
+            <Button bg="transparent" border={"1px solid"} onClick={onClose}>
+              Cancel
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </Box>
   );
 };
