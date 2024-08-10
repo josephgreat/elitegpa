@@ -297,7 +297,7 @@ function SessionDashboard() {
               <Heading size="md" mb={4}>
                 Grades by Semester
               </Heading>
-              <Flex flexWrap={"wrap"} gap="8" alignItems={"center"}>
+              <Flex flexWrap={"wrap"} gap="8" justifyContent={"center"} alignItems={"center"}>
                 <Box>
                   <canvas id="semester1Chart"></canvas>
                 </Box>
