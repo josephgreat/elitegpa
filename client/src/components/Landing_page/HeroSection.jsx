@@ -11,6 +11,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { Link as RouteLink } from "react-router-dom";
+import "./TypewriterHeading.css";
 
 import React, { useEffect, useState } from "react";
 const HeroSection = () => {
@@ -23,7 +24,11 @@ const HeroSection = () => {
   }, []);
 
   return (
-    <Container maxW={"container.lg"} pb={{ base: "8", md: "16" }} pt={{ base: "7rem", md: "10rem" }}>
+    <Container
+      maxW={"container.lg"}
+      pb={{ base: "8", md: "16" }}
+      pt={{ base: "7rem", md: "10rem" }}
+    >
       {/* <FloatingBallsBackground /> */}
       <Flex
         flexDir={{ base: "column-reverse", md: "row" }}
@@ -32,13 +37,16 @@ const HeroSection = () => {
         alignItems={"center"}
       >
         <VStack gap="4" alignItems={"flex-start"} w={{ md: "50%" }}>
-          <Heading fontSize={"clamp(2.5rem, 5vw, 4rem)"}>
+          <Grid minH={"3.5ch"} alignItems={"center"}>
+            <TypewriterHeading />
+          </Grid>
+          {/* <Heading fontSize={"clamp(2.5rem, 5vw, 4rem)"}>
             Where{" "}
             <Text as="span" color={"accentVar"}>
               Elite
             </Text>{" "}
             Students Thrive
-          </Heading>
+          </Heading> */}
           <Text>
             Get Accurate GPA Calculations and Clear Performance Insights.
             Enhance Your Learning with Easy-to-Use GPA Tracking
@@ -113,6 +121,7 @@ export default HeroSection;
 
 import "./FloatingBallsBackground.css";
 import { getCookie } from "../../utils";
+import TypewriterHeading from "./TypewriterHeading";
 const images = ["/images/4x/logoalt.png", "/images/4x/logo.png"];
 
 const RotatingImageBox = () => {
