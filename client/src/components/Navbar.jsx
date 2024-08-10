@@ -12,6 +12,9 @@ import {
   Spacer,
   Avatar,
   Grid,
+  Divider,
+  Badge,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import React, { useContext, useState } from "react";
 import { NavLink } from "react-router-dom";
@@ -35,6 +38,7 @@ const Navbar = ({ userDetails, navigate }) => {
   const { toast } = useContext(UserContext);
   const { displayName, photoURL } = userDetails;
   const [openSideNav, setOpenSideNav] = useState(false);
+
   return (
     <Container
       as={"nav"}
@@ -44,10 +48,15 @@ const Navbar = ({ userDetails, navigate }) => {
       px="6"
       color={"secondary"}
       w="100%"
-      pos="relative"
+      pos="fixed"
+      zIndex={"2"}
+      top="0"
+      left="0"
       overflow={"visible"}
       maxW="unset"
       fontWeight={"semibold"}
+      boxShadow={"inset 0 0 17px rgba(20,20,20,.7)"}
+
     >
       <Box
         pos="absolute"
@@ -146,10 +155,15 @@ const SideNav = ({
       pos="fixed"
       inset={"0"}
       visibility={openSideNav ? "visible" : "hidden"}
-      backdropFilter={"blur(3px)"}
-      zIndex={"2"}
+      zIndex={"3"}
       transition={"all .3s linear"}
+
     >
+      <Box
+        pos="absolute"
+        inset={"0"}
+        backdropFilter={"blur(3px) brightness(70%)"}
+      />
       <VStack
         fontWeight={"semibold"}
         w="15rem"
@@ -162,6 +176,8 @@ const SideNav = ({
         bgGradient={"linear(to-br, primary, accentVar)"}
         h="100vh"
         roundedBottomRight={"2rem"}
+      boxShadow={"inset 0 0 17px rgba(20,20,20,.7)"}
+
       >
         <Box w="100%" px="6">
           <Flex justifyContent={"flex-end"} mb="4">
@@ -285,16 +301,30 @@ const SideNav = ({
             display="flex"
             alignItems={"center"}
             gap="2"
-            as={NavLink}
-            to="/study-materials"
-            style={({ isActive }) => ({
-              background: isActive && "rgba(255,255,255,.2)",
-              borderLeft: isActive && "3px solid #FFD700",
-            })}
+            // as={NavLink}
+            // to="/study-materials"
+            // style={({ isActive }) => ({
+            //   background: isActive && "rgba(255,255,255,.2)",
+            //   borderLeft: isActive && "3px solid #FFD700",
+            // })}
+            pos="relative"
             onClick={() => setOpenSideNav(false)}
           >
             <FaBookOpen />
-            Study Materials
+            Study Materials{" "}
+            <Badge
+              pos="absolute"
+              top="0"
+              right="4"
+              fontSize=".5rem"
+              // variant={"info"}
+              // bg={bgColor}
+              colorScheme="green"
+              disabled
+              variant={"subtle"}
+            >
+              coming soon
+            </Badge>
           </Link>
           <Link
             px="6"
@@ -315,7 +345,7 @@ const SideNav = ({
             GPA Assistant
           </Link>
         </VStack>
-        <Spacer />
+        <Divider my="6" borderColor={"accent"} />
         <VStack>
           <Link
             px="6"

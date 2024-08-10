@@ -4,7 +4,7 @@ import { UserContext } from "./App";
 import { useLocation, useNavigate } from "react-router-dom";
 import { checkAuth, savePreviousLocation } from "../firebase";
 import { setSessionGradingSystem } from "./utils";
-import { Grid, Heading, Img, keyframes, useColorModeValue } from "@chakra-ui/react";
+import { Box, Grid, Heading, Img, keyframes, useColorModeValue } from "@chakra-ui/react";
 
 const PageWrapper = ({ Component }) => {
   const { userDetails, setUserDetails, toast } = useContext(UserContext);
@@ -39,12 +39,14 @@ const PageWrapper = ({ Component }) => {
     return (
       <>
         <Navbar navigate={navigate} userDetails={userDetails} />
+        <Box pt="20">
         <Component
           userDetails={userDetails}
           toast={toast}
           loginMode={loginMode}
           setUserDetails={setUserDetails}
         />
+        </Box>
       </>
     );
   }

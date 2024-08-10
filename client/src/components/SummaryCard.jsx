@@ -27,7 +27,7 @@ const SummaryCard = ({
     <Flex
       display={{
         base: small_screen ? "flex" : "none",
-        lg: small_screen ? "none" : "flex",
+        md: small_screen ? "none" : "flex",
       }}
       bgGradient={"linear(to-br, primary, accentVar)"}
       alignItems={"center"}

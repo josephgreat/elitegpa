@@ -236,6 +236,7 @@ function SessionDashboard() {
           flexDir={{ base: "column", md: "row" }}
           flexWrap={"wrap"}
           justify={"space-between"}
+          mb={{base: "10", md: "unset"}}
         >
           <Box mb={4} flex={{ base: 1, lg: 0.6 }}>
             <Heading
@@ -297,7 +298,12 @@ function SessionDashboard() {
               <Heading size="md" mb={4}>
                 Grades by Semester
               </Heading>
-              <Flex flexWrap={"wrap"} gap="8" justifyContent={"center"} alignItems={"center"}>
+              <Flex
+                flexWrap={"wrap"}
+                gap="8"
+                justifyContent={"center"}
+                alignItems={"center"}
+              >
                 <Box>
                   <canvas id="semester1Chart"></canvas>
                 </Box>
@@ -309,7 +315,19 @@ function SessionDashboard() {
           </VStack>
         </Flex>
       )}
-      <Flex gap="4" justifyContent={"center"} my="8">
+      <Flex
+        gap="4"
+        justifyContent={"center"}
+        my={{md: "8"}}
+        p={{base: "4", sm: "unset"}}
+        w="100%"
+        shadow={{base: `0 0 5px ${shadowColor}`, sm: 'unset'}}
+        pos={{ base: "fixed", sm: "unset" }}
+        bottom="0"
+        left="0"
+        bg={{base: bgColor, sm: "unset"}}
+
+      >
         {/* <Button
           color={"secondary"}
           // border={"1px solid"}
