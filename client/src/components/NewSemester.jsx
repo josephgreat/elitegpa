@@ -191,12 +191,13 @@ const NewCourse = ({
             handleInputChange(e, index, "course");
           }}
           w="65%"
-          placeholder="course"
+          placeholder="Course"
         />
         <Input
           type="text"
           value={course.course_code}
           placeholder={"course code"}
+          _placeholder={{fontSize: {base: ".65rem", lg: "1rem"}}}
           w="35%"
           textTransform={"uppercase"}
           onChange={(e) => {
@@ -211,7 +212,8 @@ const NewCourse = ({
             handleInputChange(e, index, "credit_load");
             handleGpaUpdate();
           }}
-          placeholder="credit load"
+          placeholder="Credit load"
+          _placeholder={{fontSize: {base: ".65rem", lg: "1rem"}}}
           flex="1"
         >
           {[...Array(9)].map((_, i) => (
@@ -228,7 +230,8 @@ const NewCourse = ({
           }}
           flex="1"
           placeholder="Grade"
-          // color={(value) => (value === "Grade" ? "#9e9e9e" : "black")}
+          
+          // color={(value) => (value === "Grade" ? "red" : "black")}
         >
           {gradeList().map((grade) => (
             <option key={grade} value={grade}>

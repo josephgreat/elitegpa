@@ -29,10 +29,13 @@ const ViewSession = ({ result, setResult }) => {
   let { level, session, semesters, _id } = result;
   let [first_semester, second_semester] = semesters;
   const bgColor = useColorModeValue("secondary", "secondaryAlt");
-  const shadowColor = useColorModeValue("rgba(50,50,50, .3)", "rgba(100,100,100, .3)");
+  const shadowColor = useColorModeValue(
+    "rgba(50,50,50, .3)",
+    "rgba(100,100,100, .3)"
+  );
   return (
-    <Center pos="fixed" inset={"0"}>
-      <Box pos="absolute" inset={"0"} bg="rgba(0,0,0,.5)" />
+    <Center pos="fixed" inset={"0"} h="calc(100vh-5rem)" top="5rem">
+      <Box pos="absolute" inset={"0"} backdropFilter={"blur(5px)"} bg="rgba(0,0,0,.5)" />
       <Box
         p="6"
         bg={bgColor}
@@ -40,6 +43,8 @@ const ViewSession = ({ result, setResult }) => {
         rounded={".5rem"}
         w="90vw"
         maxW={"30rem"}
+        shadow={`0 0 5px ${shadowColor}`}
+
       >
         <Box textAlign={"center"}>
           <Heading as="h5" fontSize={"1.2rem"}>
@@ -56,122 +61,124 @@ const ViewSession = ({ result, setResult }) => {
           w="100%"
           my="4"
           flexWrap={"wrap"}
-          gap="4"
+          gap="6"
           maxH={"min(65vh, 30rem)"}
           overflow={"auto"}
         >
           {/* {first_semester.gpa !== 0 && ( */}
           <Box w="100%">
-            <Heading as="h6" fontSize={";.8rem"} textAlign={"center"}>
+            <Heading as="h6" fontSize={".8rem"} textAlign={"center"}>
               First Semester - {first_semester.gpa}
             </Heading>
-
-            <Table overflow={"hidden"} p="1" variant={"simple"} my="1">
-              <Thead>
-                <Tr>
-                  <Th
-                    p="1"
-                    w="70%"
-                    textTransform={"capitalize"}
-                    fontSize={".8rem"}
-                  >
-                    Course
-                  </Th>
-                  <Th
-                    p="1"
-                    w="12%"
-                    textTransform={"capitalize"}
-                    fontSize={".8rem"}
-                    textAlign={"center"}
-                  >
-                    Credit Load
-                  </Th>
-                  <Th
-                    p="1"
-                    w="12%"
-                    textTransform={"capitalize"}
-                    fontSize={".8rem"}
-                    textAlign={"center"}
-                  >
-                    Grade
-                  </Th>
-                </Tr>
-              </Thead>
-              <Tbody>
-                {first_semester.courses.map(
-                  ({ course, course_code, grade, credit_load }, index) => (
-                    <Tr key={index}>
-                      <Td p="1" w="70%">
-                        {course ? course : course_code}
-                      </Td>
-                      <Td p="1" w="12%" textAlign={"center"}>
-                        {credit_load}
-                      </Td>
-                      <Td p="1" w="12%" textAlign={"center"}>
-                        {grade}
-                      </Td>
-                    </Tr>
-                  )
-                )}
-              </Tbody>
-            </Table>
+            <Box maxH="20vh" mt="3" overflow={"auto"}>
+              <Table p="1" variant={"simple"} my="1" overflow={"hidden"}>
+                <Thead>
+                  <Tr>
+                    <Th
+                      p="1"
+                      w="70%"
+                      textTransform={"capitalize"}
+                      fontSize={".8rem"}
+                    >
+                      Course
+                    </Th>
+                    <Th
+                      p="1"
+                      w="12%"
+                      textTransform={"capitalize"}
+                      fontSize={".8rem"}
+                      textAlign={"center"}
+                    >
+                      Credit Load
+                    </Th>
+                    <Th
+                      p="1"
+                      w="12%"
+                      textTransform={"capitalize"}
+                      fontSize={".8rem"}
+                      textAlign={"center"}
+                    >
+                      Grade
+                    </Th>
+                  </Tr>
+                </Thead>
+                <Tbody>
+                  {first_semester.courses.map(
+                    ({ course, course_code, grade, credit_load }, index) => (
+                      <Tr key={index}>
+                        <Td p="1" w="70%">
+                          {course ? course : course_code}
+                        </Td>
+                        <Td p="1" w="12%" textAlign={"center"}>
+                          {credit_load}
+                        </Td>
+                        <Td p="1" w="12%" textAlign={"center"}>
+                          {grade}
+                        </Td>
+                      </Tr>
+                    )
+                  )}
+                </Tbody>
+              </Table>
+            </Box>
           </Box>
           {/* )} */}
           {/* {second_semester.gpa !== 0 && ( */}
           <Box w="100%">
-            <Heading as="h6" fontSize={";.8rem"} textAlign={"center"}>
+            <Heading as="h6" fontSize={".8rem"} textAlign={"center"}>
               Second Semester - {second_semester.gpa}
             </Heading>
-
-            <Table overflow={"hidden"} p="1" variant={"simple"} my="1">
-              <Thead>
-                <Tr>
-                  <Th
-                    p="1"
-                    w="70%"
-                    textTransform={"capitalize"}
-                    fontSize={".8rem"}
-                  >
-                    Course
-                  </Th>
-                  <Th
-                    p="1"
-                    w="12%"
-                    textTransform={"capitalize"}
-                    fontSize={".8rem"}
-                    textAlign={"center"}
-                  >
-                    Credit Load
-                  </Th>
-                  <Th
-                    p="1"
-                    w="12%"
-                    textTransform={"capitalize"}
-                    fontSize={".8rem"}
-                    textAlign={"center"}
-                  >
-                    Grade
-                  </Th>
-                </Tr>
-              </Thead>
-              <Tbody>
-                {second_semester.courses.map(
-                  ({ course, course_code, grade, credit_load }, index) => (
-                    <Tr key={index}>
-                      <Td p="1" w="70%" textTransform={"capitalize"}>
-                        {course ? course : course_code.toUpperCase()}
-                      </Td>
-                      <Td p="1" w="12%" textAlign={"center"}>
-                        {credit_load}
-                      </Td>
-                      <Td p="1" w="12%" textAlign={"center"}>
-                        {grade}
-                      </Td>
-                    </Tr>
-                  )
-                )}
-              </Tbody>
-            </Table>
+            <Box maxH="20vh" mt="3" overflow={"auto"}>
+              <Table overflow={"hidden"} p="1" variant={"simple"} my="1">
+                <Thead>
+                  <Tr>
+                    <Th
+                      p="1"
+                      w="70%"
+                      textTransform={"capitalize"}
+                      fontSize={".8rem"}
+                    >
+                      Course
+                    </Th>
+                    <Th
+                      p="1"
+                      w="12%"
+                      textTransform={"capitalize"}
+                      fontSize={".8rem"}
+                      textAlign={"center"}
+                    >
+                      Credit Load
+                    </Th>
+                    <Th
+                      p="1"
+                      w="12%"
+                      textTransform={"capitalize"}
+                      fontSize={".8rem"}
+                      textAlign={"center"}
+                    >
+                      Grade
+                    </Th>
+                  </Tr>
+                </Thead>
+                <Tbody>
+                  {second_semester.courses.map(
+                    ({ course, course_code, grade, credit_load }, index) => (
+                      <Tr key={index}>
+                        <Td p="1" w="70%" textTransform={"capitalize"}>
+                          {course ? course : course_code.toUpperCase()}
+                        </Td>
+                        <Td p="1" w="12%" textAlign={"center"}>
+                          {credit_load}
+                        </Td>
+                        <Td p="1" w="12%" textAlign={"center"}>
+                          {grade}
+                        </Td>
+                      </Tr>
+                    )
+                  )}
+                </Tbody>
+              </Table>
+            </Box>
           </Box>
           {/* )} */}
         </Flex>
@@ -180,7 +187,6 @@ const ViewSession = ({ result, setResult }) => {
         <HStack
           pos="absolute"
           bottom={"-.75rem"}
-        
           left={"50%"}
           transform={"translateX(-50%)"}
         >
