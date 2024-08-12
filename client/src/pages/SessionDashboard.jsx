@@ -35,10 +35,12 @@ import { FaFileImage, FaFilePdf } from "react-icons/fa6";
 function SessionDashboard() {
   const [sessionResult, setSessionResult] = useState({});
   const [loading, setLoading] = useState(true);
+  const [isDownloading, setIsDownloading] = useState(false);
   const { resultId } = useParams();
-  const { toPDF, targetRef } = usePDF({ filename: "Session Result" });
+  const [levelToDownload, setLevelToDownload] = useState();
+ 
   let sessionRef = useRef();
-  sessionRef = targetRef;
+  // sessionRef = targetRef;
   const bgColor = useColorModeValue("secondary", "secondaryAlt");
   const shadowColor = useColorModeValue(
     "rgba(50,50,50, .3)",
@@ -51,12 +53,14 @@ function SessionDashboard() {
         `${import.meta.env.VITE_API_URL}/get-one-session/${resultId}`
       );
       setSessionResult(singleData.data);
+      setLevelToDownload(singleData.data?.level); 
     } catch (error) {
       console.error("Error fetching result:", error);
       setLoading(false);
     }
   };
 
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -201,6 +205,8 @@ function SessionDashboard() {
         if (semester2Chart) semester2Chart.destroy();
       };
     }
+    
+    
   }, [sessionResult]);
 
   let cgpa = 3.5;
@@ -211,11 +217,30 @@ function SessionDashboard() {
   let { semesters, level } = {};
   if (sessionResult) {
     ({ semesters, level } = sessionResult);
+  
+
     cgpa = semesters && calculateCGPA(semesters);
     totalCreditLoad = semesters && calculateSessionCreditLoad(semesters);
     totalCourses = semesters && calculateSessionCourses(semesters);
     studentClass = getStudentClass(cgpa);
   }
+  const { toPDF, targetRef } = usePDF({
+    filename: `${levelToDownload ? levelToDownload : "Session"} Result`,
+  });
+  const handleDownload = () => {
+    if (!isDownloading) {
+   
+
+      setIsDownloading(true);
+      try {
+        toPDF();
+      } catch (error) {
+        console.error("Download error:", error);
+      } finally {
+        setIsDownloading(false);
+      }
+    }
+  };
 
   return (
     <Container
@@ -236,7 +261,7 @@ function SessionDashboard() {
           flexDir={{ base: "column", md: "row" }}
           flexWrap={"wrap"}
           justify={"space-between"}
-          mb={{base: "10", md: "unset"}}
+          mb={{ base: "10", md: "unset" }}
         >
           <Box mb={4} flex={{ base: 1, lg: 0.6 }}>
             <Heading
@@ -318,15 +343,14 @@ function SessionDashboard() {
       <Flex
         gap="4"
         justifyContent={"center"}
-        my={{md: "8"}}
-        p={{base: "4", sm: "unset"}}
+        my={{ md: "8" }}
+        p={{ base: "4", sm: "unset" }}
         w="100%"
-        shadow={{base: `0 0 5px ${shadowColor}`, sm: 'unset'}}
+        shadow={{ base: `0 0 5px ${shadowColor}`, sm: "unset" }}
         pos={{ base: "fixed", sm: "unset" }}
         bottom="0"
         left="0"
-        bg={{base: bgColor, sm: "unset"}}
-
+        bg={{ base: bgColor, sm: "unset" }}
       >
         {/* <Button
           color={"secondary"}
@@ -343,22 +367,7 @@ function SessionDashboard() {
         >
           <FaFileImage /> Download
         </Button> */}
-        <Button
-          color={"secondary"}
-          // border={"1px solid"}
 
-          h="unset"
-          gap="1"
-          py="1"
-          px="2"
-          fontWeight={"semibold"}
-          bg="primary"
-          boxShadow={`0 0 5px ${shadowColor}`}
-          _hover={{ bg: "secondary", color: "primary" }}
-          onClick={() => toPDF()}
-        >
-          <FaFilePdf /> Download
-        </Button>
         <Button
           color={"secondary"}
           h="unset"
@@ -373,6 +382,20 @@ function SessionDashboard() {
           to={`/gpa-calc/${resultId}`}
         >
           <FaPencilAlt /> Edit
+        </Button>
+        <Button
+          color={"secondary"}
+          h="unset"
+          gap="1"
+          py="1"
+          px="2"
+          fontWeight={"semibold"}
+          bg="primary"
+          boxShadow={`0 0 5px ${shadowColor}`}
+          _hover={{ bg: "secondary", color: "primary" }}
+          onClick={handleDownload}
+        >
+          <FaFilePdf /> {isDownloading ? "Downloading" : "Download"}
         </Button>
       </Flex>
       <Box

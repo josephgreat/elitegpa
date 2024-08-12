@@ -199,7 +199,7 @@ const GpaCalc = () => {
       });
       resetCalculator();
 
-      setTimeout(() => navigate("/my-gpas"), 4000);
+      navigate("/my-gpas");
       setLoading(false);
     } catch (error) {
       throwAppError(toast, error);
@@ -356,7 +356,7 @@ const GpaCalc = () => {
             semesterDetails.level.length <= 1 || (resultId && !updatesAvailable)
           }
           _hover={{
-            bg: "transparent",
+            bg: "white",
             border: "1px solid",
             borderColor: "primary",
             color: "primary",
