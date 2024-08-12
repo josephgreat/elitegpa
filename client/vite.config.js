@@ -31,7 +31,7 @@ export default defineConfig({
         name: "eliteGPA",
         short_name: "eliteGPA",
         description: "Optimize Your Academic Performance with eliteGPA",
-        theme_color: "#1976d2",
+        theme_color: "#191970",
         icons: [
           {
             src: "/favicon_io/android-chrome-192x192.png",
