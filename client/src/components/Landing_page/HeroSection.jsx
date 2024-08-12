@@ -37,7 +37,7 @@ const HeroSection = () => {
         alignItems={"center"}
       >
         <VStack gap="4" alignItems={"flex-start"} w={{ md: "50%" }}>
-          <Grid minH={"3.5ch"} alignItems={"center"}>
+          <Grid minH={{base: "15.5ch", xl: "35ch"}} alignItems={"center"}>
             <TypewriterHeading />
           </Grid>
           {/* <Heading fontSize={"clamp(2.5rem, 5vw, 4rem)"}>

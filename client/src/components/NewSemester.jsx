@@ -48,6 +48,8 @@ const NewSemester = ({
       let updatedCourses = [...courses];
       updatedCourses.splice(index, 1);
       setCourses(updatedCourses);
+      const calculatedGpa = calculateGpa(updatedCourses);
+      setGpa(calculatedGpa);
       updateSemesterDetails({
         detail: `semesters`,
         sub_detail: "courses",
@@ -61,9 +63,9 @@ const NewSemester = ({
   const handleAddCourse = useCallback(() => {
     const lastCourse = courses[courses.length - 1];
     if (
-      (lastCourse.course || lastCourse.course_code) &&
-      lastCourse.credit_load &&
-      lastCourse.grade
+      ((lastCourse?.course || lastCourse?.course_code) &&
+      lastCourse?.credit_load &&
+      lastCourse?.grade) || !lastCourse
     ) {
       const updatedCourses = [
         ...courses,
