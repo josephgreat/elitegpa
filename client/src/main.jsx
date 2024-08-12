@@ -3,6 +3,8 @@ import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import { ChakraProvider, ColorModeScript, extendTheme } from "@chakra-ui/react";
 import { mode } from '@chakra-ui/theme-tools';
+// import * as serviceWorkerRegistration from './serviceWorkerRegistration.js'; // Import service worker registration
+
 const styles = {
   global: props => ({
     body: {
@@ -46,3 +48,5 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <App />
   </ChakraProvider>
 );
+
+// serviceWorkerRegistration.register(); // Register the service worker
