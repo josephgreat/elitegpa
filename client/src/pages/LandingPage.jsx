@@ -146,7 +146,7 @@ const LandingPage = () => (
     <FeaturesSection />
     <HowItWorksSection />
     <TestimonialsSection />
-    <PricingSection />
+    {/* <PricingSection /> */}
     <FAQSection />
     <Footer />
   </Box>
