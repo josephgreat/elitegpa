@@ -119,10 +119,11 @@ const Settings = ({ userDetails, toast, loginMode, setUserDetails }) => {
 
   const handleYearsOfStudyChange = (e) => {
     const yearsOfStudy = e.target.value;
-    if (yearsOfStudy >= 3 && yearsOfStudy <= 8) handleDetailsChange(e, true);
+     handleDetailsChange(e, true);
   };
 
   const handleNewUserDetailsSaving = () => {
+    if (newUserDetails.yearsOfStudy < 3 && newUserDetails.yearsOfStudy > 8){return}
     updateUserDetails(
       newUserDetails,
       photoURL,
@@ -423,15 +424,15 @@ const Settings = ({ userDetails, toast, loginMode, setUserDetails }) => {
                     <FormLabel>Years of Study</FormLabel>
                     <Input
                       value={
-                        newUserDetails.setup.years_of_study !== 0 &&
+                        // newUserDetails.setup.years_of_study !== 0 &&
                         newUserDetails.setup.years_of_study
                       }
                       onChange={handleYearsOfStudyChange}
                       placeholder="Years of study (min: 3; max: 8)"
                       type="number"
                       name="years_of_study"
-                      min="3"
-                      max="8"
+                      // min="3"
+                      // max="8"
                     />
                   </FormControl>
                 )}

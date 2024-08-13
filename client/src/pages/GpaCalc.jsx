@@ -22,7 +22,7 @@ import {
   throwAppError,
 } from "../utils";
 import { FaUpload } from "react-icons/fa";
-import { NewSemester } from "../components";
+import { DisclaimerText, NewSemester } from "../components";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { UserContext } from "../App";
@@ -130,7 +130,7 @@ const GpaCalc = () => {
     } else {
       grades = ["A", "B", "C", "D", "E", "F"];
     }
-    return grades
+    return grades;
   };
 
   const resetCalculator = () => {
@@ -226,7 +226,9 @@ const GpaCalc = () => {
   }, []);
 
   return (
-    <Container py="8" maxW="72rem" mx="auto">
+    <Container py="8" pt="20" maxW="72rem" mx="auto" pos="relative">
+      <DisclaimerText />
+    
       {loading && (
         <Flex
           justifyContent={"center"}
@@ -277,7 +279,12 @@ const GpaCalc = () => {
           </Select>
         </HStack>
         {/* <Spacer /> */}
-        <Text order={{base: 3, md: 2}} fontFamily={"heading"} fontWeight={"bold"} fontSize={"1rem"}>
+        <Text
+          order={{ base: 3, md: 2 }}
+          fontFamily={"heading"}
+          fontWeight={"bold"}
+          fontSize={"1rem"}
+        >
           CGPA: {calculateCGPA(semesterDetails.semesters)}
         </Text>
         <HStack>
@@ -318,7 +325,7 @@ const GpaCalc = () => {
       <Flex
         flexDir={{ base: "column", md: "row" }}
         justifyContent={"center"}
-        alignItems={{base: "center",md: "flex-start"}}
+        alignItems={{ base: "center", md: "flex-start" }}
         gap={"4"}
       >
         <NewSemester
@@ -341,7 +348,6 @@ const GpaCalc = () => {
           updateSemesterDetails={updateSemesterDetails}
           setGpa={setGpaSecondSemester}
           gradeList={gradeList}
-
         />
       </Flex>
       <Flex justifyContent={"center"} my="4">

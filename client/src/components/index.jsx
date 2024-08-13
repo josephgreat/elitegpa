@@ -14,6 +14,7 @@ import GradePredictor from "./GradePredictor";
 import Loader from "./Loader";
 import Result from "./Result";
 import ThemeToggleBtn from "./ThemeToggleBtn";
+import DisclaimerText from "./DisclaimerText";
 export {
   Navbar,
   GraduationCap,
@@ -28,5 +29,5 @@ export {
   SelectLevel,
   GpaPredictor,
   GradePredictor,
-  Loader, ThemeToggleBtn, Result
+  Loader, ThemeToggleBtn, Result, DisclaimerText
 };
