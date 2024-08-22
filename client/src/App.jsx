@@ -16,6 +16,7 @@ import {
   Error,
   NotFound,
   LandingPage,
+  Offline,
 } from "./pages";
 import PageWrapper from "./PageWrapper";
 import { ThemeToggleBtn } from "./components";
@@ -43,6 +44,7 @@ function App() {
     { path: "/study-tips", element: <PageWrapper Component={StudyTips} /> },
     { path: "/settings", element: <PageWrapper Component={Settings} /> },
     { path: "/error", element: <Error /> },
+    {path: "/offline", element: <Offline />},
     { path: "*", element: <NotFound /> },
   ];
 

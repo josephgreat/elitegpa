@@ -177,6 +177,7 @@ const SideNav = ({
         h="100vh"
         roundedBottomRight={"2rem"}
       boxShadow={"inset 0 0 17px rgba(20,20,20,.7)"}
+     overflowY={"auto"}
 
       >
         <Box w="100%" px="6">
@@ -345,7 +346,7 @@ const SideNav = ({
             GPA Assistant
           </Link>
         </VStack>
-        <Divider my="6" borderColor={"accent"} />
+        <Divider my="min(1.5vh, 1.5rem)" borderColor={"accent"} />
         <VStack>
           <Link
             px="6"

@@ -10,10 +10,16 @@ import {
   Text,
   Link,
   useColorModeValue,
+  Grid,
+  Spinner,
 } from "@chakra-ui/react";
-import {FaCheck} from "react-icons/fa"
+import { FaCheck } from "react-icons/fa";
+import Error from "./Error";
 const StudyTips = () => {
   const [studyTips, setStudyTips] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [hasError, setError] = useState("");
+
   const moreTips = [
     {
       title: "10 tips on how to study effectively",
@@ -34,6 +40,7 @@ const StudyTips = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setLoading(true);
         const response = await fetch("/assets/studyTips.json", {
           headers: {
             "Content-Type": "application/json",
@@ -44,7 +51,10 @@ const StudyTips = () => {
         console.log(data.tips);
         setStudyTips(data.tips); // Assuming the API returns an array of study tips
       } catch (error) {
+        setError("Error fetching data:" + error);
         console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -57,76 +67,96 @@ const StudyTips = () => {
       <Heading textAlign="center" fontSize="clamp(1.5rem, 3vw, 2.5rem)">
         Study Tips
       </Heading>
-      <List
-        py="4"
-        display={"flex"}
-        justifyContent={"space-around"}
-        flexDir={{ base: "column", md: "row" }}
-        flexWrap={"wrap"}
-        gap="4"
-      >
-        {Object.values(studyTips).map((tip) => (
-          <ListItem
-            key={tip.id}
-            mb="8"
+      <Box minH={"50vh"}>
+        {loading ? (
+          <Grid placeItems={"center"} minH={"15rem"}>
+            <Spinner />
+          </Grid>
+        ) : hasError ? (
+          <Error error_text={hasError} />
+        ) : (
+          <List
+            py="4"
             display={"flex"}
-            w={{ base: "100%", md: "45%" }}
+            justifyContent={"space-around"}
+            flexDir={{ base: "column", md: "row" }}
+            flexWrap={"wrap"}
             gap="4"
-            boxShadow={"lg"}
-            rounded={".5rem"}
-            // overflow={"hidden"}
-            pos={"relative"}
-            alignItems={"center"}
           >
-            <Box flex={"1"} p="4" px="6" textAlign={tip.id % 2 != 0 ? "left" : "right"} order={tip.id % 2 == 0 ? "0" : "1"}>
-              <Heading
-                as="h5"
-                fontSize={"1.1rem"}
-                display="flex"
-                flexDir={"column"}
-                color={colorValue}
+            {Object.values(studyTips).map((tip) => (
+              <ListItem
+                key={tip.id}
+                mb="8"
+                display={"flex"}
+                w={{ base: "100%", md: "45%" }}
+                gap="4"
+                boxShadow={"lg"}
+                rounded={".5rem"}
+                // overflow={"hidden"}
+                pos={"relative"}
+                alignItems={"center"}
               >
-                {tip.title}
-              </Heading>
-              <Text>{tip.description}</Text>
-            </Box>
+                <Box
+                  flex={"1"}
+                  p="4"
+                  px="6"
+                  textAlign={tip.id % 2 != 0 ? "left" : "right"}
+                  order={tip.id % 2 == 0 ? "0" : "1"}
+                >
+                  <Heading
+                    as="h5"
+                    fontSize={"1.1rem"}
+                    display="flex"
+                    flexDir={"column"}
+                    color={colorValue}
+                  >
+                    {tip.title}
+                  </Heading>
+                  <Text>{tip.description}</Text>
+                </Box>
 
-            <Box
-              flex={"1"}
-              pos="relative"
-              alignItems={"center"}
-              display={{ base: "none", md: "flex" }}
-            >
-              <Img src={tip.image} alt={`Image depicting ${tip.title}`} />
-            </Box>
-            <Heading
-              as="span"
-              fontSize={"1rem"}
-              pos="absolute"
-              top="-.5rem"
-              left={tip.id % 2 != 0 && "-.5rem"}
-              right={tip.id % 2 == 0 && "-.5rem"}
-              // opacity={".5"}
-              // filter={"contrast(.4)"}
-              color={"primary"}
-              boxShadow="inset 0 0 8px 0px rgba(80,80,80,.5)"
-              alignSelf={"flex-end"}
-              bg="accent"
-              p="2"
-              rounded="full"
-            >
-              #{tip.id}
-            </Heading>
-          </ListItem>
-        ))}
-      </List>
+                <Box
+                  flex={"1"}
+                  pos="relative"
+                  alignItems={"center"}
+                  display={{ base: "none", md: "flex" }}
+                >
+                  <Img src={tip.image} alt={`Image depicting ${tip.title}`} />
+                </Box>
+                <Heading
+                  as="span"
+                  fontSize={"1rem"}
+                  pos="absolute"
+                  top="-.5rem"
+                  left={tip.id % 2 != 0 && "-.5rem"}
+                  right={tip.id % 2 == 0 && "-.5rem"}
+                  // opacity={".5"}
+                  // filter={"contrast(.4)"}
+                  color={"primary"}
+                  boxShadow="inset 0 0 8px 0px rgba(80,80,80,.5)"
+                  alignSelf={"flex-end"}
+                  bg="accent"
+                  p="2"
+                  rounded="full"
+                >
+                  #{tip.id}
+                </Heading>
+              </ListItem>
+            ))}
+          </List>
+        )}
+      </Box>
       <Box>
         <Heading fontSize="1.3rem">More Tips</Heading>
         <List py="4">
           {moreTips.map((tip, index) => (
             <ListItem key={index} my="2">
-                <ListIcon><FaCheck /></ListIcon>
-              <Link href={tip.link} target="_blank" color="accentVar">{tip.title}</Link>
+              <ListIcon>
+                <FaCheck />
+              </ListIcon>
+              <Link href={tip.link} target="_blank" color="accentVar">
+                {tip.title}
+              </Link>
             </ListItem>
           ))}
         </List>

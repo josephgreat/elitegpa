@@ -293,7 +293,11 @@ const Dashboard = ({ userDetails }) => {
       <Heading mb="6" textAlign="center" fontSize="clamp(1.5rem, 3vw, 2.5rem)">
         Overview
       </Heading>
-      {totalCourses === 0 ? (
+      {loading ? (
+        <Grid placeItems={"center"} minH={"15rem"}>
+          <Spinner />
+        </Grid>
+      ) : totalCourses === 0 ? (
         <Grid minH="50vh" placeItems={"center"} opacity={".7"}>
           <VStack>
             <FaSchoolCircleXmark
@@ -322,10 +326,6 @@ const Dashboard = ({ userDetails }) => {
               Add Session
             </Button>
           </VStack>
-        </Grid>
-      ) : loading ? (
-        <Grid placeItems={"center"} minH={"15rem"}>
-          <Spinner />
         </Grid>
       ) : (
         <>

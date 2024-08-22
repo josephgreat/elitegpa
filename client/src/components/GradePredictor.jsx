@@ -247,7 +247,7 @@ const GradePredictor = ({ loading, savedResults, userDetails, maxGPA }) => {
                     </Grid>
                   </ModalBody>
                 ) : (
-                  <ModalBody>
+                  <ModalBody maxH={"min(75vh, 40rem)"} overflow={"auto"}>
                     <Box>
                       <Text mt="2" color="green.500">
                         To achieve a GPA of {targetGPA} for this semester, here
