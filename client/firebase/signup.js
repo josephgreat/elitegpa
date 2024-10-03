@@ -47,7 +47,7 @@ export const googleAuth = async (
         status: "success",
       });
 
-      navigate("/my-gpas")
+      navigate("/my-gpas");
     } else {
       const { email, uid, displayName, photoURL } = userCredentials.user;
       //   console.log(user);
@@ -65,12 +65,18 @@ export const googleAuth = async (
   } catch (error) {
     const errorCode = error.code;
     const errorMessage = error.message;
-
-    toast({
-      title: `${errorCode}`,
-      description: `${errorMessage}`,
-      status: "error",
-    });
+    if (errorCode === "auth/internal-error") {
+      toast({
+        title: `Network Error`,
+        description: `Check your internet connection`,
+        status: "error",
+      });
+    } else
+      toast({
+        title: `${errorCode}`,
+        description: `${errorMessage}`,
+        status: "error",
+      });
   } finally {
     setLoading(false);
   }
@@ -105,7 +111,6 @@ export const emailSignUp = async ({
       // ...
     })
     .catch((error) => {
-
       const errorCode = error.code;
       const errorMessage = error.message;
       if (errorCode === "auth/invalid-credential") {

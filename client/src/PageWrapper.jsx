@@ -4,7 +4,14 @@ import { UserContext } from "./App";
 import { useLocation, useNavigate } from "react-router-dom";
 import { checkAuth, savePreviousLocation } from "../firebase";
 import { setSessionGradingSystem } from "./utils";
-import { Box, Grid, Heading, Img, keyframes, useColorModeValue } from "@chakra-ui/react";
+import {
+  Box,
+  Grid,
+  Heading,
+  Img,
+  keyframes,
+  useColorModeValue,
+} from "@chakra-ui/react";
 
 const PageWrapper = ({ Component }) => {
   const { userDetails, setUserDetails, toast } = useContext(UserContext);
@@ -34,19 +41,38 @@ const PageWrapper = ({ Component }) => {
   }, [userDetails?.uid]);
 
   const logoSrc = useColorModeValue("logo.png", "logoalt.png");
+  const [isOnline, setIsOnline] = useState(navigator.onLine);
 
+  useEffect(() => {
+    const handleOnline = () => setIsOnline(true);
+    const handleOffline = () => setIsOnline(false);
+
+    window.addEventListener("online", handleOnline);
+    window.addEventListener("offline", handleOffline);
+
+    return () => {
+      window.removeEventListener("online", handleOnline);
+      window.removeEventListener("offline", handleOffline);
+    };
+  }, []);
   if (userDetails?.uid) {
     return (
       <>
-        <Navbar navigate={navigate} userDetails={userDetails} />
-        <Box pt="20">
-        <Component
-          userDetails={userDetails}
-          toast={toast}
-          loginMode={loginMode}
-          setUserDetails={setUserDetails}
-        />
-        </Box>
+        {isOnline ? (
+          <>
+            <Navbar navigate={navigate} userDetails={userDetails} />
+            <Box pt="20">
+              <Component
+                userDetails={userDetails}
+                toast={toast}
+                loginMode={loginMode}
+                setUserDetails={setUserDetails}
+              />
+            </Box>
+          </>
+        ) : (
+          "Offline"
+        )}
       </>
     );
   }
