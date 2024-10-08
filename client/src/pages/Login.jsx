@@ -39,7 +39,7 @@ import { Loader } from "../components";
 import { eraseCookie } from "../utils";
 
 const Login = () => {
-  const { setUserDetails, toast } = useContext(UserContext);
+  const { setUserDetails } = useContext(UserContext);
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [formError, setFormError] = useState({ from: "", message: "" });
@@ -47,6 +47,7 @@ const Login = () => {
   const passwordRef = useRef();
   const bgColor = useColorModeValue("secondary", "#1a202c");
   const logo = useColorModeValue("logo.png", "logoalt.png");
+  const toast = useToast()
 
   const navigate = useNavigate();
 
@@ -160,7 +161,7 @@ const Login = () => {
             color={"white"}
             as="h2"
           >
-            Let's get Jiggy Elite
+            Let's get Active Elite
           </Heading>
           <Box
             bg="rgba(255,255,255,.1)"

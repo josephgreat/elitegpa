@@ -38,27 +38,28 @@ const PageWrapper = ({ Component }) => {
     };
 
     initializeAuth();
-  }, [userDetails?.uid]);
+  }, [setUserDetails]);
 
   const logoSrc = useColorModeValue("logo.png", "logoalt.png");
   const [isOnline, setIsOnline] = useState(navigator.onLine);
 
-  useEffect(() => {
-    const handleOnline = () => setIsOnline(true);
-    const handleOffline = () => setIsOnline(false);
+  // useEffect(() => {
+  //   const handleOnline = () => setIsOnline(true);
+  //   const handleOffline = () => setIsOnline(false);
 
-    window.addEventListener("online", handleOnline);
-    window.addEventListener("offline", handleOffline);
+  //   window.addEventListener("online", handleOnline);
+  //   window.addEventListener("offline", handleOffline);
 
-    return () => {
-      window.removeEventListener("online", handleOnline);
-      window.removeEventListener("offline", handleOffline);
-    };
-  }, []);
+  //   return () => {
+  //     window.removeEventListener("online", handleOnline);
+  //     window.removeEventListener("offline", handleOffline);
+  //   };
+  // }, []);
+
   if (userDetails?.uid) {
     return (
       <>
-        {isOnline ? (
+        {/* {isOnline ? ( */}
           <>
             <Navbar navigate={navigate} userDetails={userDetails} />
             <Box pt="20">
@@ -70,9 +71,11 @@ const PageWrapper = ({ Component }) => {
               />
             </Box>
           </>
-        ) : (
-          "Offline"
-        )}
+        // ) : (
+        //   <Box textAlign="center" pt="20">
+        //     You are offline. Please check your connection.
+        //   </Box>
+        // )}
       </>
     );
   }

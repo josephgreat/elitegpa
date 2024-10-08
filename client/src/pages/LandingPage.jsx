@@ -112,7 +112,7 @@ const FAQSection = () => (
 );
 
 const Footer = () => (
-  <Box bg="gray.900" color="white" py={4}>
+  <Box bg="#121212" color="white" py={4}>
     <Container maxW="container.lg" fontSize={".8rem"}>
       <Flex alignItems={"center"} opacity={".7"} justifyContent={"space-around"} flexDir={{base: "column-reverse", md: "row"}} gap="4">
         <Flex alignItems="center" gap="4" flexWrap={'wrap'} justifyContent={"center"} textAlign={"center"}>

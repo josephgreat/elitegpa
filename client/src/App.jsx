@@ -1,26 +1,26 @@
-import { createContext, useState } from "react";
+import React, { createContext, useState, Suspense, lazy } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { useToast } from "@chakra-ui/react";
-import {
-  GpaAssistant,
-  Dashboard,
-  GpaCalc,
-  Login,
-  MyGpas,
-  SessionDashboard,
-  Signup,
-  StudyMaterials,
-  StudyTips,
-  UserSetup,
-  Settings,
-  Error,
-  NotFound,
-  LandingPage,
-  Offline,
-} from "./pages";
 import PageWrapper from "./PageWrapper";
-import { ThemeToggleBtn } from "./components";
+import { Loader, ThemeToggleBtn } from "./components";
 import "./App.css";
+
+// Lazy loading components
+const GpaAssistant = lazy(() => import("./pages/GpaAssistant"));
+const Dashboard = React.lazy(() => import("./pages/Dashboard"));
+const GpaCalc = React.lazy(() => import("./pages/GpaCalc"));
+const Login = React.lazy(() => import("./pages/Login"));
+const MyGpas = React.lazy(() => import("./pages/MyGpas"));
+const SessionDashboard = React.lazy(() => import("./pages/SessionDashboard"));
+const Signup = React.lazy(() => import("./pages/Signup"));
+const StudyMaterials = React.lazy(() => import("./pages/StudyMaterials"));
+const StudyTips = React.lazy(() => import("./pages/StudyTips"));
+const UserSetup = React.lazy(() => import("./pages/UserSetup"));
+const Settings = React.lazy(() => import("./pages/Settings"));
+const Error = React.lazy(() => import("./pages/Error"));
+const NotFound = React.lazy(() => import("./pages/404"));
+const LandingPage = lazy(() => import("./pages/LandingPage"));
+const Offline = React.lazy(() => import("./pages/Offline"));
 
 export const UserContext = createContext({ userDetails: {} });
 
@@ -35,16 +35,28 @@ function App() {
     { path: "/signup", element: <Signup /> },
     { path: "/login", element: <Login /> },
     { path: "/user-setup", element: <UserSetup /> },
-    { path: "/overview/:resultId", element: <PageWrapper Component={SessionDashboard} /> },
+    {
+      path: "/overview/:resultId",
+      element: <SessionDashboard />,
+    },
     { path: "/gpa-calc", element: <PageWrapper Component={GpaCalc} /> },
-    { path: "/gpa-calc/:resultId", element: <PageWrapper Component={GpaCalc} /> },
+    {
+      path: "/gpa-calc/:resultId",
+      element: <PageWrapper Component={GpaCalc} />,
+    },
     { path: "/my-gpas", element: <PageWrapper Component={MyGpas} /> },
-    { path: "/gpa-assistant", element: <PageWrapper Component={GpaAssistant} /> },
-    { path: "/study-materials", element: <PageWrapper Component={StudyMaterials} /> },
+    {
+      path: "/gpa-assistant",
+      element: <PageWrapper Component={GpaAssistant} />,
+    },
+    {
+      path: "/study-materials",
+      element: <PageWrapper Component={StudyMaterials} />,
+    },
     { path: "/study-tips", element: <PageWrapper Component={StudyTips} /> },
     { path: "/settings", element: <PageWrapper Component={Settings} /> },
     { path: "/error", element: <Error /> },
-    {path: "/offline", element: <Offline />},
+    { path: "/offline", element: <Offline /> },
     { path: "*", element: <NotFound /> },
   ];
 
@@ -61,7 +73,9 @@ function App() {
       }}
     >
       <ThemeToggleBtn />
-      <RouterProvider router={router} />
+      <Suspense fallback={<Loader />}>
+        <RouterProvider router={router} />
+      </Suspense>
     </UserContext.Provider>
   );
 }

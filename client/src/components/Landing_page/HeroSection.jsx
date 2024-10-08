@@ -1,4 +1,5 @@
 import {
+  AspectRatio,
   Box,
   Button,
   Container,
@@ -13,6 +14,8 @@ import {
 import { Link as RouteLink } from "react-router-dom";
 import "./TypewriterHeading.css";
 
+import { motion } from "framer-motion";
+
 import React, { useEffect, useState } from "react";
 const HeroSection = () => {
   const btnColor = useColorModeValue("transparent", "secondary");
@@ -22,31 +25,40 @@ const HeroSection = () => {
     let uid = getCookie("uid");
     uid ? setHasUID(true) : setHasUID(false);
   }, []);
+  const boxVariants = {
+    animate: {
+      opacity: [1, 0.5, 1], // Blink effect: fade in and out
+      scale: [1, 1.05, 1], // Slow scaling effect: scale up and down slightly
+      transition: {
+        duration: 5, // Slow animation over 5 seconds
+        repeat: Infinity, // Infinite repeat
+        repeatType: "loop", // Loop the animation
+      },
+    },
+  };
 
   return (
     <Container
       maxW={"container.lg"}
-      pb={{ base: "8", md: "16" }}
-      pt={{ base: "7rem", md: "10rem" }}
+      pb={{ base: "5", md: "16" }}
+      mb={{ base: "48", md: "unset" }}
+      pos="relative"
+      pt="4"
+      top={{ md: "-3rem" }}
+      // pt={{ base: "7rem", md: "-3rem" }}
     >
       {/* <FloatingBallsBackground /> */}
       <Flex
-        flexDir={{ base: "column-reverse", md: "row" }}
+        flexDir={{ base: "column", md: "row" }}
         gap="6"
         justifyContent={"space-around"}
         alignItems={"center"}
       >
         <VStack gap="4" alignItems={"flex-start"} w={{ md: "50%" }}>
-          <Grid minH={{base: "15.5ch", xl: "35ch"}} alignItems={"center"}>
+          <Grid minH={{ base: "16ch", xl: "25ch" }} alignItems={"center"}>
             <TypewriterHeading />
           </Grid>
-          {/* <Heading fontSize={"clamp(2.5rem, 5vw, 4rem)"}>
-            Where{" "}
-            <Text as="span" color={"accentVar"}>
-              Elite
-            </Text>{" "}
-            Students Thrive
-          </Heading> */}
+
           <Text>
             Get Accurate GPA Calculations and Clear Performance Insights.
             Enhance Your Learning with Easy-to-Use GPA Tracking
@@ -88,29 +100,22 @@ const HeroSection = () => {
             {hasUID ? "Get Jiggy Elite" : "Become an elite"}
           </Button>
         </VStack>
-        <Box w={{ base: "70%", md: "40%" }} pos="relative">
-          <Img src="/images/4x/hero_pic.png" />
-          {/* <Box
-            width="100px"
-            height="100px"
-            borderRadius="50%"
-            pos="absolute"
-            top={"0"}
-            right={"0"}
-            background="linear-gradient(145deg,  #191970, #008080)"
-            boxShadow="9px 9px 16px #bebebe, -9px -9px 16px #ffffff"
-          /> */}
-          <Box
-            pos={"absolute"}
-            right={{ base: "10", md: "12", lg: "14" }}
-            as={Grid}
-            placeItems={"center"}
-            top="31%"
-            h="55%"
-            w="15%"
-          >
-            <RotatingImageBox />
-          </Box>
+        <Box
+          w={{ base: "50%", md: "30%" }}
+          pos={{ base: "absolute", md: "relative" }}
+          top={{ base: "70%", md: "unset" }}
+          right={{ base: "0", md: "unset" }}
+          overflow={"hidden"}
+        >
+          <motion.div variants={boxVariants} animate="animate">
+            <Img
+              src="/images/advert.png"
+              w="100%"
+              h="100%"
+              alt="Hero Animation"
+              overflow="visible"
+            />
+          </motion.div>
         </Box>
       </Flex>
     </Container>
@@ -124,30 +129,4 @@ import { getCookie } from "../../utils";
 import TypewriterHeading from "./TypewriterHeading";
 const images = ["/images/4x/logoalt.png", "/images/4x/logo.png"];
 
-const RotatingImageBox = () => {
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
-    }, 3000); // Change image every 3 seconds
-    return () => clearInterval(interval);
-  }, []);
-
-  return (
-    <Box className="image-container">
-      {images.map((image, index) => (
-        <Img
-          key={index}
-          src={image}
-          w={{ base: "70%", md: "full" }}
-          alt={`Rotating image ${index + 1}`}
-          className={`image ${
-            currentImageIndex === index ? "visible" : "hidden"
-          }`}
-        />
-      ))}
-    </Box>
-  );
-};
 // export default FloatingBallsBackground;

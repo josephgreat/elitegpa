@@ -38,7 +38,8 @@ import { UserContext } from "../App";
 import { Loader } from "../components";
 
 const Signup = () => {
-  const { setUserDetails, toast } = useContext(UserContext);
+  const { setUserDetails } = useContext(UserContext);
+  const toast = useToast()
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showCPassword, setShowCPassword] = useState(false);

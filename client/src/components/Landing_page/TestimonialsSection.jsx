@@ -32,6 +32,8 @@ const TestimonialsSection = () => {
             textTransform: "uppercase",
             // color: "accentVar",
             zIndex: "-1",
+        animation: "gradient-border 5s ease infinite",
+
             opacity: ".2",
             letterSpacing: { base: ".1rem", md: ".5rem" },
           }}

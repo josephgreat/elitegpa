@@ -24,11 +24,11 @@ export const checkAuth = (setUserDetails, toast, navigate, setLoginMode) => {
         if (docSnap.exists()) {
           setUserDetails(docSnap.data());
           if (docSnap.data().setup.institution) {
-            await toast({
-              title: `Welcome back Elite`,
-              description: `Keep cruising in your elite mode`,
-              status: "success",
-            });
+            // await toast({
+            //   title: `Welcome back Elite`,
+            //   description: `Keep cruising in your elite mode`,
+            //   status: "success",
+            // });
             if (previousLocation) {
               navigate(previousLocation);
             } else {
