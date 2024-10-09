@@ -66,7 +66,7 @@ function App() {
         </p>
       ),
     },
-    { path: "*", element: <NotFound /> },
+    // { path: "*", element: <NotFound /> },
   ];
 
   const router = createBrowserRouter(routes);
