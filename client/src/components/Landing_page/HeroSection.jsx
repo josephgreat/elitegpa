@@ -105,7 +105,7 @@ const HeroSection = () => {
           pos={{ base: "absolute", md: "relative" }}
           top={{ base: "70%", md: "unset" }}
           right={{ base: "0", md: "unset" }}
-          overflow={"hidden"}
+          overflow={{base: "hidden", md: "visible"}}
         >
           <motion.div variants={boxVariants} animate="animate">
             <Img

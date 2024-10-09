@@ -57,6 +57,15 @@ function App() {
     { path: "/settings", element: <PageWrapper Component={Settings} /> },
     { path: "/error", element: <Error /> },
     { path: "/offline", element: <Offline /> },
+    {
+      path:
+        "/.well-known/acme-challenge/aoGT6kWFDNlg4M75yB_Ao0HpcFs4sg8jPUz0Z5hQZGVHylSy2gKCIJfXWWhzdNh9",
+      element: (
+        <p>
+          aoGT6kWFDNlg4M75yB_Ao0HpcFs4sg8jPUz0Z5hQZGVHylSy2gKCIJfXWWhzdNh9.M0-GObbb5ePi63ASQsPKBrDqfgayGnOWpyrEF0nHqug
+        </p>
+      ),
+    },
     { path: "*", element: <NotFound /> },
   ];
 
