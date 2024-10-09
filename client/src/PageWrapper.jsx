@@ -60,22 +60,17 @@ const PageWrapper = ({ Component }) => {
     return (
       <>
         {/* {isOnline ? ( */}
-          <>
-            <Navbar navigate={navigate} userDetails={userDetails} />
-            <Box pt="20">
-              <Component
-                userDetails={userDetails}
-                toast={toast}
-                loginMode={loginMode}
-                setUserDetails={setUserDetails}
-              />
-            </Box>
-          </>
-        // ) : (
-        //   <Box textAlign="center" pt="20">
-        //     You are offline. Please check your connection.
-        //   </Box>
-        // )}
+        <>
+          <Navbar navigate={navigate} userDetails={userDetails} />
+          <Box pt="20">
+            <Component
+              userDetails={userDetails}
+              toast={toast}
+              loginMode={loginMode}
+              setUserDetails={setUserDetails}
+            />
+          </Box>
+        </>
       </>
     );
   }
