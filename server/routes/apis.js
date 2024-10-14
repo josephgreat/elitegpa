@@ -57,6 +57,13 @@ router.get("/get-one-session/:id", async (req, res) => {
 //Update by ID Method
 router.patch("/update-one-session/:id", async(req, res) => {
   try {
+    const existingData = await LevelModel.findOne({ level: data.level, uid: data.uid });
+    if (existingData) {
+      return res.status(409).json({
+        error: "Duplicate Data",
+        message: `Data for ${data.level} already exists.`,
+      });
+    }
     const singleData = await LevelModel.updateOne({ _id: req.params.id }, req.body);
     res.json(singleData);
   } catch (error) {
