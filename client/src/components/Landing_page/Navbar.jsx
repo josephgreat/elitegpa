@@ -97,7 +97,7 @@ const Navbar = () => {
             mb="3"
             as="h1"
           >
-            <Img alt="eliteGPA" w="100%" src={`/images/4x/${logo}`} />
+            <Img alt="eliteGPA logo - transparent GPA calculator logo" w="100%" src={`/images/4x/${logo}`} />
           </Heading>
           {isLgscreen && (
             <HStack

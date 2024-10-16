@@ -5,7 +5,9 @@ html{
   width: 100vw;
   overflow-x: hidden;
 }
-
+button:focus{
+  background: transparent!important;
+}
 select {
   padding-bottom: 0;
   height: auto;

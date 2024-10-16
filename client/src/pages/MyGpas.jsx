@@ -43,8 +43,9 @@ const MyGpas = ({ userDetails }) => {
       let response = await axios.get(
         `${import.meta.env.VITE_API_URL}/get-all-sessions/${userDetails.uid}`
       );
-
+      let results = sortData(response);
       setSavedResults(sortData(response));
+      console.log(results);
       setLoading(false);
     } catch (error) {
       console.log(error);

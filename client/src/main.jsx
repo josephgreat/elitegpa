@@ -19,7 +19,7 @@ const components = {
     // setup light/dark mode component defaults
     baseStyle: props => ({
       dialog: {
-        bg: mode('gray.50', '#0d0d0d')(props),
+        bg: mode('gray.50', '#121212')(props),
       },
     }),
   },
@@ -29,7 +29,7 @@ const theme = extendTheme({
     primary: "#191970",
     accent: "#FFD700",
     secondary: "#ffffff",
-    secondaryAlt: "#0d0d0d",
+    secondaryAlt: "#121212",
     accentVar: "#008080",
   },
   fonts: {

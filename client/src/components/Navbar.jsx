@@ -63,7 +63,8 @@ const Navbar = ({ userDetails, navigate }) => {
         inset={"0"}
         bgGradient="linear(to-br, primary, accentVar)"
         borderBottomLeftRadius={"2rem"}
-        opacity={0.5}
+        opacity={0.8}
+        shadow="inset 0 0 3px rgba(20,20,20,1)"
         zIndex={-1}
         bottom="-1"
         left="1"

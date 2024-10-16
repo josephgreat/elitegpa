@@ -94,6 +94,7 @@ const LevelResult = ({
         bottom={"-.5rem"}
         fontSize={".8rem"}
         gap="4"
+        rounded="150%"
         justifyContent={"center"}
         w="auto"
         mx="auto"
@@ -137,7 +138,7 @@ const LevelResult = ({
         w="85%"
       >
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent bg={bgColor}>
           <ModalHeader>Delete Result</ModalHeader>
           <ModalBody>
             <Text mb="2">
@@ -154,6 +155,7 @@ const LevelResult = ({
                 <Input
                   type="text"
                   value={levelInput}
+                  borderWidth="1.5px"
                   onChange={(e) => setLevelInput(e.target.value)}
                 />
 
