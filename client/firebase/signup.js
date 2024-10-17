@@ -18,7 +18,7 @@ import { setCookie } from "../src/utils";
 import emailjs from "emailjs-com";
 
 const auth = getAuth(app);
-auth.languageCode = "en";
+// auth.languageCode = "en";
 const db = getFirestore(app);
 
 // Google Authentication Function
@@ -105,7 +105,7 @@ export const emailSignUp = async ({
     await sendEmailVerification(user, actionCodeSettings);
 
     // After sending Firebase verification email, use EmailJS to send a custom email
-    sendCustomEmailWithEmailJS(email, actionCodeSettings.url);
+    // sendCustomEmailWithEmailJS(email, actionCodeSettings.url);
 
     toast({
       title: `Almost there`,
