@@ -3,6 +3,7 @@ import {
   createUserWithEmailAndPassword,
   getAuth,
   GoogleAuthProvider,
+  sendEmailVerification,
   signInWithPopup,
 } from "firebase/auth";
 import {
@@ -14,11 +15,13 @@ import {
   setDoc,
 } from "firebase/firestore";
 import { setCookie } from "../src/utils";
+import emailjs from "emailjs-com";
 
 const auth = getAuth(app);
-auth.languageCode = "it";
+auth.languageCode = "en";
 const db = getFirestore(app);
 
+// Google Authentication Function
 export const googleAuth = async (
   setUserDetails,
   setLoading,
@@ -27,6 +30,7 @@ export const googleAuth = async (
 ) => {
   const provider = new GoogleAuthProvider();
   setLoading(true);
+
   try {
     const userCredentials = await signInWithPopup(auth, provider);
     const credential = GoogleAuthProvider.credentialFromResult(userCredentials);
@@ -34,27 +38,23 @@ export const googleAuth = async (
     const { uid } = userCredentials.user;
 
     setCookie("uid", uid, 10);
-
     const docRef = doc(db, "users", uid);
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
       setUserDetails(docSnap.data());
-
       toast({
         title: "Welcome back Elite",
         description: "Keep cruising in your elite mode",
         status: "success",
       });
-
       navigate("/my-gpas");
     } else {
       const { email, uid, displayName, photoURL } = userCredentials.user;
-      //   console.log(user);
       let user_details = { email, uid, photoURL, displayName };
-      console.log(user_details);
       saveUserDetails(user_details);
       setUserDetails(user_details);
+
       toast({
         title: `Almost there`,
         description: `Just a few steps left`,
@@ -65,23 +65,13 @@ export const googleAuth = async (
   } catch (error) {
     const errorCode = error.code;
     const errorMessage = error.message;
-    if (errorCode === "auth/internal-error") {
-      toast({
-        title: `Network Error`,
-        description: `Check your internet connection`,
-        status: "error",
-      });
-    } else
-      toast({
-        title: `${errorCode}`,
-        description: `${errorMessage}`,
-        status: "error",
-      });
+    handleAuthError(errorCode, errorMessage, toast);
   } finally {
     setLoading(false);
   }
 };
 
+// Email Signup Function
 export const emailSignUp = async ({
   setUserDetails,
   setLoading,
@@ -92,60 +82,91 @@ export const emailSignUp = async ({
   name,
 }) => {
   setLoading(true);
-  await createUserWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      // Signed up
-      const user = userCredential.user;
-      let { email, uid, photoURL } = user;
-      let user_details = { email, uid, photoURL, displayName: name };
-      console.log(user_details);
-      saveUserDetails(user_details);
-      setUserDetails(user_details);
-      toast({
-        title: `Almost there`,
-        description: `Just a few steps left`,
-        status: "success",
-      });
-      navigate("/user-setup");
-      setLoading(false);
-      // ...
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      if (errorCode === "auth/invalid-credential") {
-        toast({
-          title: "Incorrect Details",
-          description: "Check your login details properly",
-          status: "error",
-        });
-      } else if (errorCode === "auth/network-request-failed") {
-        toast({
-          title: "Network Error",
-          description: "Check your Internet connection",
-          status: "error",
-        });
-      } else {
-        toast({
-          title: errorCode,
-          description: errorMessage,
-          status: "error",
-        });
-      }
-      setLoading(false);
 
-      // ..
+  try {
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    const user = userCredential.user;
+    const { uid, photoURL } = user;
+    const user_details = { email, uid, photoURL, displayName: name };
+
+    saveUserDetails(user_details);
+    setUserDetails(user_details);
+
+    const actionCodeSettings = {
+      url: "https://elitegpa.com/verifyaccount", // Your app's URL
+      handleCodeInApp: true,
+    };
+
+    // Send verification email using Firebase
+    await sendEmailVerification(user, actionCodeSettings);
+
+    // After sending Firebase verification email, use EmailJS to send a custom email
+    sendCustomEmailWithEmailJS(email, actionCodeSettings.url);
+
+    toast({
+      title: `Almost there`,
+      description: `A verification link has been sent to your email`,
+      status: "success",
+    });
+
+    navigate("/user-setup");
+  } catch (error) {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    handleAuthError(errorCode, errorMessage, toast);
+  } finally {
+    setLoading(false);
+  }
+};
+
+const sendCustomEmailWithEmailJS = (userEmail, verificationLink) => {
+  const templateParams = {
+    to_email: userEmail,
+    verification_link: verificationLink, // Insert the verification link in the email
+  };
+
+  emailjs
+    .send("elitegpa", "elitegpa-verify", templateParams, "YOUR_EMAILJS_USER_ID")
+    .then((response) => {
+      console.log(
+        "Custom email successfully sent!",
+        response.status,
+        response.text
+      );
+    })
+    .catch((err) => {
+      console.error("Failed to send custom email:", err);
     });
 };
 
+// Save User Details to Firestore
 const saveUserDetails = async (user) => {
-  const db = getFirestore(app);
-
   try {
     const newUserRef = doc(collection(db, "users"), user.uid);
     await setDoc(newUserRef, user);
-    console.log("saved");
+    console.log("User details saved");
   } catch (error) {
-    console.log(error);
+    console.error("Error saving user details:", error);
+  }
+};
+
+// Handle Authentication Errors
+const handleAuthError = (errorCode, errorMessage, toast) => {
+  if (errorCode === "auth/internal-error") {
+    toast({
+      title: "Network Error",
+      description: "Check your internet connection",
+      status: "error",
+    });
+  } else {
+    toast({
+      title: errorCode,
+      description: errorMessage,
+      status: "error",
+    });
   }
 };

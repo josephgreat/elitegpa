@@ -55,7 +55,7 @@ const HeroSection = () => {
         alignItems={"center"}
       >
         <VStack gap="4" alignItems={"flex-start"} w={{ md: "50%" }}>
-          <Grid minH={{ base: "16ch", xl: "25ch" }} alignItems={"center"}>
+          <Grid as="h1" minH={{ base: "16ch", xl: "25ch" }} alignItems={"center"}>
             <TypewriterHeading />
           </Grid>
 
@@ -97,7 +97,7 @@ const HeroSection = () => {
             as={RouteLink}
             to={hasUID ? "/my-gpas" : "/signup"}
           >
-            {hasUID ? "Get Jiggy Elite" : "Become an elite"}
+            {hasUID ? "Get Active Elite" : "Become an elite"}
           </Button>
         </VStack>
         <Box

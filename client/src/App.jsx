@@ -20,6 +20,7 @@ const Settings = React.lazy(() => import("./pages/Settings"));
 const Error = React.lazy(() => import("./pages/Error"));
 const NotFound = React.lazy(() => import("./pages/404"));
 const LandingPage = lazy(() => import("./pages/LandingPage"));
+const VerificationPage = lazy(() => import("./pages/VerificationPage"));
 const Offline = React.lazy(() => import("./pages/Offline"));
 
 export const UserContext = createContext({ userDetails: {} });
@@ -58,15 +59,10 @@ function App() {
     { path: "/error", element: <Error /> },
     { path: "/offline", element: <Offline /> },
     {
-      path:
-        "/.well-known/acme-challenge/aoGT6kWFDNlg4M75yB_Ao0HpcFs4sg8jPUz0Z5hQZGVHylSy2gKCIJfXWWhzdNh9",
-      element: (
-        <p>
-          aoGT6kWFDNlg4M75yB_Ao0HpcFs4sg8jPUz0Z5hQZGVHylSy2gKCIJfXWWhzdNh9.M0-GObbb5ePi63ASQsPKBrDqfgayGnOWpyrEF0nHqug
-        </p>
-      ),
+      path: "verifyaccount",
+      element: <VerificationPage />,
     },
-    // { path: "*", element: <NotFound /> },
+    { path: "*", element: <NotFound /> },
   ];
 
   const router = createBrowserRouter(routes);

@@ -13,6 +13,7 @@ import Error from "./Error";
 import NotFound from "./404";
 import LandingPage from "./LandingPage";
 import Offline from "./Offline";
+import VerificationPage from "./VerificationPage";
 export {
   GpaCalc,
   StudyTips,
@@ -28,5 +29,6 @@ export {
   Error,
   NotFound,
   LandingPage,
-  Offline
+  Offline,
+  VerificationPage,
 };

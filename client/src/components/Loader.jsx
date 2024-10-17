@@ -1,4 +1,5 @@
 import {
+  Box,
   Grid,
   Heading,
   Img,
@@ -20,15 +21,24 @@ const Loader = ({ text }) => {
   const logoSrc = useColorModeValue("logo.png", "logoalt.png");
 
   return (
-    <Grid placeItems="center" h="100vh">
-      <Heading
-        w="clamp(5rem, 10vw, 10rem)"
-        fontSize="clamp(1.2rem, 3vw, 1.5rem)"
-        animation={`${pulseAnimation} infinite 1s linear`}
-        transition="all 1s ease"
-      >
-        <Img alt="eliteGPA" w="100%" src={`/images/4x/${logoSrc}`} />
-      </Heading>
+    <Grid placeItems="center" pos="fixed" top="0" left="0" w="100%" h="100vh" zIndex="10000000000">
+      {text ? (
+        <>
+          <Box pos="absolute" bg="rgba(10,10,10,.4)" inset="0" backdropFilter="blur(5px)"  />
+          <VStack pos="relative" color="white">
+            <Spinner size="xl" /> <Text fontSize="xl" >{text}</Text>
+          </VStack>
+        </>
+      ) : (
+        <Heading
+          w="clamp(5rem, 10vw, 10rem)"
+          fontSize="clamp(1.2rem, 3vw, 1.5rem)"
+          animation={`${pulseAnimation} infinite 1s linear`}
+          transition="all 1s ease"
+        >
+          <Img alt="eliteGPA" w="100%" src={`/images/4x/${logoSrc}`} />
+        </Heading>
+      )}
     </Grid>
   );
 };
