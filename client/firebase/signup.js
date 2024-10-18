@@ -5,6 +5,7 @@ import {
   GoogleAuthProvider,
   sendEmailVerification,
   signInWithPopup,
+  updateProfile,
 } from "firebase/auth";
 import {
   addDoc,
@@ -100,9 +101,9 @@ export const emailSignUp = async ({
       url: "https://elitegpa.com/verifyaccount", // Your app's URL
       handleCodeInApp: true,
     };
-    auth.useDeviceLanguage();
-    auth.languageCode = "en";
+    
     // Send verification email using Firebase
+    await updateProfile(auth.currentUser, { languageCode: 'en' })
     await sendEmailVerification(user, actionCodeSettings);
 
     // After sending Firebase verification email, use EmailJS to send a custom email
