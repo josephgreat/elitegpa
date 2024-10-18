@@ -100,7 +100,8 @@ export const emailSignUp = async ({
       url: "https://elitegpa.com/verifyaccount", // Your app's URL
       handleCodeInApp: true,
     };
-
+    auth.useDeviceLanguage();
+    auth.languageCode = "en";
     // Send verification email using Firebase
     await sendEmailVerification(user, actionCodeSettings);
 
@@ -113,7 +114,7 @@ export const emailSignUp = async ({
       status: "success",
     });
 
-    navigate("/user-setup");
+    // navigate("/user-setup");
   } catch (error) {
     const errorCode = error.code;
     const errorMessage = error.message;
