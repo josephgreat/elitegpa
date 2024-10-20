@@ -127,7 +127,7 @@ const Login = () => {
               <Img alt="eliteGPA" w="100%" src={`/images/4x/${logo}`} />
             </Heading>
             <Box w="clamp(15rem, 40vw, 25rem)" mx="auto" my="10">
-              <Img src="/images/login.png" />
+              <Img src="/images/login.png" alt="login image" />
             </Box>
             <Text
               px="10"

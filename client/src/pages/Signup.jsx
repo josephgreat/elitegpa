@@ -132,7 +132,7 @@ const Signup = () => {
               <Img alt="eliteGPA" w="100%" src={`/images/4x/${logo}`} />
             </Heading>
             <Box w="clamp(12rem, 25vw, 25rem)" mx="auto" my="10">
-              <Img src="/images/signup.png" minH="15rem" />
+              <Img src="/images/signup.png" alt="signup image" minH="15rem" />
             </Box>
             <Text
               px="10"
