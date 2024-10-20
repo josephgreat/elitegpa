@@ -10,17 +10,17 @@ const VerificationPage = () => {
   const [mode, setMode] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [message, setMessage] = useState('');
-
+  
   useEffect(() => {
     // Parse query parameters
     const queryParams = new URLSearchParams(location.search);
     const paramOobCode = queryParams.get('oobCode'); // unique code sent for the password reset
     const paramMode = queryParams.get('mode');       // action mode, should be 'resetPassword'
-
-    if (oobCode && mode === 'resetPassword') {
+    console.log(paramMode, paramOobCode);
+    
+    if (paramOobCode && mode === 'resetPassword') {
       setOobCode(paramOobCode);
       setMode(paramMode);
-      console.log(paramMode, paramOobCode);
       
 
     } else {
