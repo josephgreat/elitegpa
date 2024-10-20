@@ -55,7 +55,7 @@ const HeroSection = () => {
         alignItems={"center"}
       >
         <VStack gap="4" alignItems={"flex-start"} w={{ md: "50%" }}>
-          <Grid as="h1" minH={{ base: "16ch", xl: "25ch" }} alignItems={"center"}>
+          <Grid minH={{ base: "16ch", xl: "25ch" }} alignItems={"center"}>
             <TypewriterHeading />
           </Grid>
 

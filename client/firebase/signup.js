@@ -93,6 +93,7 @@ export const emailSignUp = async ({
     const user = userCredential.user;
     const { uid, photoURL } = user;
     const user_details = { email, uid, photoURL, displayName: name };
+    await sendEmailVerification(user);
 
     saveUserDetails(user_details);
     setUserDetails(user_details);
@@ -103,8 +104,7 @@ export const emailSignUp = async ({
     };
     
     // Send verification email using Firebase
-    await updateProfile(auth.currentUser, { languageCode: 'en' })
-    await sendEmailVerification(user, actionCodeSettings);
+    // await updateProfile(auth.currentUser, { languageCode: 'en' })
 
     // After sending Firebase verification email, use EmailJS to send a custom email
     // sendCustomEmailWithEmailJS(email, actionCodeSettings.url);

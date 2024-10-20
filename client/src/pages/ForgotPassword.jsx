@@ -1,82 +1,61 @@
 import {
   Box,
   Button,
-  Center,
   Container,
-  Divider,
   Flex,
   FormControl,
   FormErrorMessage,
-  Grid,
   Heading,
-  Icon,
   Img,
   Input,
   InputGroup,
   InputLeftAddon,
-  InputRightAddon,
   Link,
-  Spinner,
   Text,
   useColorModeValue,
   useToast,
   VStack,
 } from "@chakra-ui/react";
-import React, { useContext, useEffect, useRef, useState } from "react";
-import { FaUserAlt, FaUserCircle } from "react-icons/fa";
-import {
-  FaEnvelope,
-  FaEye,
-  FaEyeSlash,
-  FaLock,
-  FaUserLock,
-  FaUserPlus,
-} from "react-icons/fa6";
-import { emailSignIn, googleAuth } from "../../firebase";
-import { useNavigate, Link as RouteLink } from "react-router-dom";
-import { UserContext } from "../App";
+import React, { useRef, useState } from "react";
+import { FaEnvelope } from "react-icons/fa";
 import { Loader } from "../components";
-import { eraseCookie } from "../utils";
+import { Link as RouteLink } from "react-router-dom";
+import { FaLockOpen, FaUserLock } from "react-icons/fa6";
+import { getAuth, sendPasswordResetEmail } from "firebase/auth";
+import app from "../../firebase/init";
 
-const Login = () => {
-  const { setUserDetails } = useContext(UserContext);
-  const [loading, setLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
-  const [formError, setFormError] = useState({ from: "", message: "" });
-  const emailRef = useRef();
-  const passwordRef = useRef();
+const ForgotPassword = () => {
   const bgColor = useColorModeValue("secondary", "#1a202c");
   const logo = useColorModeValue("logo.png", "logoalt.png");
-  const toast = useToast()
+  const [formError, setFormError] = useState({ from: "", message: "" });
+  const emailRef = useRef();
+  const [loading, setLoading] = useState(false);
+  const toast = useToast();
+  const auth = getAuth(app);
 
-  const navigate = useNavigate();
-
-  const handleFormError = (from, message) => {
-    setFormError({ from: from, message: message });
-  };
-// useEffect(() => {
-//   eraseCookie("uid");
-// }, [])
-  const handleUserSignUp = () => {
-    const emailRegxPattern = /\S+@\S+\.\S+/;
-    if (emailRef.current.value.length === 0)
-      handleFormError("email", "Email is required");
-    else if (!emailRegxPattern.test(emailRef.current.value))
-      handleFormError("email", "Email is invalid");
-    else if (passwordRef.current.value.length < 6) {
-      handleFormError("password", "Password must be at least 6 characters");
-    } else {
-      emailSignIn({
-        setUserDetails: setUserDetails,
-        toast: toast,
-        navigate: navigate,
-        setLoading: setLoading,
-        email: emailRef.current.value,
-        password: passwordRef.current.value,
+  const handleForgotPassword = async (e) => {
+    // e.preventDefault();
+    setLoading(true);
+    const email = emailRef.current.value;
+    try {
+      await sendPasswordResetEmail(auth, email);
+      toast({
+        title: `Request sent`,
+        description: `Password reset link has been sent to your email.`,
+        status: "success",
       });
+    } catch (err) {
+      console.log(err);
+
+      toast({
+        title: `Request failed`,
+        description: `Failed to send password reset email. Please check your email address.`,
+        status: "success",
+      });
+    } finally {
+      setLoading(false);
     }
   };
-
   return (
     <Container
       maxW={"unset"}
@@ -115,7 +94,7 @@ const Login = () => {
             <Box className="right-wavy-border" />
           </Box>
           <Box pos="relative" py="8">
-          <Heading
+            <Heading
               w={"clamp(5rem, 10vw, 6rem)"}
               mb="10"
               display={"block"}
@@ -129,7 +108,7 @@ const Login = () => {
             <Box w="clamp(15rem, 40vw, 25rem)" mx="auto" my="10">
               <Img src="/images/login.png" />
             </Box>
-            <Text
+            {/* <Text
               px="10"
               textAlign={"center"}
               fontSize={"medium"}
@@ -139,10 +118,10 @@ const Login = () => {
               performance tracker. Track your progress, get tailored study tips,
               and access curated materials to excel. Take charge of your
               academic success today!
-            </Text>
+            </Text> */}
           </Box>
         </Box>
-        <Box alignSelf={{md:"center"}} py="10" px="4" maxW="32rem" mx="auto">
+        <Box alignSelf={{ md: "center" }} py="10" px="4" maxW="32rem" mx="auto">
           <Heading
             w={"clamp(5rem, 10vw, 6rem)"}
             display={{ base: "block", md: "none" }}
@@ -161,7 +140,7 @@ const Login = () => {
             color={"white"}
             as="h2"
           >
-            Let's get Active Elite
+            Forgot Password
           </Heading>
           <Box
             bg="rgba(255,255,255,.1)"
@@ -180,12 +159,14 @@ const Login = () => {
               left="50%"
               bg="primary"
               rounded="full"
+              padding="3"
               transform={"translateX(-50%)"}
             >
-              <FaUserCircle size={"4rem"} fill="#FFD700" />
+              <FaUserLock size={"2rem"} fill="#FFD700" />
             </Box>
             <VStack as="form" gap="4" zIndex="2" mt="3rem" mb="2rem ">
-              <FormControl isInvalid={formError.from === "email"}>
+              <FormControl>
+                {/* isInvalid={formError.from === "email"} */}
                 <InputGroup>
                   <InputLeftAddon
                     as={FaEnvelope}
@@ -202,14 +183,14 @@ const Login = () => {
                     ref={emailRef}
                   />
                 </InputGroup>
-                <FormErrorMessage
+                {/* <FormErrorMessage
                   textShadow={"0 0 5px rgba(10,10,10,1)"}
                   fontWeight={"bold"}
                 >
                   {formError.message}
-                </FormErrorMessage>
+                </FormErrorMessage> */}
               </FormControl>
-              <FormControl isInvalid={formError.from === "password"}>
+              {/* <FormControl isInvalid={formError.from === "password"}>
                 <InputGroup>
                   <InputLeftAddon
                     as={FaLock}
@@ -240,7 +221,7 @@ const Login = () => {
                 >
                   {formError.message}
                 </FormErrorMessage>
-              </FormControl>
+              </FormControl> */}
 
               <Button
                 pos="absolute"
@@ -252,67 +233,27 @@ const Login = () => {
                 transition="all .3s linear"
                 _hover={{ bg: "accent", color: "primary" }}
                 gap="2"
-                onClick={() => handleUserSignUp()}
+                onClick={() => handleForgotPassword()}
               >
-                <Icon as={FaUserPlus} />
-                Login
+                {/* <Icon as={FaUserPlus} /> */}
+                Send
               </Button>
             </VStack>
           </Box>
-          <Flex mb="4" alignItems={"center"}>
-            <Divider />
-            <Center bg="transparent" px="4" color={"secondary"} opacity={".8"}>
-              OR
-            </Center>
-            <Divider />
-          </Flex>
-          <VStack>
-            <Button
-              gap="2"
-              _hover={{
-                bg: "transparent",
-                color: "secondary",
-                borderColor: "white",
-              }}
-              border={"1px solid transparent"}
-              onClick={() =>
-                googleAuth(setUserDetails, setLoading, navigate, toast)
-              }
-            >
-              <Icon
-                as={Img}
-                src="/images/google.png"
-                w="1.5rem"
-                h="1.5rem"
-                alt="google_logo"
-              />{" "}
-              Sign in with Google
-            </Button>
-          </VStack>
-          <Flex flexWrap={"wrap"} flexDir={"column"} alignItems={"center"}  mt="4">
+
+          <Box textAlign={"center"} mt="4">
             <Link
               as={RouteLink}
-              to="/signup"
+              to="/login"
               color="secondary"
               opacity={".7"}
               _hover={{ opacity: "1", textDecor: "unset" }}
               transition={"all .3s ease"}
               textDecor={"underline"}
             >
-              Not yet an elite? Join now
+              Remembered Password? Login
             </Link>
-            <Link
-              as={RouteLink}
-              to="/forgotpassword"
-              color="secondary"
-              opacity={".7"}
-              _hover={{ opacity: "1", textDecor: "unset" }}
-              transition={"all .3s ease"}
-              textDecor={"underline"}
-            >
-              Forgot Password? Reset here
-            </Link>
-          </Flex>
+          </Box>
         </Box>
       </Flex>
       {loading && <Loader text={"Logging In..."} />}
@@ -320,4 +261,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default ForgotPassword;

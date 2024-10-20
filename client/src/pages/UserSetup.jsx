@@ -58,7 +58,7 @@ const UserSetup = () => {
       toast,
       navigate
     );
-    navigate("/login")
+    navigate("/gpa-calc")
   };
   steps = [
     {
@@ -189,23 +189,7 @@ const UserSetup = () => {
             </Box>
           </Box>
         </Flex>
-        {loading && (
-          <Grid
-            pos="fixed"
-            zIndex={"2"}
-            inset="0"
-            bg="rgba(20,20,20,.5)"
-            backdropFilter={"blur(5px)"}
-            placeItems="center"
-          >
-            <VStack>
-              <Spinner size="xl" borderWidth={"3px"} color={"white"} />
-              <Text color={"white"} fontWeight="bold" letterSpacing=".3rem">
-                Loading...
-              </Text>
-            </VStack>
-          </Grid>
-        )}
+        {loading && <Loader text="Setting Up Account" />}
       </Container>
     );
   }

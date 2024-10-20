@@ -10,6 +10,8 @@ const GpaAssistant = lazy(() => import("./pages/GpaAssistant"));
 const Dashboard = React.lazy(() => import("./pages/Dashboard"));
 const GpaCalc = React.lazy(() => import("./pages/GpaCalc"));
 const Login = React.lazy(() => import("./pages/Login"));
+const ForgotPassword = React.lazy(() => import("./pages/ForgotPassword"));
+const ResetPassword = React.lazy(() => import("./pages/ResetPassword"));
 const MyGpas = React.lazy(() => import("./pages/MyGpas"));
 const SessionDashboard = React.lazy(() => import("./pages/SessionDashboard"));
 const Signup = React.lazy(() => import("./pages/Signup"));
@@ -35,6 +37,8 @@ function App() {
     { path: "/overview", element: <PageWrapper Component={Dashboard} /> },
     { path: "/signup", element: <Signup /> },
     { path: "/login", element: <Login /> },
+    { path: "/forgotpassword", element: <ForgotPassword /> },
+    { path: "/resetpassword", element: <ResetPassword /> },
     { path: "/user-setup", element: <UserSetup /> },
     {
       path: "/overview/:resultId",

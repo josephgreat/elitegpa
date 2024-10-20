@@ -14,6 +14,7 @@ import NotFound from "./404";
 import LandingPage from "./LandingPage";
 import Offline from "./Offline";
 import VerificationPage from "./VerificationPage";
+import ForgotPassword from "./ForgotPassword";
 export {
   GpaCalc,
   StudyTips,
@@ -30,5 +31,5 @@ export {
   NotFound,
   LandingPage,
   Offline,
-  VerificationPage,
+  VerificationPage, ForgotPassword
 };
