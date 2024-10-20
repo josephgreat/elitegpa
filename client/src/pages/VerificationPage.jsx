@@ -14,12 +14,13 @@ const VerificationPage = () => {
   useEffect(() => {
     // Parse query parameters
     const queryParams = new URLSearchParams(location.search);
-    const oobCode = queryParams.get('oobCode'); // unique code sent for the password reset
-    const mode = queryParams.get('mode');       // action mode, should be 'resetPassword'
+    const paramOobCode = queryParams.get('oobCode'); // unique code sent for the password reset
+    const paramMode = queryParams.get('mode');       // action mode, should be 'resetPassword'
 
     if (oobCode && mode === 'resetPassword') {
-      setOobCode(oobCode);
-      setMode(mode);
+      setOobCode(paramOobCode);
+      setMode(paramMode);
+
     } else {
       setMessage('Invalid or expired link.');
     }
