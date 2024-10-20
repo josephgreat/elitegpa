@@ -1,4 +1,4 @@
-import { Box, Grid, Heading, Link, Text, VStack, Img } from "@chakra-ui/react";
+import { Box, Grid, Heading, Link, Text, VStack, Img, useColorModeValue } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { FaCheckCircle } from "react-icons/fa";
 import { FaCheck } from "react-icons/fa6";
@@ -20,11 +20,14 @@ const VerificationPage = () => {
     if (oobCode && mode === 'resetPassword') {
       setOobCode(paramOobCode);
       setMode(paramMode);
+      console.log(paramMode, paramOobCode);
+      
 
     } else {
       setMessage('Invalid or expired link.');
     }
   }, [location]);
+  const logo = useColorModeValue("logo.png", "logoalt.png");
 
  
   return (
@@ -44,7 +47,7 @@ const VerificationPage = () => {
         </Link>
         <Box>
           <Link as={RouteLink} to="/">
-            <Img src="/images/4x/logo.png" alt="eliteGPA logo" w="3rem" />
+            <Img src={`/images/4x/${logo}`} alt="eliteGPA logo" w="3rem" />
           </Link>
         </Box>
       </VStack>
