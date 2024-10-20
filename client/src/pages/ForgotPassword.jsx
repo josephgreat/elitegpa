@@ -6,6 +6,7 @@ import {
   FormControl,
   FormErrorMessage,
   Heading,
+  Icon,
   Img,
   Input,
   InputGroup,
