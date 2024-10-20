@@ -9,7 +9,6 @@ import {
 import { deleteSessionGradingSystem, eraseCookie, setCookie } from "../src/utils";
 
 const auth = getAuth(app);
-auth.languageCode = "it";
 const db = getFirestore(app);
 
 export const googleSignIn = async (
