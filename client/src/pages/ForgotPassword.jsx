@@ -20,7 +20,7 @@ import React, { useRef, useState } from "react";
 import { FaEnvelope } from "react-icons/fa";
 import { Loader } from "../components";
 import { Link as RouteLink } from "react-router-dom";
-import { FaLockOpen, FaUserLock } from "react-icons/fa6";
+import { FaLockOpen, FaPaperPlane, FaUserLock } from "react-icons/fa6";
 import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 import app from "../../firebase/init";
 
@@ -235,7 +235,7 @@ const ForgotPassword = () => {
                 gap="2"
                 onClick={() => handleForgotPassword()}
               >
-                {/* <Icon as={FaUserPlus} /> */}
+                <Icon as={FaPaperPlane} />
                 Send
               </Button>
             </VStack>
@@ -256,7 +256,7 @@ const ForgotPassword = () => {
           </Box>
         </Box>
       </Flex>
-      {loading && <Loader text={"Logging In..."} />}
+      {loading && <Loader text={"Sending Request..."} />}
     </Container>
   );
 };

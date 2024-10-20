@@ -20,7 +20,7 @@ import {
 import React, { useRef, useState } from "react";
 import { FaEnvelope } from "react-icons/fa";
 import { Loader } from "../components";
-import { Link as RouteLink } from "react-router-dom";
+import { Link as RouteLink, useNavigate } from "react-router-dom";
 import { FaKey, FaLock, FaLockOpen, FaUserLock } from "react-icons/fa6";
 import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 import app from "../../firebase/init";
@@ -32,6 +32,7 @@ const ResetPassword = ({ oobCode }) => {
   const passowordRef = useRef();
   const [loading, setLoading] = useState(false);
   const toast = useToast();
+  const navigate = useNavigate();
   const auth = getAuth(app);
 
   const handlePasswordReset = async (e) => {
@@ -47,6 +48,7 @@ const ResetPassword = ({ oobCode }) => {
         description: `Password has been successfully reset.`,
         status: "success",
       });
+      navigate("/login")
     } catch (error) {
       console.log(err);
 
@@ -229,7 +231,7 @@ const ResetPassword = ({ oobCode }) => {
           </Box>
         </Box>
       </Flex>
-      {loading && <Loader text={"Logging In..."} />}
+      {loading && <Loader text={"Resetting Password..."} />}
     </Container>
   );
 };
