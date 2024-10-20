@@ -1,5 +1,5 @@
 import { Box, Grid, Heading, Link, Text, VStack, Img } from "@chakra-ui/react";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { FaCheckCircle } from "react-icons/fa";
 import { FaCheck } from "react-icons/fa6";
 import { Link as RouteLink, useLocation } from "react-router-dom";
