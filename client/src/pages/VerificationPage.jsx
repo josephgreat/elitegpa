@@ -18,14 +18,14 @@ const VerificationPage = () => {
     const paramMode = queryParams.get('mode');       // action mode, should be 'resetPassword'
     console.log(paramMode, paramOobCode);
     
-    if (paramOobCode && mode === 'resetPassword') {
+    // if (paramOobCode && mode === 'resetPassword') {
       setOobCode(paramOobCode);
       setMode(paramMode);
       
 
-    } else {
-      setMessage('Invalid or expired link.');
-    }
+    // } else {
+    //   setMessage('Invalid or expired link.');
+    // }
   }, [location]);
   const logo = useColorModeValue("logo.png", "logoalt.png");
 
@@ -42,7 +42,7 @@ const VerificationPage = () => {
           Verification Successful
         </Heading>
         <Text>Your account has been verified.</Text>
-        <Link as={RouteLink} to="/login" textDecoration={"underline"}>
+        <Link as={RouteLink} to={mode === "resetPassword" ? "/resetpassword" : "/login"} textDecoration={"underline"}>
           {mode === "resetPassword" ? "Reset Password" : "Login"}
         </Link>
         <Box>
