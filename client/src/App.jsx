@@ -38,11 +38,11 @@ function App() {
     { path: "/signup", element: <Signup /> },
     { path: "/login", element: <Login /> },
     { path: "/forgotpassword", element: <ForgotPassword /> },
-    { path: "/resetpassword", element: <ResetPassword /> },
+    { path: "/resetpassword/:oobCode", element: <ResetPassword  /> },
     { path: "/user-setup", element: <UserSetup /> },
     {
       path: "/overview/:resultId",
-      element: <SessionDashboard />,
+      element: <PageWrapper Component={SessionDashboard} />,
     },
     { path: "/gpa-calc", element: <PageWrapper Component={GpaCalc} /> },
     {

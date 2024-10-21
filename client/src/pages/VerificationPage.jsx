@@ -42,7 +42,7 @@ const VerificationPage = () => {
           Verification Successful
         </Heading>
         <Text>Your account has been verified.</Text>
-        <Link as={RouteLink} to={mode === "resetPassword" ? "/resetpassword" : "/login"} textDecoration={"underline"}>
+        <Link as={RouteLink} to={mode === "resetPassword" ? `/resetpassword/${oobCode}` : "/login"} textDecoration={"underline"}>
           {mode === "resetPassword" ? "Reset Password" : "Login"}
         </Link>
         <Box>

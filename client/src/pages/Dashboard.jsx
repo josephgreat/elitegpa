@@ -34,7 +34,21 @@ import {
   getStudentClass,
   sortData,
 } from "../utils";
-import { Chart } from "chart.js";
+import {
+  Chart,
+  LineController,
+  LineElement,
+  PointElement,
+  LinearScale,
+  Title,
+  Tooltip,
+  BarElement,
+  Legend,
+  CategoryScale,
+  BarController,
+  PieController,
+  ArcElement,
+} from "chart.js";
 import { FaPlusCircle } from "react-icons/fa";
 import { FaSchoolCircleXmark } from "react-icons/fa6";
 import { Link } from "react-router-dom";
@@ -60,6 +74,20 @@ const Dashboard = ({ userDetails }) => {
       setLoading(false);
     }
   };
+  Chart.register(
+    LineController,
+    LineElement,
+    PointElement,
+    LinearScale,
+    CategoryScale,
+    BarController,
+    BarElement,
+    PieController,
+    ArcElement,
+    Title,
+    Tooltip,
+    Legend
+  );
 
   useEffect(() => {
     getAllSessions();

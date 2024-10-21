@@ -20,20 +20,22 @@ import {
 import React, { useRef, useState } from "react";
 import { FaEnvelope } from "react-icons/fa";
 import { Loader } from "../components";
-import { Link as RouteLink, useNavigate } from "react-router-dom";
+import { Link as RouteLink, useNavigate, useParams } from "react-router-dom";
 import { FaKey, FaLock, FaLockOpen, FaUserLock } from "react-icons/fa6";
-import { getAuth, sendPasswordResetEmail } from "firebase/auth";
+import { confirmPasswordReset, getAuth, sendPasswordResetEmail } from "firebase/auth";
 import app from "../../firebase/init";
 
-const ResetPassword = ({ oobCode }) => {
+const ResetPassword = () => {
   const bgColor = useColorModeValue("secondary", "#1a202c");
   const logo = useColorModeValue("logo.png", "logoalt.png");
   const [formError, setFormError] = useState({ from: "", message: "" });
   const passowordRef = useRef();
   const [loading, setLoading] = useState(false);
   const toast = useToast();
+  const {oobCode} = useParams()
   const navigate = useNavigate();
   const auth = getAuth(app);
+console.log(oobCode);
 
   const handlePasswordReset = async (e) => {
     setLoading(true);
@@ -50,12 +52,12 @@ const ResetPassword = ({ oobCode }) => {
       });
       navigate("/login")
     } catch (error) {
-      console.log(err);
+      console.log(error);
 
       toast({
         title: `Request failed`,
         description: `Failed to send password reset email. Please check your email address.`,
-        status: "success",
+        status: "error",
       });
     } finally {
       setLoading(false);

@@ -45,10 +45,10 @@ const MyGpas = ({ userDetails }) => {
       );
       let results = sortData(response);
       setSavedResults(sortData(response));
-      console.log(results);
       setLoading(false);
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
+      // if(error.message)
     }
   };
 
