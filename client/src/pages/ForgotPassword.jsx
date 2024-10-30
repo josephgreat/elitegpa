@@ -46,7 +46,7 @@ const ForgotPassword = () => {
         status: "success",
       });
     } catch (err) {
-      console.log(err);
+      console.error(err);
 
       toast({
         title: `Request failed`,

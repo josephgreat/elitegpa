@@ -34,7 +34,7 @@ import { logOut } from "../../firebase";
 import { UserContext } from "../App";
 
 export let photoBgColor = generateRandomColors(1);
-const Navbar = ({ userDetails, navigate }) => {
+const Sidebar = ({ userDetails, navigate }) => {
   const { toast } = useContext(UserContext);
   const { displayName, photoURL } = userDetails;
   const [openSideNav, setOpenSideNav] = useState(false);
@@ -56,7 +56,6 @@ const Navbar = ({ userDetails, navigate }) => {
       maxW="unset"
       fontWeight={"semibold"}
       boxShadow={"inset 0 0 17px rgba(20,20,20,.7)"}
-
     >
       <Box
         pos="absolute"
@@ -99,8 +98,9 @@ const Navbar = ({ userDetails, navigate }) => {
             </Text>
           </Text>
           {photoURL ? (
-            <Img
-              src={photoURL}
+            <Box
+              bg={`url('${photoURL}') white no-repeat center`}
+              bgSize={"contain"}
               rounded={"full"}
               boxShadow={"0 0 5px rgba(200,200,200, .6)"}
               w="3rem"
@@ -141,7 +141,7 @@ const Navbar = ({ userDetails, navigate }) => {
   );
 };
 
-export default Navbar;
+export default Sidebar;
 
 const SideNav = ({
   displayName,
@@ -158,7 +158,6 @@ const SideNav = ({
       visibility={openSideNav ? "visible" : "hidden"}
       zIndex={"3"}
       transition={"all .3s linear"}
-
     >
       <Box
         pos="absolute"
@@ -177,9 +176,8 @@ const SideNav = ({
         bgGradient={"linear(to-br, primary, accentVar)"}
         h="100vh"
         roundedBottomRight={"2rem"}
-      boxShadow={"inset 0 0 17px rgba(20,20,20,.7)"}
-     overflowY={"auto"}
-
+        boxShadow={"inset 0 0 17px rgba(20,20,20,.7)"}
+        overflowY={"auto"}
       >
         <Box w="100%" px="6">
           <Flex justifyContent={"flex-end"} mb="4">
@@ -192,8 +190,9 @@ const SideNav = ({
           </Flex>
           <Flex alignItems={"center"} gap="2">
             {photoURL ? (
-              <Img
-                src={photoURL}
+              <Box
+                bg={`url('${photoURL}') white no-repeat center`}
+                bgSize={"contain"}
                 rounded={"full"}
                 boxShadow={"0 0 5px rgba(200,200,200, .6)"}
                 w="3rem"

@@ -19,6 +19,8 @@ import {
   calculateCGPA,
   deepEqual,
   generateTwoDigitNumbers,
+  getAddedLevels,
+  sortData,
   throwAppError,
 } from "../utils";
 import { FaUpload } from "react-icons/fa";
@@ -63,6 +65,7 @@ const GpaCalc = () => {
   });
   const [initialSemesterDetails, setInitialSemesterDetails] = useState(null);
   const [updatesAvailable, setUpdatesAvailable] = useState(false);
+  const [levelList, setLevelList] = useState([]);
 
   const updateSemesterDetails = ({
     detail,
@@ -93,6 +96,7 @@ const GpaCalc = () => {
       const singleData = await axios.get(
         `${import.meta.env.VITE_API_URL}/get-one-session/${resultId}`
       );
+
       let singleSession = singleData.data;
       setInitialSemesterDetails(singleSession);
       setSemesterDetails(singleSession);
@@ -101,24 +105,68 @@ const GpaCalc = () => {
       setCoursesSecondSemester(singleSession.semesters[1].courses);
       setGpaFirstSemester(singleSession.semesters[0].gpa);
       setGpaSecondSemester(singleSession.semesters[1].gpa);
+      // setAddedLevels(() =>
+      //   allResults.map((result) => ({
+      //     level: result.level,
+      //     // cgpa: calculateCGPA(result.semesters),
+      //   }))
+      // );
     } catch (error) {}
   };
 
-  const levelList = () => {
+  const getAddedLevels = async () => {
+    try {
+      let allData = await axios.get(
+        `${import.meta.env.VITE_API_URL}/get-all-sessions/${userDetails.uid}`
+      );
+      
+      let allResults = sortData(allData);
+      let addedLevels = allResults.map((result) => ({
+        level: result.level,
+        // cgpa: calculateCGPA(result.semesters),
+      }));
+      return addedLevels;
+    } catch (error) {
+      console.error("Error fetching added levels:", error);
+      return [];
+    }
+  };
+
+  const getLevelList = async () => {
     let levels = [];
-    if (userDetails.setup.program_type === "Diploma Program")
+    let addedLevels = await getAddedLevels();
+
+    if (userDetails.setup.program_type === "Diploma Program") {
       levels = ["OND1", "OND2", "HND1", "HND2"];
-    else {
+    } else {
       for (
         let currentLevel = 1;
         currentLevel <= userDetails.setup.years_of_study;
         currentLevel++
       ) {
-        levels.push(`${currentLevel}00 level`);
+        const isLevelAdded = addedLevels.some(
+          ({ level }) => level === `${currentLevel}00 level`
+        );
+
+        setLevelList((prevLevelList) => ([...prevLevelList, {
+          level: `${currentLevel}00 level`,
+          isDisabled: isLevelAdded,
+        }]));
       }
     }
+
     return levels;
   };
+
+  // Usage in a React component:
+  useEffect(() => {
+    const fetchLevels = async () => {
+      const levels = await getLevelList();
+      // You can set this data to state if needed
+    };
+
+    fetchLevels();
+  }, []);
 
   const gradeList = () => {
     let grades = [];
@@ -188,6 +236,7 @@ const GpaCalc = () => {
   const updateData = async () => {
     try {
       setLoading(true);
+
       const response = await axios.patch(
         `${import.meta.env.VITE_API_URL}/update-one-session/${resultId}`,
         semesterDetails
@@ -228,7 +277,7 @@ const GpaCalc = () => {
   return (
     <Container py="8" pt="20" maxW="72rem" mx="auto" pos="relative">
       <DisclaimerText />
-    
+
       {loading && (
         <Flex
           justifyContent={"center"}
@@ -271,10 +320,10 @@ const GpaCalc = () => {
               })
             }
           >
-            {levelList().map((level) => (
-              <option key={level} value={`${level}`}>
+            {levelList.map(({ level, isDisabled }) => (
+              <Text as={"option"} key={level} value={`${level}`} _disabled={{bg: "gray.100"}}  disabled={isDisabled}>
                 {level}
-              </option>
+              </Text>
             ))}
           </Select>
         </HStack>

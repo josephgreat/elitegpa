@@ -35,7 +35,6 @@ const ResetPassword = () => {
   const {oobCode} = useParams()
   const navigate = useNavigate();
   const auth = getAuth(app);
-console.log(oobCode);
 
   const handlePasswordReset = async (e) => {
     setLoading(true);
@@ -52,7 +51,7 @@ console.log(oobCode);
       });
       navigate("/login")
     } catch (error) {
-      console.log(error);
+      console.error(error);
 
       toast({
         title: `Request failed`,

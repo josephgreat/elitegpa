@@ -47,7 +47,7 @@ const MyGpas = ({ userDetails }) => {
       setSavedResults(sortData(response));
       setLoading(false);
     } catch (error) {
-      console.log(error.message);
+      console.error(error.message);
       // if(error.message)
     }
   };
@@ -70,7 +70,7 @@ const MyGpas = ({ userDetails }) => {
     } catch (error) {
       setLoading(false);
 
-      console.log(error);
+      console.error(error);
       throwAppError(toast, error);
     }
   };
@@ -78,6 +78,11 @@ const MyGpas = ({ userDetails }) => {
     // getSavedResults();
     getResultsFromDB();
   }, []);
+  // function getAddedLevels(savedResults) {
+  //   let addedLevels = [];
+  //   addedLevels = savedResults.map(({ level }) => [...addedLevels, level]);
+  //   return addedLevels
+  // }
   useEffect(() => {
     // getSavedResults();
     getLevelsData();

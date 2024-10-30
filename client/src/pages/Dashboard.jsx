@@ -296,7 +296,6 @@ const Dashboard = ({ userDetails }) => {
         sessions: percentageSessions,
         percentageGradePoints: sessionsPercentageGradePoint,
       } = generateChartData2();
-      console.log(percentageSessions, sessionsPercentageGradePoint);
       const semester1Chart = renderChart1(
         "semester1Chart",
         sessions,

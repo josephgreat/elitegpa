@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Button, Input, Select } from "@chakra-ui/react";
+import { Box, Button, Flex, Input, Select } from "@chakra-ui/react";
 
 const SelectLevel = ({ setActiveStep, accountSetup, setAccountSetup }) => {
   const [completed, setCompleted] = useState(false);
@@ -49,28 +49,41 @@ const SelectLevel = ({ setActiveStep, accountSetup, setAccountSetup }) => {
             accountSetup.years_of_study !== 0 && accountSetup.years_of_study
           }
           onChange={handleYearsOfStudyChange}
-          placeholder="Years of study (min: 3; max: 8)"
+          placeholder="How many years course? (min: 3; max: 8)"
           type="number"
           min="3"
           max="8"
         />
       )}
-      {completed && (
+      <Flex gap="4">
         <Button
-          bg="accentVar"
-          color="secondary"
+          bg="transparent"
+          color="gray.400"
           mt="2"
-          onClick={() => setActiveStep(2)}
+          onClick={() => setActiveStep(0)}
           _hover={{
-            bg: "transparent",
-            color: "accentVar",
             border: "1px solid",
-            borderColor: "accentVar",
           }}
         >
-          Next
+          Back
         </Button>
-      )}
+        {completed && (
+          <Button
+            bg="accentVar"
+            color="secondary"
+            mt="2"
+            onClick={() => setActiveStep(2)}
+            _hover={{
+              bg: "transparent",
+              color: "accentVar",
+              border: "1px solid",
+              borderColor: "accentVar",
+            }}
+          >
+            Next
+          </Button>
+        )}
+      </Flex>
     </Box>
   );
 };

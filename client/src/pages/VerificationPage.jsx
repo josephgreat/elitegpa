@@ -16,7 +16,6 @@ const VerificationPage = () => {
     const queryParams = new URLSearchParams(location.search);
     const paramOobCode = queryParams.get('oobCode'); // unique code sent for the password reset
     const paramMode = queryParams.get('mode');       // action mode, should be 'resetPassword'
-    console.log(paramMode, paramOobCode);
     
     // if (paramOobCode && mode === 'resetPassword') {
       setOobCode(paramOobCode);

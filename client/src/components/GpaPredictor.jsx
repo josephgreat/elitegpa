@@ -6,6 +6,7 @@ import {
   FormControl,
   Grid,
   Heading,
+  HStack,
   Input,
   InputGroup,
   List,
@@ -39,7 +40,9 @@ const GpaPredictor = ({ loading, savedResults, userDetails, maxGPA }) => {
   );
 const toast = useToast({position: "top-right"});
   const totalLevels = Number(userDetails.setup.years_of_study); // Total academic levels (100 to 500)
-
+ 
+  // console.log(calculatedLevels);
+  
   const predictWithTargetCGPA = () => {
     if (!targetCGPA) {
       toast({
@@ -233,12 +236,15 @@ const toast = useToast({position: "top-right"});
                               {/* Combination {index + 1}: */}
                               <Flex gap="2">
                                 {combination.combination.map((gpa, index2) => (
+                                  <HStack>
+                                    <Text></Text>
                                   <Badge
                                     fontSize={{ base: "xs", md: "sm" }}
                                     key={index2}
                                   >
                                     {gpa.toFixed(2)}
                                   </Badge>
+                                  </HStack>
                                 ))}
                                 <Text fontWeight={"bold"} fontSize={{ base: "xs", md: "sm" }}>
                                   = {combination.averageGPA}

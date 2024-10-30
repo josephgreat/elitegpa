@@ -7,7 +7,8 @@ import {
   generateRandomColors,
   sortData,
   setSessionGradingSystem,
-  deleteSessionGradingSystem,removeSpecialCharacters
+  deleteSessionGradingSystem,
+  removeSpecialCharacters,
 } from "./appLogics.js";
 import calculateGpa, {
   calculateCGPA,
@@ -17,7 +18,8 @@ import calculateGpa, {
   convertPointToGrade,
   calculateUserGradePoint,
   calculateTotalCreditLoad,
-  calculateCourseGradePoint, gradingSystem
+  calculateCourseGradePoint,
+  gradingSystem,
 } from "./calculateGpa.jsx";
 import throwAppError from "./error.js";
 import { sessionDataToExcel } from "./datatoexcel.js";
@@ -48,5 +50,5 @@ export {
   setCookie,
   getCookie,
   eraseCookie,
-  removeSpecialCharacters
+  removeSpecialCharacters,
 };

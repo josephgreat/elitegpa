@@ -48,7 +48,6 @@ const StudyTips = () => {
           },
         });
         const data = await response.json();
-        console.log(data.tips);
         setStudyTips(data.tips); // Assuming the API returns an array of study tips
       } catch (error) {
         setError("Error fetching data:" + error);

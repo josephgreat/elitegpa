@@ -40,7 +40,7 @@ export const googleSignIn = async (
         status: "success",
       });
 
-      setTimeout(() => navigate("/my-gpas"), 2000);
+     navigate("/my-gpas");
     } else {
       throw new Error("No such document!");
     }
