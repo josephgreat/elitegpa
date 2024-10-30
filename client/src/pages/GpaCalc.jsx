@@ -19,7 +19,6 @@ import {
   calculateCGPA,
   deepEqual,
   generateTwoDigitNumbers,
-  getAddedLevels,
   sortData,
   throwAppError,
 } from "../utils";
@@ -105,12 +104,6 @@ const GpaCalc = () => {
       setCoursesSecondSemester(singleSession.semesters[1].courses);
       setGpaFirstSemester(singleSession.semesters[0].gpa);
       setGpaSecondSemester(singleSession.semesters[1].gpa);
-      // setAddedLevels(() =>
-      //   allResults.map((result) => ({
-      //     level: result.level,
-      //     // cgpa: calculateCGPA(result.semesters),
-      //   }))
-      // );
     } catch (error) {}
   };
 

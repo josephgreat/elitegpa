@@ -1,4 +1,4 @@
-import Sidebar from "./Sidebar";
+import Navbar from "./Navbar";
 import GraduationCap from "./GraduationCap";
 import NewSemester from "./NewSemester";
 import ViewSession from "./ViewSession";
@@ -16,7 +16,7 @@ import Result from "./Result";
 import ThemeToggleBtn from "./ThemeToggleBtn";
 import DisclaimerText from "./DisclaimerText";
 export {
-  Sidebar,
+  Navbar,
   GraduationCap,
   NewSemester,
   ViewSession,

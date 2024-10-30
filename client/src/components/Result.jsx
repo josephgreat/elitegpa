@@ -16,7 +16,7 @@ import React, { useContext, useEffect } from "react";
 import { UserContext } from "../App";
 import SemesterCoursesTable from "./SemesterCoursesTable";
 import { calculateCGPA, getStudentClass } from "../utils";
-import { photoBgColor } from "./Sidebar";
+import { photoBgColor } from "./Navbar";
 
 const Result = ({ sessionResult }) => {
   const { userDetails } = useContext(UserContext);

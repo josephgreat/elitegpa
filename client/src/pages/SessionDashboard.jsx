@@ -32,13 +32,13 @@ import {
 import { Result, SemesterCoursesTable, SummaryCard } from "../components";
 import { usePDF } from "react-to-pdf";
 import { FaFileImage, FaFilePdf } from "react-icons/fa6";
-function SessionDashboard() {
+function SessionDashboard({ userDetails }) {
   const [sessionResult, setSessionResult] = useState({});
   const [loading, setLoading] = useState(true);
   const [isDownloading, setIsDownloading] = useState(false);
   const { resultId } = useParams();
   const [levelToDownload, setLevelToDownload] = useState();
- 
+
   let sessionRef = useRef();
   // sessionRef = targetRef;
   const bgColor = useColorModeValue("secondary", "secondaryAlt");
@@ -53,14 +53,13 @@ function SessionDashboard() {
         `${import.meta.env.VITE_API_URL}/get-one-session/${resultId}`
       );
       setSessionResult(singleData.data);
-      setLevelToDownload(singleData.data?.level); 
+      setLevelToDownload(singleData.data?.level);
     } catch (error) {
       console.error("Error fetching result:", error);
       setLoading(false);
     }
   };
 
-  
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -205,8 +204,6 @@ function SessionDashboard() {
         if (semester2Chart) semester2Chart.destroy();
       };
     }
-    
-    
   }, [sessionResult]);
 
   let cgpa = 3.5;
@@ -217,7 +214,6 @@ function SessionDashboard() {
   let { semesters, level } = {};
   if (sessionResult) {
     ({ semesters, level } = sessionResult);
-  
 
     cgpa = semesters && calculateCGPA(semesters);
     totalCreditLoad = semesters && calculateSessionCreditLoad(semesters);
@@ -225,14 +221,14 @@ function SessionDashboard() {
     studentClass = getStudentClass(cgpa);
   }
   const { toPDF, targetRef } = usePDF({
-    filename: `${levelToDownload ? levelToDownload : "Session"} Result`,
+    filename: `${userDetails.displayName}'s ${
+      levelToDownload ? levelToDownload : "Session"
+    } Result`,
   });
   const handleDownload = () => {
     if (!isDownloading) {
-   
-
-      setIsDownloading(true);
       try {
+        setIsDownloading(true);
         toPDF();
       } catch (error) {
         console.error("Download error:", error);
@@ -263,6 +259,11 @@ function SessionDashboard() {
           justify={"space-between"}
           mb={{ base: "10", md: "unset" }}
         >
+          {isDownloading && (
+            <Grid placeItems="center" pos="fixed" inset="0">
+              Downloading
+            </Grid>
+          )}
           <Box mb={4} flex={{ base: 1, lg: 0.6 }}>
             <Heading
               mb={2}

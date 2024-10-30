@@ -25,17 +25,21 @@ import {
   ListIcon,
   Divider,
   Select,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { sortData, throwAppError } from "../utils";
 import * as tf from "@tensorflow/tfjs";
 import { GpaPredictor, GradePredictor } from "../components";
+import { FaGraduationCap } from "react-icons/fa6";
 
 const GpaAssistant = ({ userDetails }) => {
   const [savedResults, setSavedResults] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedAssistance, setSelectedAssistance] = useState("dream-cgpa");
+  const bgColor = useColorModeValue("secondary", "#1a202c");
+  const color = useColorModeValue("primary", "secondary");
 
   const getResultsFromDB = async () => {
     try {
@@ -76,19 +80,60 @@ const GpaAssistant = ({ userDetails }) => {
         gap={{ base: "2", md: "4" }}
         justifyContent={"center"}
         my="8"
-        flexDir={{ base: "column", md: "row" }}
+        flexDir={{ base: "column" }}
       >
         <Heading as="label" fontSize="clamp(.8rem, 1.2vw, 1.2rem)" m="0">
           Choose an assistance:
         </Heading>
-        <Select
-          w="fit-content"
-          value={selectedAssistance}
-          onChange={(e) => setSelectedAssistance(e.target.value)}
-        >
-          <option value="dream-cgpa">Achieving My Dream CGPA</option>
-          <option value="grade-prediction">Course Grade Prediction</option>
-        </Select>
+        <Flex gap="4">
+          {[
+            { key: "dream-cgpa", label: "Achieving My Dream CGPA" },
+            { key: "grade-prediction", label: "Course Grade Prediction" },
+          ].map((item) => (
+            <Box
+              key={item.key}
+              cursor="pointer"
+              p=".15rem"
+              rounded="8"
+              bgGradient="linear(to-br, primary, accentVar)"
+              role="group"
+              _groupHover={{ bgGradient: "linear(to-br, red, accentVar)" }}
+              transition="all .3s ease"
+              boxShadow="inset 0 0 7px rgba(20, 20, 20, .7)"
+              onClick={() => setSelectedAssistance(item.key)}
+            >
+              <Box
+                bg={
+                  selectedAssistance === item.key
+                    ? "linear(to-br, primary, accentVar)"
+                    : bgColor || "gray.100" // default fallback color
+                }
+                transition="all .3s ease"
+                color={selectedAssistance === item.key ? "secondary" : color}
+                px="4"
+                py="2"
+                rounded="6"
+                h="100%"
+                display="flex"
+                flexDir="column"
+                justifyContent="center"
+                alignItems="center"
+                _hover={{
+                  transform: "scale(0.95)",
+                }}
+              >
+                <FaGraduationCap size="2rem" />
+                <Text
+                  textAlign={"center"}
+                  fontSize={"clamp(.7rem, 4vw, 1rem)"}
+                  wordBreak="break-word"
+                >
+                  {item.label}
+                </Text>
+              </Box>
+            </Box>
+          ))}
+        </Flex>
       </Flex>
       {selectedAssistance === "dream-cgpa" && (
         <GpaPredictor

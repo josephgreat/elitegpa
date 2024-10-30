@@ -2,15 +2,14 @@ import {
   Badge,
   Box,
   Button,
+  CloseButton,
   Flex,
   FormControl,
-  FormHelperText,
   Grid,
   Heading,
   Input,
   InputGroup,
   List,
-  ListIcon,
   ListItem,
   Modal,
   ModalBody,
@@ -28,6 +27,7 @@ import {
 import React, { useEffect, useRef, useState } from "react";
 import GradeAssistantWorker from "../utils/gradeAssistant?worker";
 import { convertPointToGrade, getSessionGradingSystem } from "../utils";
+import { FaTimesCircle } from "react-icons/fa";
 
 const GradePredictor = ({ loading, savedResults, userDetails, maxGPA }) => {
   const [calculating, setCalculating] = useState(false);
@@ -42,9 +42,8 @@ const GradePredictor = ({ loading, savedResults, userDetails, maxGPA }) => {
   const addCourse = () => {
     setValidationErrors(false);
     const lastCourse = courses[courses.length - 1];
-    if (lastCourse.name && lastCourse.credits) {
+    if (courses.length === 0 || (lastCourse.name && lastCourse.credits)) {
       setCourses([...courses, { name: "", credits: 0 }]);
-      // setValidationErrors([...validationErrors, false]);
     } else {
       toast({
         title: "Incomplete Course",
@@ -68,6 +67,11 @@ const GradePredictor = ({ loading, savedResults, userDetails, maxGPA }) => {
     return !errors.includes(true);
   };
 
+  const handleCourseRemoval = (index) => {
+    let updatedCourses = [...courses];
+    updatedCourses.splice(index, 1);
+    setCourses(updatedCourses);
+  };
   const predictGrade = () => {
     if (!targetGPA) {
       toast({
@@ -168,7 +172,10 @@ const GradePredictor = ({ loading, savedResults, userDetails, maxGPA }) => {
                 <FormControl
                   key={index}
                   isRequired
+                  display="flex"
+                  gap="4"
                   isInvalid={validationErrors[index]}
+                  // pr={index === 0 && "2rem"}
                 >
                   <InputGroup>
                     <Input
@@ -192,10 +199,27 @@ const GradePredictor = ({ loading, savedResults, userDetails, maxGPA }) => {
                       ))}
                     </Select>
                   </InputGroup>
+                  {/* {index !== 0 && ( */}
+                    <CloseButton
+                      as={FaTimesCircle}
+                      size="1rem"
+                      color={"accentVar"}
+                      onClick={() => handleCourseRemoval(index)}
+                    />
+                  {/* )} */}
                 </FormControl>
               ))}
             </VStack>
-            <Button my="2" onClick={addCourse}>
+            <Button
+              my="2"
+              onClick={addCourse}
+              bg="accentVar"
+              color="secondary"
+              border="1px solid"
+              borderColor={"accentVar"}
+              _hover={{ bg: "transparent", color: "accentVar" }}
+              _focus={{ color: "accentVar" }}
+            >
               Add Course
             </Button>
           </Box>
@@ -218,12 +242,13 @@ const GradePredictor = ({ loading, savedResults, userDetails, maxGPA }) => {
                 />
               </InputGroup>
               <Button
-                bg="accentVar"
+                bg="primary"
                 color="secondary"
                 border="1px solid"
-                borderColor="accentVar"
+                borderColor="primary"
                 onClick={predictGrade}
-                _hover={{ bg: "transparent", color: "accentVar" }}
+                _hover={{ bg: "transparent", color: "primary" }}
+                _focus={{ color: "primary" }}
               >
                 Predict
               </Button>

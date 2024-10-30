@@ -34,7 +34,7 @@ import { logOut } from "../../firebase";
 import { UserContext } from "../App";
 
 export let photoBgColor = generateRandomColors(1);
-const Sidebar = ({ userDetails, navigate }) => {
+const Navbar = ({ userDetails, navigate }) => {
   const { toast } = useContext(UserContext);
   const { displayName, photoURL } = userDetails;
   const [openSideNav, setOpenSideNav] = useState(false);
@@ -141,7 +141,7 @@ const Sidebar = ({ userDetails, navigate }) => {
   );
 };
 
-export default Sidebar;
+export default Navbar;
 
 const SideNav = ({
   displayName,

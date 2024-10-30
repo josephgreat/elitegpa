@@ -22,9 +22,11 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
-import { FaTrashAlt } from "react-icons/fa";
-import { FaEye } from "react-icons/fa6";
+import { FaShareAlt, FaTrashAlt } from "react-icons/fa";
+import { FaEye, FaFileExport, FaShare } from "react-icons/fa6";
 import { calculateCGPA } from "../utils";
+import { BiSolidShare } from "react-icons/bi";
+import { AiOutlineShareAlt } from "react-icons/ai";
 
 const LevelResult = ({
   result,
@@ -114,6 +116,19 @@ const LevelResult = ({
           onClick={() => setResultToBeViewed(result)}
         >
           <FaEye /> View
+        </Button>
+        <Button
+          padding={"0"}
+          gap="1"
+          color={"primary"}
+          alignItems={"center"}
+          h="auto"
+          bg="transparent"
+          fontSize={".8rem"}
+          _hover={{ opacity: 0.6 }}
+          onClick={() => setResultToBeViewed(result)}
+        >
+          <AiOutlineShareAlt /> Share
         </Button>
         <Button
           p={"0"}

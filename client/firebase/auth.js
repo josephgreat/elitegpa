@@ -35,7 +35,7 @@ export const checkAuth = (setUserDetails, toast, navigate, setLoginMode) => {
               navigate("/my-gpas");
             }
           } else {
-            alert("nvaigating")
+            alert("navigating")
             navigate("/user-setup");
           
           }

@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { Sidebar } from "./components";
+import { Navbar } from "./components";
 import { UserContext } from "./App";
 import { useLocation, useNavigate } from "react-router-dom";
 import { checkAuth, savePreviousLocation } from "../firebase";
@@ -61,7 +61,7 @@ const PageWrapper = ({ Component }) => {
       <>
         {/* {isOnline ? ( */}
         <>
-          <Sidebar navigate={navigate} userDetails={userDetails} />
+          <Navbar navigate={navigate} userDetails={userDetails} />
           <Box pt="20">
             <Component
               userDetails={userDetails}
