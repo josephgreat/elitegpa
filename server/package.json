@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "netlify deploy --prod",
+    "start": "node index.js",
     "dev": "nodemon index.js",
     "prod": "NODE_ENV=production nodemon index.js"
   },
@@ -21,7 +21,6 @@
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
     "mongoose": "^8.3.3",
-    "nodemon": "^3.1.0",
-    "serverless-http": "^3.2.0"
+    "nodemon": "^3.1.0"
   }
 }
