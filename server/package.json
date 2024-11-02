@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build": "netlify deploy --prod",
     "dev": "nodemon index.js",
     "prod": "NODE_ENV=production nodemon index.js"
   },
