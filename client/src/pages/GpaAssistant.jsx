@@ -32,7 +32,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { sortData, throwAppError } from "../utils";
 import * as tf from "@tensorflow/tfjs";
-import { GpaPredictor, GradePredictor } from "../components";
+import { GpaPredictor, GradePredictor } from "../features/gpa_assistant";
 import { FaGraduationCap, FaUserGraduate } from "react-icons/fa6";
 import { FaPoll } from "react-icons/fa";
 

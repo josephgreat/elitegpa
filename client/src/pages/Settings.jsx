@@ -19,7 +19,7 @@ import {
   useBreakpointValue,
 } from "@chakra-ui/react";
 import React, { useEffect, useRef, useState } from "react";
-import { photoBgColor } from "../components/Navbar";
+import { photoBgColor } from "../components/layout/Navbar";
 import { FaEnvelope, FaSave } from "react-icons/fa";
 import {
   FaEye,

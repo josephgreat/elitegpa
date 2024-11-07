@@ -26,7 +26,7 @@ import {
   SelectGradeSystem,
   SelectInstitution,
   SelectLevel,
-} from "../components";
+} from "../features/user_setup";
 import { setupAccount } from "../services";
 import { UserContext } from "../App";
 import { Link, useNavigate } from "react-router-dom";
