@@ -13,14 +13,14 @@ const getAllSessions = async (userDetails) => {
 };
 
 const getOneSession = async (resultId) => {
-  // try {
+  try {
   const singleData = await axios.get(
     `${import.meta.env.VITE_API_URL}/get-one-session/${resultId}`
   );
   return singleData.data;
-  // } catch (error) {
-  // throwAppError({ error: error });
-  // }
+  } catch (error) {
+  throwAppError({ error: error });
+  }
 };
 const saveResult = async (semesterDetails) => {
   // try {

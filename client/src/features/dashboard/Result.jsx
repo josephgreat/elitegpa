@@ -18,10 +18,11 @@ import SemesterCoursesTable from "./SemesterCoursesTable";
 import { calculateCGPA, getStudentClass } from "../../utils";
 import { photoBgColor } from "../../components/layout/Navbar";
 import { getOneSession } from "../../services/apis";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { doc, getDoc, getFirestore } from "firebase/firestore";
 import app from "../../services/init";
 import { Loader } from "../../components";
+import axios from "axios";
 
 const Result = ({ sessionResult }) => {
   const { userDetails } = useContext(UserContext);
@@ -39,7 +40,9 @@ const Result = ({ sessionResult }) => {
       try {
         setIsLoading(true);
         // const db = 
-        const singleData = await getOneSession(resultId);
+        const singleData = await axios.get(
+          `${import.meta.env.VITE_API_URL}/get-one-session/${resultId}`
+        );
         setResultToDownload(singleData.data);
         const db = getFirestore(app);
         const docRef = doc(db, "users", uid);
@@ -80,7 +83,7 @@ const Result = ({ sessionResult }) => {
       !isLoading && resultToDownload.semesters
         ? calculateCGPA(resultToDownload.semesters)
         : null,
-    [resultToDownload.level]
+    [resultToDownload?.level]
   );
   // const studentClass = useMemo(() => {
   //   // if (cgpa && grading_system) {
@@ -92,8 +95,8 @@ const Result = ({ sessionResult }) => {
   const output_details = [
     { key: "Name", value: displayName },
     { key: "Email", value: email },
-    { key: "Session", value: resultToDownload.session || "N/A" },
-    { key: "Current Level", value: resultToDownload.level || "N/A" },
+    { key: "Session", value: resultToDownload?.session || "N/A" },
+    { key: "Current Level", value: resultToDownload?.level || "N/A" },
     {
       key: "Program Duration",
       value:
@@ -106,7 +109,7 @@ const Result = ({ sessionResult }) => {
     { key: "Institution State", value: institution_state },
   ];
 
-  if (isLoading || grading_system === "N/A") return <Loader />;
+  if (isLoading && grading_system === "N/A") return <Loader />;
 
   return (
     <Container
@@ -257,6 +260,10 @@ const Result = ({ sessionResult }) => {
           transformOrigin={"center"}
           src={`/images/4x/${logo}`}
         />
+      </Box>
+
+      <Box textDecor="underline" textAlign={"center"}>
+        <Link to="/signup" >Create an account to generate yours</Link>
       </Box>
     </Container>
   );

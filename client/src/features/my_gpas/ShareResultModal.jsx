@@ -41,7 +41,6 @@ import {
 import { AnimatePresence, motion } from "framer-motion";
 import { UserContext } from "../../App";
 import html2canvas from "html2canvas";
-import { jsPDF } from "jspdf";
 const ShareResultModal = ({
   result,
   resetResultToBeViewed,
@@ -103,7 +102,7 @@ const ShareResultModal = ({
   };
 
   const shareImageOnWhatsApp = () => {
-    const message = `${userDetails.displayName}'s ${level} Result: ${originalUrl}`;
+    const message = `${userDetails.displayName}'s ${level} Result: \n${originalUrl} \n\n I used eliteGPA to generate it. You can create an account to generate yours: \n https://elitegpa.com/signup`;
     const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(
       message
     )}`;
