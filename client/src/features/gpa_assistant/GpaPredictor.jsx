@@ -25,7 +25,7 @@ import {
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { FaHandPointRight } from "react-icons/fa";
-import GpaAssistantWorker from "../utils/gpaAssistant?worker";
+import GpaAssistantWorker from "../../utils/gpaAssistant?worker";
 import { calculateCGPA } from "../../utils";
 
 const GpaPredictor = ({ loading, savedResults, userDetails, maxGPA }) => {

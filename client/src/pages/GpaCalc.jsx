@@ -164,7 +164,7 @@ const GpaCalc = () => {
   const gradeList = () => {
     let grades = [];
     if (
-      userDetails.setup.grading_system ===
+      userDetails?.setup.grading_system ===
       "Four Point (A, AB, B, BC, C, CD, D, E, F)"
     ) {
       grades = ["A", "AB", "B", "BC", "C", "CD", "D", "E", "F"];

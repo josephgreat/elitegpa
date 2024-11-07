@@ -25,7 +25,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import React, { useEffect, useRef, useState } from "react";
-import GradeAssistantWorker from "../utils/gradeAssistant?worker";
+import GradeAssistantWorker from "../../utils/gradeAssistant?worker";
 import { convertPointToGrade, getSessionGradingSystem } from "../../utils";
 import { FaTimesCircle } from "react-icons/fa";
 
