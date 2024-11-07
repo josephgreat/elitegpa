@@ -23,7 +23,7 @@ import { Loader } from "../components";
 import { Link as RouteLink } from "react-router-dom";
 import { FaLockOpen, FaPaperPlane, FaUserLock } from "react-icons/fa6";
 import { getAuth, sendPasswordResetEmail } from "firebase/auth";
-import app from "../../firebase/init";
+import app from "../services/init";
 
 const ForgotPassword = () => {
   const bgColor = useColorModeValue("secondary", "#1a202c");

@@ -35,9 +35,9 @@ import {
   reauthenticateWithCredential,
   updatePassword,
 } from "firebase/auth";
-import app from "../../firebase/init";
+import app from "../services/init";
 import { Loader } from "../components";
-import { updateUserDetails } from "../../firebase";
+import { updateUserDetails } from "../services";
 
 const Settings = ({ userDetails, toast, loginMode, setUserDetails }) => {
   const photoRef = useRef();

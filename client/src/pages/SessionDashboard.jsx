@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useParams } from "react-router-dom";
-import axios from "axios";
 import { Chart } from "chart.js/auto";
 import { FaDownload, FaPencilAlt } from "react-icons/fa";
 import { exportComponentAsJPEG } from "react-component-export-image";
@@ -29,15 +28,26 @@ import {
   getStudentClass,
   sessionDataToExcel,
 } from "../utils";
-import { Result, SemesterCoursesTable, SummaryCard } from "../components";
+import {
+  Result,
+  SemesterCoursesTable,
+  SummaryCard,
+} from "../features/dashboard";
 import { usePDF } from "react-to-pdf";
 import { FaFileImage, FaFilePdf } from "react-icons/fa6";
+import { getOneSession } from "../services/apis";
+import axios from "axios";
+import { BiShare } from "react-icons/bi";
+import { AiOutlineDownload, AiOutlineShareAlt } from "react-icons/ai";
+import { ShareResultModal } from "../features/my_gpas";
+
 function SessionDashboard({ userDetails }) {
   const [sessionResult, setSessionResult] = useState({});
   const [loading, setLoading] = useState(true);
   const [isDownloading, setIsDownloading] = useState(false);
   const { resultId } = useParams();
   const [levelToDownload, setLevelToDownload] = useState();
+  const [shareResult, setShareResult] = useState(false);
 
   let sessionRef = useRef();
   // sessionRef = targetRef;
@@ -51,7 +61,7 @@ function SessionDashboard({ userDetails }) {
     try {
       const singleData = await axios.get(
         `${import.meta.env.VITE_API_URL}/get-one-session/${resultId}`
-      );
+      );;
       setSessionResult(singleData.data);
       setLevelToDownload(singleData.data?.level);
     } catch (error) {
@@ -212,9 +222,9 @@ function SessionDashboard({ userDetails }) {
   let studentClass = { position: "", badgeColor: "white" };
 
   let { semesters, level } = {};
+
   if (sessionResult) {
     ({ semesters, level } = sessionResult);
-
     cgpa = semesters && calculateCGPA(semesters);
     totalCreditLoad = semesters && calculateSessionCreditLoad(semesters);
     totalCourses = semesters && calculateSessionCourses(semesters);
@@ -225,6 +235,7 @@ function SessionDashboard({ userDetails }) {
       levelToDownload ? levelToDownload : "Session"
     } Result`,
   });
+
   const handleDownload = () => {
     if (!isDownloading) {
       try {
@@ -394,11 +405,20 @@ function SessionDashboard({ userDetails }) {
           bg="primary"
           boxShadow={`0 0 5px ${shadowColor}`}
           _hover={{ bg: "secondary", color: "primary" }}
-          onClick={handleDownload}
+          onClick={() => setShareResult(true)}
         >
-          <FaFilePdf /> {isDownloading ? "Downloading" : "Download"}
+          <FaDownload /> Download
         </Button>
       </Flex>
+
+      {shareResult && <ShareResultModal
+          result={sessionResult}
+          resetResultToBeViewed={() => setShareResult(false)}
+          // setShareResult={}
+          resultRef={sessionRef}
+          toPDF={toPDF}
+        />}
+
       <Box
         ref={targetRef}
         position={"absolute"}
@@ -409,7 +429,9 @@ function SessionDashboard({ userDetails }) {
         minW={"62rem"}
         py="8"
       >
-        <Result sessionResult={sessionResult} />
+        <Box ref={sessionRef}>
+          <Result sessionResult={sessionResult} />
+        </Box>
       </Box>
     </Container>
   );

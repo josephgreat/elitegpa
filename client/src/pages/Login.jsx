@@ -32,7 +32,7 @@ import {
   FaUserLock,
   FaUserPlus,
 } from "react-icons/fa6";
-import { emailSignIn, googleAuth } from "../../firebase";
+import { emailSignIn, googleAuth, isAuth } from "../services";
 import { useNavigate, Link as RouteLink } from "react-router-dom";
 import { UserContext } from "../App";
 import { Loader } from "../components";
@@ -47,16 +47,14 @@ const Login = () => {
   const passwordRef = useRef();
   const bgColor = useColorModeValue("secondary", "#1a202c");
   const logo = useColorModeValue("logo.png", "logoalt.png");
-  const toast = useToast()
+  const toast = useToast();
 
   const navigate = useNavigate();
 
   const handleFormError = (from, message) => {
     setFormError({ from: from, message: message });
   };
-// useEffect(() => {
-//   eraseCookie("uid");
-// }, [])
+
   const handleUserSignUp = () => {
     const emailRegxPattern = /\S+@\S+\.\S+/;
     if (emailRef.current.value.length === 0)
@@ -76,6 +74,10 @@ const Login = () => {
       });
     }
   };
+
+  useEffect(() => {
+    isAuth() && navigate("/my-gpas");
+  }, []);
 
   return (
     <Container
@@ -115,7 +117,7 @@ const Login = () => {
             <Box className="right-wavy-border" />
           </Box>
           <Box pos="relative" py="8">
-          <Heading
+            <Heading
               w={"clamp(5rem, 10vw, 6rem)"}
               mb="10"
               display={"block"}
@@ -142,7 +144,7 @@ const Login = () => {
             </Text>
           </Box>
         </Box>
-        <Box alignSelf={{md:"center"}} py="10" px="4" maxW="32rem" mx="auto">
+        <Box alignSelf={{ md: "center" }} py="10" px="4" maxW="32rem" mx="auto">
           <Heading
             w={"clamp(5rem, 10vw, 6rem)"}
             display={{ base: "block", md: "none" }}
@@ -289,7 +291,12 @@ const Login = () => {
               Sign in with Google
             </Button>
           </VStack>
-          <Flex flexWrap={"wrap"} flexDir={"column"} alignItems={"center"}  mt="4">
+          <Flex
+            flexWrap={"wrap"}
+            flexDir={"column"}
+            alignItems={"center"}
+            mt="4"
+          >
             <Link
               as={RouteLink}
               to="/signup"

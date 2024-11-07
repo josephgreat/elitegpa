@@ -58,10 +58,10 @@ function getSessionGradingSystem() {
   return null; // Return null if no grading system is found
 }
 
-const getStudentClass = (cgpa) => {
+const getStudentClass = (cgpa, grading_system) => {
   let position;
   let badgeColor;
-  let gradingSystem = getSessionGradingSystem();
+  let gradingSystem = grading_system || getSessionGradingSystem();
 
   if (!gradingSystem) {
     // window.location.replace("/login");
@@ -109,10 +109,6 @@ const getStudentClass = (cgpa) => {
   return studentClass;
 };
 
-function capitalize(str) {
-  return str.replace(/^\w/, (c) => c.toUpperCase());
-}
-
 function generateRandomColors(count) {
   const randomColor = () => Math.floor(Math.random() * 256);
   const colors = [];
@@ -123,13 +119,6 @@ function generateRandomColors(count) {
   }
 
   return colors;
-}
-
-function sortData(response) {
-  let sortedData = response.data.toSorted(
-    (level1, level2) => parseInt(level1.level) - parseInt(level2.level)
-  );
-  return sortedData;
 }
 
 function setSessionGradingSystem(grading_system) {
@@ -145,14 +134,11 @@ function deleteSessionGradingSystem() {
   }
 }
 
-
 export {
   generateTwoDigitNumbers,
   deepEqual,
   getStudentClass,
-  capitalize,
   generateRandomColors,
-  sortData,
   setSessionGradingSystem,
   getSessionGradingSystem,
   deleteSessionGradingSystem,

@@ -27,7 +27,7 @@ import {
   SelectInstitution,
   SelectLevel,
 } from "../components";
-import { setupAccount } from "../../firebase";
+import { setupAccount } from "../services";
 import { UserContext } from "../App";
 import { Link, useNavigate } from "react-router-dom";
 

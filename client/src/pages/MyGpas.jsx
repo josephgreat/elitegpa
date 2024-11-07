@@ -13,21 +13,39 @@ import {
   useToast,
   VStack,
 } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { FaPlusCircle, FaTrashAlt } from "react-icons/fa";
 import { FaEye, FaSchoolCircleXmark } from "react-icons/fa6";
-import { Link } from "react-router-dom";
-import { LevelResult, ViewSession } from "../components";
-import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
+import {
+  LevelResult,
+  ShareResultModal,
+  ViewSession,
+} from "../features/my_gpas";
+// import axios from "axios";
 import { calculateCGPA, sortData, throwAppError } from "../utils";
-import { Pie, PieChart } from "recharts";
+import { deleteOneSession, getAllSessions } from "../services/apis";
+import { Result } from "../features/dashboard";
+import {usePDF} from "react-to-pdf"
 
 const MyGpas = ({ userDetails }) => {
   const [savedResults, setSavedResults] = useState([]);
   const [levelsData, setLevelsData] = useState([]);
-  const [resultToBeViewed, setResultToBeViewed] = useState({});
+  const [resultToBeViewed, setResultToBeViewed] = useState({
+    result: {},
+    usage: "",
+  });
   const [loading, setLoading] = useState(true);
   const toast = useToast({ position: "top-right", duration: 3000 });
+  const navigate = useNavigate();
+  const resultRef = useRef();
+
+  const { toPDF, targetRef } = usePDF({
+    filename: `${userDetails.displayName}'s
+      ${resultToBeViewed.result?.level}
+     Result`,
+  });
+
   const getLevelsData = () => {
     setLevelsData(() =>
       savedResults.map((result) => ({
@@ -40,56 +58,46 @@ const MyGpas = ({ userDetails }) => {
   const getResultsFromDB = async () => {
     try {
       setLoading(true);
-      let response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/get-all-sessions/${userDetails.uid}`
-      );
-      let results = sortData(response);
+      let response = await getAllSessions(userDetails);
       setSavedResults(sortData(response));
       setLoading(false);
     } catch (error) {
-      console.error(error.message);
-      // if(error.message)
+      throwAppError(toast, error, navigate);
+      setLoading(false);
     }
   };
 
   const deleteASavedResult = async (index, level) => {
     try {
       setLoading(true);
-      const response = await axios.delete(
-        `${import.meta.env.VITE_API_URL}/delete-one-session/${index}`
-      );
+      await deleteOneSession(index);
       getResultsFromDB();
-
       toast({
         title: `Result Deleted`,
         description: `Your ${level} result has been deleted`,
         status: "success",
-        // isClosable:
       });
       setLoading(false);
     } catch (error) {
       setLoading(false);
-
-      console.error(error);
-      throwAppError(toast, error);
+      throwAppError({ toast: toast, error: error });
     }
   };
+
+  const resetResultToBeViewed = () => {
+    setResultToBeViewed({ result: {}, usage: "" });
+  };
   useEffect(() => {
-    // getSavedResults();
     getResultsFromDB();
   }, []);
-  // function getAddedLevels(savedResults) {
-  //   let addedLevels = [];
-  //   addedLevels = savedResults.map(({ level }) => [...addedLevels, level]);
-  //   return addedLevels
-  // }
+
   useEffect(() => {
     // getSavedResults();
     getLevelsData();
   }, [savedResults]);
 
   return (
-    <Container py="8" maxW="72rem" mx="auto">
+    <Container py="8" maxW="72rem" mx="auto" pos="relative">
       <Heading textAlign="center" fontSize="clamp(1.5rem, 3vw, 2.5rem)">
         My GPAs
       </Heading>
@@ -149,12 +157,30 @@ const MyGpas = ({ userDetails }) => {
           Add Session
         </Button>
       </Flex>
-      {Object.keys(resultToBeViewed).length !== 0 && (
+
+      {resultToBeViewed.usage === "view" && (
         <ViewSession
-          result={resultToBeViewed}
-          setResult={setResultToBeViewed}
+          result={resultToBeViewed.result}
+          resetResultToBeViewed={resetResultToBeViewed}
         />
       )}
+      {resultToBeViewed.usage === "share" && (
+        <ShareResultModal
+          result={resultToBeViewed.result}
+          resetResultToBeViewed={resetResultToBeViewed}
+          setResultToBeViewed={setResultToBeViewed}
+          resultRef={resultRef}
+          toPDF={toPDF}
+        />
+      )}
+      {resultToBeViewed.usage === "share" && (
+        <Box pos="fixed" top="0" zIndex={-40} left="-120vw" ref={targetRef}>
+          <Box ref={resultRef}>
+            <Result sessionResult={resultToBeViewed.result} />
+          </Box>
+        </Box>
+      )}
+
       {/* <PieChart width={700} height={400}>
         <Pie
           dataKey="cgpa"

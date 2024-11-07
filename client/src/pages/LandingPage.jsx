@@ -30,19 +30,11 @@ import {
   HowItWorksSection,
   Navbar,
   TestimonialsSection,
-} from "../components/Landing_page";
-import "../components/Landing_page/keyframes.css";
+} from "../features/Landing_page";
+import "../features/Landing_page/keyframes.css";
 import { FaEnvelope } from "react-icons/fa6";
 
-// const HeroSection = () => (
-//   <Box bg="blue.600" color="white" py={20} textAlign="center">
-//     <Container maxW="container.lg">
-//       <Heading fontSize="4xl">Elevate Your Academic Journey with eliteGPA</Heading>
-//       <Text mt={4} fontSize="xl">The ultimate tool for GPA calculations and educational success.</Text>
-//       <Button mt={8} colorScheme="teal" size="lg">Get Started</Button>
-//     </Container>
-//   </Box>
-// );
+
 
 
 

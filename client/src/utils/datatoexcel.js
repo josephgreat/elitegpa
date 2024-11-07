@@ -1,6 +1,6 @@
 import { utils, write } from "xlsx";
 import { saveAs } from "file-saver";
-import {capitalize} from "./appLogics"
+import { capitalize } from "./formatting";
 export const sessionDataToExcel = (data, fileName) => {
   // Create a new workbook
   const workbook = utils.book_new();

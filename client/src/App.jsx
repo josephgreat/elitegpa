@@ -1,9 +1,13 @@
 import React, { createContext, useState, Suspense, lazy } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { useToast } from "@chakra-ui/react";
-import PageWrapper from "./PageWrapper";
+import PageWrapper from "./hoc/PageWrapper";
 import { Loader, ThemeToggleBtn } from "./components";
 import "./App.css";
+import ErrorBoundary from "./errorHandling/ErrorBoundary";
+import { OfflineWrapper } from "./offlineHandling";
+import { ServerError } from "./errorHandling";
+import { Result } from "./features/dashboard";
 
 // Lazy loading components
 const GpaAssistant = lazy(() => import("./pages/GpaAssistant"));
@@ -23,7 +27,9 @@ const Error = React.lazy(() => import("./pages/Error"));
 const NotFound = React.lazy(() => import("./pages/404"));
 const LandingPage = lazy(() => import("./pages/LandingPage"));
 const VerificationPage = lazy(() => import("./pages/VerificationPage"));
-const Offline = React.lazy(() => import("./pages/Offline"));
+const OfflineNotification = React.lazy(() =>
+  import("./offlineHandling/OfflineNotification")
+);
 
 export const UserContext = createContext({ userDetails: {} });
 
@@ -32,41 +38,50 @@ function App() {
   const toast = useToast({ position: "top-right", duration: 3000 });
   const [error, setError] = useState({ title: "", message: "" });
 
+  const pageRoutes = [
+    { path: "/overview", Component: Dashboard },
+    { path: "/overview/:resultId", Component: SessionDashboard },
+    { path: "/gpa-calc", Component: GpaCalc },
+    { path: "/gpa-calc/:resultId", Component: GpaCalc },
+    { path: "/my-gpas", Component: MyGpas },
+    { path: "/settings", Component: Settings },
+    { path: "/study-tips", Component: StudyTips },
+    { path: "/study-materials", Component: StudyMaterials },
+    { path: "/gpa-assistant", Component: GpaAssistant },
+    // Add more page components here
+  ].map(({ path, Component }) => ({
+    path,
+    element: <ErrorBoundary children={<PageWrapper Component={Component} />} />,
+  }));
+
   const routes = [
     { path: "/", element: <LandingPage /> },
-    { path: "/overview", element: <PageWrapper Component={Dashboard} /> },
     { path: "/signup", element: <Signup /> },
     { path: "/login", element: <Login /> },
-    { path: "/forgotpassword", element: <ForgotPassword /> },
-    { path: "/resetpassword/:oobCode", element: <ResetPassword  /> },
-    { path: "/user-setup", element: <UserSetup /> },
     {
-      path: "/overview/:resultId",
-      element: <PageWrapper Component={SessionDashboard} />,
-    },
-    { path: "/gpa-calc", element: <PageWrapper Component={GpaCalc} /> },
-    {
-      path: "/gpa-calc/:resultId",
-      element: <PageWrapper Component={GpaCalc} />,
-    },
-    { path: "/my-gpas", element: <PageWrapper Component={MyGpas} /> },
-    {
-      path: "/gpa-assistant",
-      element: <PageWrapper Component={GpaAssistant} />,
+      path: "/forgotpassword",
+      element: <ForgotPassword />,
     },
     {
-      path: "/study-materials",
-      element: <PageWrapper Component={StudyMaterials} />,
+      path: "/resetpassword/:oobCode",
+      element: <ResetPassword />,
     },
-    { path: "/study-tips", element: <PageWrapper Component={StudyTips} /> },
-    { path: "/settings", element: <PageWrapper Component={Settings} /> },
-    { path: "/error", element: <Error /> },
-    { path: "/offline", element: <Offline /> },
+    {
+      path: "/user-setup",
+      element: <UserSetup />,
+    },
     {
       path: "verifyaccount",
       element: <VerificationPage />,
     },
+    ...pageRoutes,
+
+    { path: "/result/:uid/:resultId", element: <Result /> },
+    { path: "/error", element: <Error /> },
+    { path: "/server-error", element: <ServerError /> },
+    { path: "/offline_notification", element: <OfflineNotification /> },
     { path: "*", element: <NotFound /> },
+    // Other routes as needed
   ];
 
   const router = createBrowserRouter(routes);
@@ -82,9 +97,11 @@ function App() {
       }}
     >
       <ThemeToggleBtn />
-      <Suspense fallback={<Loader />}>
-        <RouterProvider router={router} />
-      </Suspense>
+      <ErrorBoundary>
+        <Suspense fallback={<Loader />}>
+          <OfflineWrapper Component={RouterProvider} router={router} />
+        </Suspense>
+      </ErrorBoundary>
     </UserContext.Provider>
   );
 }

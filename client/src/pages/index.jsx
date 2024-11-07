@@ -12,7 +12,7 @@ import Settings from "./Settings";
 import Error from "./Error";
 import NotFound from "./404";
 import LandingPage from "./LandingPage";
-import Offline from "./Offline";
+import OfflineNotification from "../offlineHandling/OfflineNotification";
 import VerificationPage from "./VerificationPage";
 import ForgotPassword from "./ForgotPassword";
 export {
@@ -30,6 +30,6 @@ export {
   Error,
   NotFound,
   LandingPage,
-  Offline,
+  OfflineNotification,
   VerificationPage, ForgotPassword
 };

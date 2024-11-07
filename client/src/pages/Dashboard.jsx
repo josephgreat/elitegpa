@@ -23,7 +23,7 @@ import {
 import { Pie, PieChart } from "recharts";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Result, SessionTable, SummaryCard } from "../components";
+import { Result, SessionTable, SummaryCard } from "../features/dashboard";
 import {
   calculateCGPA,
   calculateSessionCourses,

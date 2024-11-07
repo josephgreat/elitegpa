@@ -19,13 +19,11 @@ self.addEventListener("install", (event) => {
 
 // Activate event to clean up old caches
 self.addEventListener('activate', (event) => {
-  const cacheWhitelist = [CACHE_NAME];
-
   event.waitUntil(
     caches.keys().then((cacheNames) => {
       return Promise.all(
         cacheNames.map((cacheName) => {
-          if (!cacheWhitelist.includes(cacheName)) {
+          if (cacheName !== CACHE_NAME) {
             return caches.delete(cacheName);  // Delete old caches
           }
         })
@@ -36,26 +34,20 @@ self.addEventListener('activate', (event) => {
 
 // Fetch event to handle online/offline scenarios
 self.addEventListener("fetch", (event) => {
-  // If the user is offline
-  if (!navigator.onLine) {
-    event.respondWith(
-      caches.match(event.request).then((response) => {
-        // Serve from cache or fallback to offline page
-        return response || caches.match("/offline.html");
+  event.respondWith(
+    fetch(event.request)
+      .then((response) => {
+        // Cache fetched response dynamically for future offline use
+        return caches.open(CACHE_NAME).then((cache) => {
+          cache.put(event.request, response.clone());
+          return response;
+        });
       })
-    );
-  } else {
-    // If the user is online, try fetching, and if it fails, fallback to cache
-    event.respondWith(
-      fetch(event.request)
-        .then((response) => {
-          // Optionally cache dynamically fetched content
-          return caches.open(CACHE_NAME).then((cache) => {
-            cache.put(event.request, response.clone());
-            return response;
-          });
-        })
-        .catch(() => caches.match("/offline.html"))  // Fallback if network fails
-    );
-  }
+      .catch(() => {
+        // If network fails, attempt to serve from cache or fallback to offline page
+        return caches.match(event.request).then((response) => {
+          return response || caches.match("/offline.html");
+        });
+      })
+  );
 });

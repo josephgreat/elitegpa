@@ -26,13 +26,15 @@ import {
   Divider,
   Select,
   useColorModeValue,
+  Icon,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { sortData, throwAppError } from "../utils";
 import * as tf from "@tensorflow/tfjs";
 import { GpaPredictor, GradePredictor } from "../components";
-import { FaGraduationCap } from "react-icons/fa6";
+import { FaGraduationCap, FaUserGraduate } from "react-icons/fa6";
+import { FaPoll } from "react-icons/fa";
 
 const GpaAssistant = ({ userDetails }) => {
   const [savedResults, setSavedResults] = useState([]);
@@ -87,8 +89,8 @@ const GpaAssistant = ({ userDetails }) => {
         </Heading>
         <Flex gap="4">
           {[
-            { key: "dream-cgpa", label: "Achieving My Dream CGPA" },
-            { key: "grade-prediction", label: "Course Grade Prediction" },
+            { key: "dream-cgpa", label: "Achieving My Dream CGPA", icon: FaGraduationCap },
+            { key: "grade-prediction", label: "Course Grade Prediction", icon: FaPoll },
           ].map((item) => (
             <Box
               key={item.key}
@@ -122,7 +124,7 @@ const GpaAssistant = ({ userDetails }) => {
                   transform: "scale(0.95)",
                 }}
               >
-                <FaGraduationCap size="2rem" />
+                <Icon as={item.icon} fontSize="2rem" />
                 <Text
                   textAlign={"center"}
                   fontSize={"clamp(.7rem, 4vw, 1rem)"}

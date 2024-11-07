@@ -22,7 +22,7 @@ import {
   useToast,
   VStack,
 } from "@chakra-ui/react";
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { FaUserAlt, FaUserCircle } from "react-icons/fa";
 import {
   FaEnvelope,
@@ -32,7 +32,7 @@ import {
   FaUserLock,
   FaUserPlus,
 } from "react-icons/fa6";
-import { emailSignUp, googleAuth } from "../../firebase";
+import { emailSignUp, googleAuth, isAuth } from "../services";
 import { useNavigate, Link as RouteLink } from "react-router-dom";
 import { UserContext } from "../App";
 import { Loader } from "../components";
@@ -82,6 +82,8 @@ const Signup = () => {
       });
     }
   };
+
+  useEffect(() => {isAuth() && navigate("/my-gpas")}, [])
 
   return (
     <Container

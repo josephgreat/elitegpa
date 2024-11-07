@@ -23,7 +23,7 @@ import {
   throwAppError,
 } from "../utils";
 import { FaUpload } from "react-icons/fa";
-import { DisclaimerText, NewSemester } from "../components";
+import { DisclaimerText, NewSemester } from "../features/gpa_calc";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { UserContext } from "../App";

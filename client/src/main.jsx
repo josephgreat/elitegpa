@@ -2,14 +2,15 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import { ChakraProvider, ColorModeScript, extendTheme } from "@chakra-ui/react";
-import { mode } from '@chakra-ui/theme-tools';
+import { mode } from "@chakra-ui/theme-tools";
+import { disableReactDevTools } from "@fvilers/disable-react-devtools";
 // import * as serviceWorkerRegistration from './serviceWorkerRegistration.js'; // Import service worker registration
 
 const styles = {
-  global: props => ({
+  global: (props) => ({
     body: {
-      color: mode('gray.800', 'whiteAlpha.900')(props),
-      bg: mode('white', '#121212')(props),
+      color: mode("gray.800", "whiteAlpha.900")(props),
+      bg: mode("white", "#121212")(props),
     },
   }),
 };
@@ -17,9 +18,9 @@ const styles = {
 const components = {
   Drawer: {
     // setup light/dark mode component defaults
-    baseStyle: props => ({
+    baseStyle: (props) => ({
       dialog: {
-        bg: mode('gray.50', '#121212')(props),
+        bg: mode("gray.50", "#121212")(props),
       },
     }),
   },
@@ -39,7 +40,9 @@ const theme = extendTheme({
   config: {
     initialColorMode: "system",
     useSystemColorMode: false,
-  },components, styles
+  },
+  components,
+  styles,
 });
 
 if ("serviceWorker" in navigator) {
@@ -55,6 +58,8 @@ if ("serviceWorker" in navigator) {
   });
 }
 
+//disable reactdev tools in production
+if (process.env.NODE_ENV === "production") disableReactDevTools();
 ReactDOM.createRoot(document.getElementById("root")).render(
   <ChakraProvider theme={theme}>
     <ColorModeScript initialColorMode={theme.config.initialColorMode} />

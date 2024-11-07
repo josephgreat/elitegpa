@@ -3,9 +3,7 @@ import {
   deepEqual,
   getSessionGradingSystem,
   getStudentClass,
-  capitalize,
   generateRandomColors,
-  sortData,
   setSessionGradingSystem,
   deleteSessionGradingSystem,
   removeSpecialCharacters,
@@ -14,16 +12,20 @@ import calculateGpa, {
   calculateCGPA,
   calculateSessionCreditLoad,
   calculateSessionCourses,
-  convertGradeToPoint,
-  convertPointToGrade,
   calculateUserGradePoint,
   calculateTotalCreditLoad,
   calculateCourseGradePoint,
   gradingSystem,
-} from "./calculateGpa.jsx";
-import throwAppError from "./error.js";
+} from "./calculations.js";
+import throwAppError from "../errorHandling/error.js";
 import { sessionDataToExcel } from "./datatoexcel.js";
 import { setCookie, getCookie, eraseCookie } from "./cookie.js";
+import {
+  convertGradeToPoint,
+  convertPointToGrade,
+  capitalize,
+  sortData,
+} from "./formatting.js";
 
 export {
   generateTwoDigitNumbers,
